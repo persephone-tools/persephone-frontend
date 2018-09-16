@@ -4,6 +4,7 @@ import './App.css';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import Audio from './components/Audio';
+import AudioDetail from './components/AudioDetail';
 import Corpus from './components/Corpus';
 import CorpusDetail from './components/CorpusDetail';
 import Index from './components/Index';
@@ -18,6 +19,7 @@ class App extends React.Component {
         <BrowserRouter>
           <Switch>
             <Route exact={true} path="/audio/" component={Audio} />
+            <Route exact={true} path="/audio/:audioId" component={AudioDetail} />
             <Route exact={true} path="/corpus/" component={Corpus} />
             <Route exact={true} path="/corpus/:corpusId" component={CorpusDetail} />
             <Route exact={true} path="/" component={Index} />
