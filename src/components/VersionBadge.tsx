@@ -41,7 +41,7 @@ export default class VersionBadge extends React.Component<{}, IVersionBadgeState
     public render() {
         return (
             <Segment basic={true}>
-                <Label as="a" image={true} onClick={() => console.log(this.state.backend.projectURL)}>
+                <Label as="a" image={true} onClick={() => { window.open(this.state.backend.projectURL, '_blank'); }}>
                     <Dimmer active={this.state.isLoading}>
                         <Loader />
                     </Dimmer>
