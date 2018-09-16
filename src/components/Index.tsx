@@ -8,7 +8,7 @@ class Index extends React.Component<RouteComponentProps<any>, React.Props<any>> 
     public render() {
         return (
             <div>
-                <Button primary={true} onClick={() => this.props.history.push("/model/")}>See models</Button>
+                <Button primary={true} onClick={() => this.props.history.push("/corpus/")}>See corpuses</Button>
             </div>
         )
     }
