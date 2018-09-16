@@ -2,14 +2,15 @@ import * as React from 'react';
 
 import { Button, Card, Container, List } from 'semantic-ui-react';
 
+import { RouteComponentProps, withRouter } from 'react-router-dom';
+
 import ICorpus from '../interfaces/Corpus';
 
-export interface ICorpusCardProps {
+export interface ICorpusCardProps extends RouteComponentProps {
     corpus: ICorpus
 }
 
-
-export default class CorpusCard extends React.Component<ICorpusCardProps, {}> {
+class CorpusCard extends React.Component<ICorpusCardProps, {}> {
     public render() {
         return (
             <Card>
@@ -50,9 +51,11 @@ export default class CorpusCard extends React.Component<ICorpusCardProps, {}> {
                     </Card.Description>
                 </Card.Content>
                 <Card.Content extra={true}>
-                    <Container textAlign='right'><Button centered="true" circular={true} primary={true} icon='angle right' onClick={() => console.log("pressed me!")} /></Container>
+                    <Container textAlign='right'><Button centered="true" circular={true} primary={true} icon='angle right' onClick={() => this.props.history.push("/corpus/" + this.props.corpus.id)} /></Container>
                 </Card.Content>
             </Card>
         )
     }
 }
+
+export default withRouter(CorpusCard);
