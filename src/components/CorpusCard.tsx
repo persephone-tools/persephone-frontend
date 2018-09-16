@@ -15,7 +15,7 @@ class CorpusCard extends React.Component<ICorpusCardProps, {}> {
         return (
             <Card>
                 <Card.Content>
-                    <Card.Header>{this.props.corpus.name} ({this.props.corpus.id})</Card.Header>
+                    <Card.Header>{this.props.corpus.name} (id: {this.props.corpus.id})</Card.Header>
                     <Card.Meta>{this.props.corpus.filesystem_path}</Card.Meta>
                     <Card.Description>
                         <List>
