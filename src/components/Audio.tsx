@@ -55,7 +55,7 @@ class Audio extends React.Component<any, IAudioState> {
 
                         <Table.Body>
                         {this.state.audios.map((audio) => (
-                            <Table.Row>
+                            <Table.Row key={audio.id}>
                                 <Table.Cell>{audio.id}</Table.Cell>
                                 <Table.Cell>{audio.filename}</Table.Cell>
                                 <Table.Cell>{audio.in_utterances.join(", ")}</Table.Cell>
