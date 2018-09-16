@@ -4,6 +4,7 @@ import './App.css';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import Corpus from './components/Corpus';
+import CorpusDetail from './components/CorpusDetail';
 import Index from './components/Index';
 import VersionBadge from './components/VersionBadge';
 
@@ -16,6 +17,7 @@ class App extends React.Component {
         <BrowserRouter>
           <Switch>
             <Route exact={true} path="/corpus/" component={Corpus} />
+            <Route exact={true} path="/corpus/:corpusId" component={CorpusDetail} />
             <Route exact={true} path="/" component={Index} />
           </Switch>
         </BrowserRouter>
