@@ -39,7 +39,7 @@ export default class Corpus extends React.Component<{}, ICorpusState> {
     public render() {
         return (
             <div>
-                <Header as='h1'>Corpuses</Header>
+                <Header as='h2'>Corpuses</Header>
                 <Segment>
                     <Dimmer active={this.state.isLoading}>
                         <Loader>Loading</Loader>
