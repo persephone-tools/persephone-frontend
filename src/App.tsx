@@ -13,19 +13,19 @@ import VersionBadge from './components/VersionBadge';
 class App extends React.Component {
   public render() {
     return (
-      <div className="App">
-        <h1>Persephone frontend</h1>
-        <VersionBadge />
-        <BrowserRouter>
-          <Switch>
-            <Route exact={true} path="/audio/" component={Audio} />
-            <Route exact={true} path="/audio/:audioId" component={AudioDetail} />
-            <Route exact={true} path="/corpus/" component={Corpus} />
-            <Route exact={true} path="/corpus/:corpusId" component={CorpusDetail} />
-            <Route exact={true} path="/" component={Index} />
-          </Switch>
-        </BrowserRouter>
-      </div>
+      <BrowserRouter>
+        <div className="App">
+          <h1>Persephone frontend</h1>
+          <VersionBadge />
+            <Switch>
+              <Route exact={true} path="/audio/" component={Audio} />
+              <Route exact={true} path="/audio/:audioId" component={AudioDetail} />
+              <Route exact={true} path="/corpus/" component={Corpus} />
+              <Route exact={true} path="/corpus/:corpusId" component={CorpusDetail} />
+              <Route exact={true} path="/" component={Index} />
+            </Switch>
+        </div>
+      </BrowserRouter>
     );
   }
 }
