@@ -51,7 +51,7 @@ class CorpusCard extends React.Component<ICorpusCardProps, {}> {
                     </Card.Description>
                 </Card.Content>
                 <Card.Content extra={true}>
-                    <Container textAlign='right'><Button centered="true" circular={true} primary={true} icon='angle right' onClick={() => this.props.history.push("/corpus/" + this.props.corpus.id)} /></Container>
+                    <Container textAlign='right'><Button circular={true} primary={true} icon='angle right' onClick={() => this.props.history.push("/corpus/" + this.props.corpus.id)} /></Container>
                 </Card.Content>
             </Card>
         )
