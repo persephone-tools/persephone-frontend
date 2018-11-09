@@ -15,8 +15,8 @@ export interface IUtteranceState {
     formLoading: boolean;
     isLoading: boolean;
     uploadModalOpen: boolean;
-    audio?: number;
-    transcription?: number;
+    audio?: string;
+    transcription?: string;
 }
 
 class Utterance extends React.Component<any, IUtteranceState> {
@@ -34,8 +34,7 @@ class Utterance extends React.Component<any, IUtteranceState> {
         this.openModal = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
         this.submitForm = this.submitForm.bind(this);
-        this.handleAudioChange = this.handleAudioChange.bind(this);
-        this.handleTranscriptionChange = this.handleTranscriptionChange.bind(this);
+        this.handleChange = this.handleChange.bind(this);
     }
 
     public getData() {
@@ -68,19 +67,15 @@ class Utterance extends React.Component<any, IUtteranceState> {
         })
     }
 
-    public handleAudioChange(event: any) {
-        this.setState({audio: Number.parseInt(event.target.value, 10)});
-    }
-
-    public handleTranscriptionChange(event: any) {
-        this.setState({transcription: Number.parseInt(event.target.value, 10)});
-    }
+    handleChange = (field: string) => (event: any) => {
+        this.setState({ [field]: event.target.value } as Pick<IUtteranceState, any>);
+    };
 
     public submitForm() {
         this.setState({formLoading: true})
         const utteranceInfo: UtteranceInfo = {
-            audioId: this.state.audio || -1,
-            transcriptionId: this.state.transcription || -1,
+            audioId: Number.parseInt(this.state.audio || "-1", 10) || -1,
+            transcriptionId: Number.parseInt(this.state.transcription || "-1", 10) || -1,
         }
         const requestData: UtterancePostRequest = {
             utteranceInfo
@@ -137,8 +132,8 @@ class Utterance extends React.Component<any, IUtteranceState> {
                             <Form loading={this.state.formLoading} error={this.state.formFailed}>
                                 <Header>Utterance details</Header>
                                 <Form.Field>
-                                    <Form.Input label="Audio" type="text" name="audio" value={this.state.audio} placeholder="1" onChange={this.handleAudioChange} />
-                                    <Form.Input label="Transcription" type="text" name="transcription" value={this.state.transcription} placeholder="1" onChange={this.handleTranscriptionChange} />
+                                    <Form.Input label="Audio" type="text" name="audio" value={this.state.audio} placeholder="1" onChange={this.handleChange('audio')} />
+                                    <Form.Input label="Transcription" type="text" name="transcription" value={this.state.transcription} placeholder="1" onChange={this.handleChange('transcription')} />
                                 </Form.Field>
                                 <Message id="errormessage" error={true} header='Corpus creation failed' content={this.state.formErrorMessage} />
                             </Form>
