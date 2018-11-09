@@ -86,14 +86,14 @@ class Audio extends React.Component<any, IAudioState> {
         return (
             <div>
                 <Header as='h2'>Audio</Header>
+                <Button primary={true} onClick={this.openModal}>
+                    <Icon name='upload' />
+                    Upload new audio file
+                </Button>
                 <Segment>
                     <Dimmer active={this.state.isLoading}>
                         <Loader>Loading</Loader>
                     </Dimmer>
-                    <Button primary={true} onClick={this.openModal}>
-                        <Icon name='upload' />
-                        Upload new audio file
-                    </Button>
                     <Table basic='very'>
                         <Table.Header>
                         <Table.Row>
