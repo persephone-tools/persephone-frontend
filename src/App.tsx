@@ -8,6 +8,8 @@ import AudioDetail from './components/AudioDetail';
 import Corpus from './components/Corpus';
 import CorpusDetail from './components/CorpusDetail';
 import Index from './components/Index';
+import Utterance from './components/Utterance';
+import UtteranceDetail from './components/UtteranceDetail';
 import VersionBadge from './components/VersionBadge';
 
 class App extends React.Component {
@@ -22,6 +24,8 @@ class App extends React.Component {
               <Route exact={true} path="/audio/:audioId" component={AudioDetail} />
               <Route exact={true} path="/corpus/" component={Corpus} />
               <Route exact={true} path="/corpus/:corpusId" component={CorpusDetail} />
+              <Route exact={true} path="/utterance/" component={Utterance} />
+              <Route exact={true} path="/utterance/:utteranceId" component={UtteranceDetail} />
               <Route exact={true} path="/" component={Index} />
             </Switch>
         </div>
