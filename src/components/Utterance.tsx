@@ -6,7 +6,7 @@ import { withRouter } from 'react-router';
 
 import { api } from '../API';
 
-import { UtteranceInformation/*, UtterancePostRequest*/ } from '../gen/api';
+import { UtteranceInfo, UtteranceInformation, UtterancePostRequest } from '../gen/api';
 
 export interface IUtteranceState {
     utterances: UtteranceInformation[];
@@ -15,6 +15,8 @@ export interface IUtteranceState {
     formLoading: boolean;
     isLoading: boolean;
     uploadModalOpen: boolean;
+    audio?: number;
+    transcription?: number;
 }
 
 class Utterance extends React.Component<any, IUtteranceState> {
@@ -32,6 +34,8 @@ class Utterance extends React.Component<any, IUtteranceState> {
         this.openModal = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
         this.submitForm = this.submitForm.bind(this);
+        this.handleAudioChange = this.handleAudioChange.bind(this);
+        this.handleTranscriptionChange = this.handleTranscriptionChange.bind(this);
     }
 
     public getData() {
@@ -64,15 +68,22 @@ class Utterance extends React.Component<any, IUtteranceState> {
         })
     }
 
+    public handleAudioChange(event: any) {
+        this.setState({audio: Number.parseInt(event.target.value, 10)});
+    }
+
+    public handleTranscriptionChange(event: any) {
+        this.setState({transcription: Number.parseInt(event.target.value, 10)});
+    }
+
     public submitForm() {
-        console.log("you pressed the magic button")
         this.setState({formLoading: true})
-        const fileButton: any = document.getElementById("fileUploadId");
-        const file = fileButton ? fileButton.files[0] : null;
-        console.log(file)
-        /*const requestData: UtterancePostRequest = {
-            utt
-            //utteranceFile: file
+        const utteranceInfo: UtteranceInfo = {
+            audioId: this.state.audio || -1,
+            transcriptionId: this.state.transcription || -1,
+        }
+        const requestData: UtterancePostRequest = {
+            utteranceInfo
         }
         api.utterancePost(requestData).then(res => {
             this.setState({uploadModalOpen: false});
@@ -80,7 +91,7 @@ class Utterance extends React.Component<any, IUtteranceState> {
         }).catch(res => res.text()).then(err => {
             console.error(err);
             this.setState({formLoading: false, formFailed: true, formErrorMessage: "The error message is: " + err});
-        });*/
+        });
     }
 
     public render() {
@@ -88,8 +99,8 @@ class Utterance extends React.Component<any, IUtteranceState> {
             <div>
                 <Header as='h2'>Utterance</Header>
                 <Button primary={true} onClick={this.openModal}>
-                    <Icon name='upload' />
-                    Upload new utterance file
+                    <Icon name='plus' />
+                    Create new utterance
                 </Button>
                 <Segment>
                     <Dimmer active={this.state.isLoading}>
@@ -120,23 +131,23 @@ class Utterance extends React.Component<any, IUtteranceState> {
                 <Modal
                     open={this.state.uploadModalOpen}
                     onClose={this.closeModal}>
-                    <Modal.Header>Upload utterance</Modal.Header>
+                    <Modal.Header>Create utterance</Modal.Header>
                     <Modal.Content>
                         <Modal.Description>
-                            <Header>Choose file to upload</Header>
                             <Form loading={this.state.formLoading} error={this.state.formFailed}>
+                                <Header>Utterance details</Header>
                                 <Form.Field>
-                                    <label>File</label>
-                                    <Form.Input type="file" name="File" id="fileUploadId" />
+                                    <Form.Input label="Audio" type="text" name="audio" value={this.state.audio} placeholder="1" onChange={this.handleAudioChange} />
+                                    <Form.Input label="Transcription" type="text" name="transcription" value={this.state.transcription} placeholder="1" onChange={this.handleTranscriptionChange} />
                                 </Form.Field>
-                                <Message id="errormessage" error={true} header='File upload failed' content={this.state.formErrorMessage} />
+                                <Message id="errormessage" error={true} header='Corpus creation failed' content={this.state.formErrorMessage} />
                             </Form>
                         </Modal.Description>
                     </Modal.Content>
                     <Modal.Actions>
                         <Button primary={true} onClick={this.submitForm}>
-                            <Icon name='upload' />
-                            Upload
+                            <Icon name='plus' />
+                            Create
                         </Button>
                         <Button negative={true} onClick={this.closeModal}>
                             <Icon name='remove' />
