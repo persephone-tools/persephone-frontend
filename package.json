@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@types/react-router-dom": "^4.3.1",
+    "portable-fetch": "^3.0.0",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
     "react-router-dom": "^4.3.1",
@@ -15,7 +16,8 @@
     "start": "react-scripts-ts start",
     "build": "react-scripts-ts build",
     "test": "react-scripts-ts test --env=jsdom",
-    "eject": "react-scripts-ts eject"
+    "eject": "react-scripts-ts eject",
+    "codegen": "swagger-codegen generate -i ../../persephone-web-API-master/persephone_api/api_spec.yaml -l typescript-fetch -o src/gen/"
   },
   "devDependencies": {
     "@types/jest": "^23.3.1",

@@ -1,13 +1,17 @@
 import * as React from 'react';
 
-import { Button, Dimmer, Header, Loader, Segment, Table } from 'semantic-ui-react';
+import { Button, Dimmer, Form, Header, Icon, Loader, Modal, Segment, Table } from 'semantic-ui-react';
 
 import { withRouter } from 'react-router';
-import IAudio from '../interfaces/Audio';
+
+import { api } from '../API';
+
+import { AudioFileInformation } from '../gen/api';
 
 export interface IAudioState {
-    audios: IAudio[];
+    audios: AudioFileInformation[];
     isLoading: boolean;
+    uploadModalOpen: boolean;
 }
 
 class Audio extends React.Component<any, IAudioState> {
@@ -15,24 +19,44 @@ class Audio extends React.Component<any, IAudioState> {
         super(props);
         this.state = {
             audios: [],
-            isLoading: true
+            isLoading: true,
+            uploadModalOpen: false
         };
         this.getData = this.getData.bind(this);
+        this.openModal = this.openModal.bind(this);
+        this.closeModal = this.closeModal.bind(this);
+        this.submitForm = this.submitForm.bind(this);
     }
 
     public getData() {
-        fetch('http://127.0.0.1:8080/v0.1/audio')
-            .then(res => res.json())
-            .then(audios => {
-                this.setState({
-                    audios,
-                    isLoading: false
-                })
-            });
+        api.audioGet().then(audios => {
+            this.setState({
+                audios,
+                isLoading: false,
+            })
+        });
     }
 
     public componentDidMount() {
         this.getData();
+    }
+
+    public openModal() {
+        this.setState({
+            uploadModalOpen: true
+        })
+    }
+
+    public closeModal() {
+        this.setState({
+            uploadModalOpen: false
+        })
+    }
+
+    public submitForm() {
+        const fileButton: any = document.getElementById("fileUploadId");
+        const file = fileButton ? fileButton.files[0] : null;
+        api.audioPost(file).then(console.log);
     }
 
     public render() {
@@ -43,28 +67,58 @@ class Audio extends React.Component<any, IAudioState> {
                     <Dimmer active={this.state.isLoading}>
                         <Loader>Loading</Loader>
                     </Dimmer>
+                    <Button primary={true} onClick={this.openModal}>
+                        <Icon name='upload' />
+                        Upload new audio file
+                    </Button>
                     <Table basic='very'>
                         <Table.Header>
                         <Table.Row>
                             <Table.HeaderCell>ID</Table.HeaderCell>
-                            <Table.HeaderCell>Filename</Table.HeaderCell>
-                            <Table.HeaderCell>Utterances</Table.HeaderCell>
+                            <Table.HeaderCell>Name</Table.HeaderCell>
+                            <Table.HeaderCell>Created at</Table.HeaderCell>
                             <Table.HeaderCell>Actions</Table.HeaderCell>
                         </Table.Row>
                         </Table.Header>
 
                         <Table.Body>
                         {this.state.audios.map((audio) => (
-                            <Table.Row key={audio.id}>
-                                <Table.Cell>{audio.id}</Table.Cell>
-                                <Table.Cell>{audio.filename}</Table.Cell>
-                                <Table.Cell>{audio.in_utterances.join(", ")}</Table.Cell>
-                                <Table.Cell><Button circular={true} icon='angle right' onClick={() => this.props.history.push("/audio/" + audio.id)} /><Button circular={true} icon='download' onClick={() => { window.open(audio.url, '_blank'); }} /></Table.Cell>
+                            <Table.Row key={audio.file_info!.id}>
+                                <Table.Cell>{audio.file_info!.id}</Table.Cell>
+                                <Table.Cell>{audio.file_info!.name}</Table.Cell>
+                                <Table.Cell>{audio.file_info!.created_at}</Table.Cell>
+                                <Table.Cell><Button circular={true} icon='angle right' onClick={() => this.props.history.push("/audio/" + audio.id)} /><Button circular={true} icon='download' onClick={() => { window.open(audio.file_info!.name, '_blank'); }} /></Table.Cell>
                             </Table.Row>
                         ))}
                         </Table.Body>
                     </Table>
                 </Segment>
+                <Modal
+                    open={this.state.uploadModalOpen}
+                    onClose={this.closeModal}>
+                    <Modal.Header>Upload audio</Modal.Header>
+                    <Modal.Content>
+                        <Modal.Description>
+                            <Header>Choose file to upload</Header>
+                            <Form>
+                                <Form.Field>
+                                    <label>File</label>
+                                    <Form.Input type="file" name="File" id="fileUploadId" />
+                                </Form.Field>
+                            </Form>
+                        </Modal.Description>
+                    </Modal.Content>
+                    <Modal.Actions>
+                        <Button primary={true} onClick={this.submitForm}>
+                            <Icon name='upload' />
+                            Upload
+                        </Button>
+                        <Button negative={true} onClick={this.closeModal}>
+                            <Icon name='remove' />
+                            Cancel
+                        </Button>
+                    </Modal.Actions>
+                </Modal>
             </div>
         )
     }
