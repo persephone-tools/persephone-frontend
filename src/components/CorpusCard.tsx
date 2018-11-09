@@ -4,10 +4,10 @@ import { Button, Card, Container, List } from 'semantic-ui-react';
 
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 
-import ICorpus from '../interfaces/Corpus';
+import { CorpusInformation } from '../gen/api';
 
 export interface ICorpusCardProps extends RouteComponentProps {
-    corpus: ICorpus
+    corpus: CorpusInformation
 }
 
 class CorpusCard extends React.Component<ICorpusCardProps, {}> {
@@ -16,36 +16,32 @@ class CorpusCard extends React.Component<ICorpusCardProps, {}> {
             <Card>
                 <Card.Content>
                     <Card.Header>{this.props.corpus.name} (id: {this.props.corpus.id})</Card.Header>
-                    <Card.Meta>{this.props.corpus.filesystem_path}</Card.Meta>
+                    <Card.Meta>Corpus</Card.Meta>
                     <Card.Description>
                         <List>
                             <List.Item>
                                 <List.Header>Feature type</List.Header>
-                                {this.props.corpus.feature_type}
+                                {this.props.corpus.featureType}
                             </List.Item>
                             <List.Item>
                                 <List.Header>Label type</List.Header>
-                                {this.props.corpus.label_type}
+                                {this.props.corpus.labelType}
                             </List.Item>
                             <List.Item>
                                 <List.Header>Max samples</List.Header>
-                                {this.props.corpus.max_samples || "N/A"}
-                            </List.Item>
-                            <List.Item>
-                                <List.Header>Preprocessed</List.Header>
-                                {this.props.corpus.preprocessed ? "Yes" : "No"}
+                                {this.props.corpus.maxSamples || "N/A"}
                             </List.Item>
                             <List.Item>
                                 <List.Header>Number of testing utterances</List.Header>
-                                {this.props.corpus.testing.length}
+                                {this.props.corpus.partition.testing!.length}
                             </List.Item>
                             <List.Item>
                                 <List.Header>Number of training utterances</List.Header>
-                                {this.props.corpus.training.length}
+                                {this.props.corpus.partition.training!.length}
                             </List.Item>
                             <List.Item>
                                 <List.Header>Number of validation utterances</List.Header>
-                                {this.props.corpus.validation.length}
+                                {this.props.corpus.partition.validation!.length}
                             </List.Item>
                         </List>
                     </Card.Description>
