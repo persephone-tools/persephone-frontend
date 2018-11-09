@@ -17,7 +17,7 @@
     "build": "react-scripts-ts build",
     "test": "react-scripts-ts test --env=jsdom",
     "eject": "react-scripts-ts eject",
-    "codegen": "swagger-codegen generate -i ../../persephone-web-API-master/persephone_api/api_spec.yaml -l typescript-fetch -o src/gen/"
+    "codegen": "java -jar ../swagger-codegen-typescript-browser/target/TypescriptBrowser-swagger-codegen-shaded.jar generate -l TypescriptBrowser -i ../../persephone-web-API-master/persephone_api/api_spec.yaml -o src/gen/"
   },
   "devDependencies": {
     "@types/jest": "^23.3.1",

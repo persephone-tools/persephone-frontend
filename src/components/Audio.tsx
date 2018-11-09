@@ -30,6 +30,7 @@ class Audio extends React.Component<any, IAudioState> {
 
     public getData() {
         api.audioGet().then(audios => {
+            console.log(audios)
             this.setState({
                 audios,
                 isLoading: false,
@@ -54,8 +55,10 @@ class Audio extends React.Component<any, IAudioState> {
     }
 
     public submitForm() {
+        console.log("you pressed the magic button")
         const fileButton: any = document.getElementById("fileUploadId");
         const file = fileButton ? fileButton.files[0] : null;
+        console.log(file)
         api.audioPost(file).then(console.log);
     }
 
@@ -83,11 +86,11 @@ class Audio extends React.Component<any, IAudioState> {
 
                         <Table.Body>
                         {this.state.audios.map((audio) => (
-                            <Table.Row key={audio.file_info!.id}>
-                                <Table.Cell>{audio.file_info!.id}</Table.Cell>
-                                <Table.Cell>{audio.file_info!.name}</Table.Cell>
-                                <Table.Cell>{audio.file_info!.created_at}</Table.Cell>
-                                <Table.Cell><Button circular={true} icon='angle right' onClick={() => this.props.history.push("/audio/" + audio.id)} /><Button circular={true} icon='download' onClick={() => { window.open(audio.file_info!.name, '_blank'); }} /></Table.Cell>
+                            <Table.Row key={audio.fileInfo!.id}>
+                                <Table.Cell>{audio.fileInfo!.id}</Table.Cell>
+                                <Table.Cell>{audio.fileInfo!.name}</Table.Cell>
+                                <Table.Cell>{audio.fileInfo!.createdAt}</Table.Cell>
+                                <Table.Cell><Button circular={true} icon='angle right' onClick={() => this.props.history.push("/audio/" + audio.id)} /><Button circular={true} icon='download' onClick={() => { window.open(audio.fileInfo!.name, '_blank'); }} /></Table.Cell>
                             </Table.Row>
                         ))}
                         </Table.Body>
