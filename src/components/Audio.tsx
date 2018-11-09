@@ -1,15 +1,18 @@
 import * as React from 'react';
 
-import { Button, Dimmer, Form, Header, Icon, Loader, Modal, Segment, Table } from 'semantic-ui-react';
+import { Button, Dimmer, Form, Header, Icon, Loader, Message, Modal, Segment, Table } from 'semantic-ui-react';
 
 import { withRouter } from 'react-router';
 
 import { api } from '../API';
 
-import { AudioFileInformation } from '../gen/api';
+import { AudioFileInformation, AudioPostRequest } from '../gen/api';
 
 export interface IAudioState {
     audios: AudioFileInformation[];
+    formErrorMessage: string;
+    formFailed: boolean;
+    formLoading: boolean;
     isLoading: boolean;
     uploadModalOpen: boolean;
 }
@@ -19,6 +22,9 @@ class Audio extends React.Component<any, IAudioState> {
         super(props);
         this.state = {
             audios: [],
+            formErrorMessage: "No error.",
+            formFailed: false,
+            formLoading: false,
             isLoading: true,
             uploadModalOpen: false
         };
@@ -29,6 +35,7 @@ class Audio extends React.Component<any, IAudioState> {
     }
 
     public getData() {
+        this.setState({isLoading: true});
         api.audioGet().then(audios => {
             console.log(audios)
             this.setState({
@@ -44,6 +51,9 @@ class Audio extends React.Component<any, IAudioState> {
 
     public openModal() {
         this.setState({
+            formErrorMessage: "No error.",
+            formFailed: false,
+            formLoading: false,
             uploadModalOpen: true
         })
     }
@@ -56,10 +66,20 @@ class Audio extends React.Component<any, IAudioState> {
 
     public submitForm() {
         console.log("you pressed the magic button")
+        this.setState({formLoading: true})
         const fileButton: any = document.getElementById("fileUploadId");
         const file = fileButton ? fileButton.files[0] : null;
         console.log(file)
-        api.audioPost(file).then(console.log);
+        const requestData: AudioPostRequest = {
+            audioFile: file
+        }
+        api.audioPost(requestData).then(res => {
+            this.setState({uploadModalOpen: false});
+            this.getData();
+        }).catch(res => res.text()).then(err => {
+            console.error(err);
+            this.setState({formLoading: false, formFailed: true, formErrorMessage: "The error message is: " + err});
+        });
     }
 
     public render() {
@@ -103,11 +123,12 @@ class Audio extends React.Component<any, IAudioState> {
                     <Modal.Content>
                         <Modal.Description>
                             <Header>Choose file to upload</Header>
-                            <Form>
+                            <Form loading={this.state.formLoading} error={this.state.formFailed}>
                                 <Form.Field>
                                     <label>File</label>
                                     <Form.Input type="file" name="File" id="fileUploadId" />
                                 </Form.Field>
+                                <Message id="errormessage" error={true} header='File upload failed' content={this.state.formErrorMessage} />
                             </Form>
                         </Modal.Description>
                     </Modal.Content>
