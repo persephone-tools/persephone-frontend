@@ -2,10 +2,12 @@ import * as React from 'react';
 
 import { Dimmer, Label, Loader, Segment } from 'semantic-ui-react';
 
-import IBackend from '../interfaces/Backend';
+import { api } from '../API';
+
+import { BackendInformation } from '../gen/api';
 
 export interface IVersionBadgeState {
-    backend: IBackend;
+    backend?: BackendInformation;
     isLoading: boolean;
 }
 
@@ -13,25 +15,20 @@ export default class VersionBadge extends React.Component<{}, IVersionBadgeState
     constructor(props: any) {
         super(props);
         this.state = {
-            backend: {
-                name: "Loading",
-                projectURL: "",
-                version: "?"
-            },
             isLoading: true
         };
         this.getData = this.getData.bind(this);
     }
 
     public getData() {
-        fetch('http://127.0.0.1:8080/v0.1/backend')
-            .then(res => res.json())
-            .then(backend => {
-                this.setState({
-                    backend,
-                    isLoading: false
-                })
-            });
+        this.setState({isLoading: true});
+        api.backendGet().then(backend => {
+            console.log(backend)
+            this.setState({
+                backend,
+                isLoading: false,
+            })
+        });
     }
 
     public componentDidMount() {
@@ -41,13 +38,15 @@ export default class VersionBadge extends React.Component<{}, IVersionBadgeState
     public render() {
         return (
             <Segment basic={true}>
-                <Label as="a" image={true} onClick={() => { window.open(this.state.backend.projectURL, '_blank'); }}>
-                    <Dimmer active={this.state.isLoading}>
-                        <Loader />
-                    </Dimmer>
-                    {this.state.backend.name}
-                    <Label.Detail>{this.state.backend.version}</Label.Detail>
-                </Label>
+                {this.state.backend && 
+                    <Label as="a" image={true} onClick={() => { window.open(this.state.backend!.projectURL, '_blank'); }}>
+                        <Dimmer active={this.state.isLoading}>
+                            <Loader />
+                        </Dimmer>
+                        {this.state.backend.name}
+                        <Label.Detail>{this.state.backend.version}</Label.Detail>
+                    </Label>
+                }
             </Segment>
         )
     }
