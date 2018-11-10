@@ -58,15 +58,15 @@ export default class MainMenu extends React.Component<any, any> {
                 <Menu.Item>
                     <Menu.Header>Operations</Menu.Header>
                     <Menu.Menu>
-                        <Menu.Item onClick={() => this.props.history.push("/preprocess/")}>>
+                        <Menu.Item onClick={() => this.props.history.push("/preprocess/")}>
                             <Icon name='filter' />
                             Preprocess
                         </Menu.Item>
-                        <Menu.Item onClick={() => this.props.history.push("/train/")}>>
+                        <Menu.Item onClick={() => this.props.history.push("/train/")}>
                             <Icon name='hourglass start' />
                             Train
                         </Menu.Item>
-                        <Menu.Item onClick={() => this.props.history.push("/transcribe/")}>>
+                        <Menu.Item onClick={() => this.props.history.push("/transcribe/")}>
                             <Icon name='language' />
                             Transcribe
                         </Menu.Item>
