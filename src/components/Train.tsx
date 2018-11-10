@@ -29,7 +29,7 @@ export default class Train extends React.Component<{}, ITrainState> {
             selectedModel: -1,
         };
         this.getData = this.getData.bind(this);
-        this.clickProcessModel = this.clickProcessModel.bind(this);
+        this.clickTrainModel = this.clickTrainModel.bind(this);
         this.closeModal = this.closeModal.bind(this);
         this.submitForm = this.submitForm.bind(this);
     }
@@ -56,7 +56,7 @@ export default class Train extends React.Component<{}, ITrainState> {
         })
     }
 
-    clickProcessModel = (modelId: number) => (event: any) => {
+    clickTrainModel = (modelId: number) => (event: any) => {
         this.setState({
             formErrorMessage: "No error.",
             formFailed: false,
@@ -105,7 +105,7 @@ export default class Train extends React.Component<{}, ITrainState> {
                                 <Table.Cell>{model.name}</Table.Cell>
                                 <Table.Cell>{model.corpusID}</Table.Cell>
                                 <Table.Cell>
-                                    <Button primary={true} onClick={this.clickProcessModel(model.id!)}>
+                                    <Button primary={true} onClick={this.clickTrainModel(model.id!)}>
                                         <Icon name='hourglass start' />
                                         Train this model
                                     </Button>

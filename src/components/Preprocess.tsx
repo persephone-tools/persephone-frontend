@@ -29,7 +29,7 @@ export default class Preprocess extends React.Component<{}, IPreprocessState> {
             selectedCorpus: -1,
         };
         this.getData = this.getData.bind(this);
-        this.clickProcessCorpus = this.clickProcessCorpus.bind(this);
+        this.clickPreprocessCorpus = this.clickPreprocessCorpus.bind(this);
         this.closeModal = this.closeModal.bind(this);
         this.submitForm = this.submitForm.bind(this);
     }
@@ -56,7 +56,7 @@ export default class Preprocess extends React.Component<{}, IPreprocessState> {
         })
     }
 
-    clickProcessCorpus = (corpusId: number) => (event: any) => {
+    clickPreprocessCorpus = (corpusId: number) => (event: any) => {
         this.setState({
             formErrorMessage: "No error.",
             formFailed: false,
@@ -102,7 +102,7 @@ export default class Preprocess extends React.Component<{}, IPreprocessState> {
                                 <Table.Cell>{corpus.id}</Table.Cell>
                                 <Table.Cell>{corpus.name}</Table.Cell>
                                 <Table.Cell>
-                                    <Button primary={true} onClick={this.clickProcessCorpus(corpus.id!)}>
+                                    <Button primary={true} onClick={this.clickPreprocessCorpus(corpus.id!)}>
                                         <Icon name='filter' />
                                         Preprocess this corpus
                                     </Button>
