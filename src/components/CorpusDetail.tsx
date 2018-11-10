@@ -46,7 +46,7 @@ export default class Corpus extends React.Component<any, ICorpusDetailState> {
                     </Dimmer>
                     {this.state.corpus &&
                         <React.Fragment>
-                            <Header as='h2'>{this.state.corpus!.name} (id: {this.state.corpus!.id})</Header>
+                            <Header as='h1'>{this.state.corpus!.name} (id: {this.state.corpus!.id})</Header>
                             <Header.Subheader>Corpus</Header.Subheader>
                             <List>
                                 <List.Item>

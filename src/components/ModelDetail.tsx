@@ -46,7 +46,7 @@ export default class Model extends React.Component<any, IModelDetailState> {
                     </Dimmer>
                     {this.state.model &&
                         <React.Fragment>
-                            <Header as='h2'>{this.state.model!.name} (id: {this.state.model!.id})</Header>
+                            <Header as='h1'>{this.state.model!.name} (id: {this.state.model!.id})</Header>
                             <Header.Subheader>Model</Header.Subheader>
                             <List>
                                 <List.Item>

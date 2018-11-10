@@ -85,7 +85,7 @@ class Transcription extends React.Component<any, ITranscriptionState> {
     public render() {
         return (
             <div>
-                <Header as='h2'>Transcription</Header>
+                <Header as='h1'>Transcription</Header>
                 <Button primary={true} onClick={this.openModal}>
                     <Icon name='upload' />
                     Create new transcription from file

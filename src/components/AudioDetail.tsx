@@ -46,7 +46,7 @@ export default class Audio extends React.Component<any, IAudioDetailState> {
                     </Dimmer>
                     {this.state.audio &&
                         <React.Fragment>
-                            <Header as='h2'>{this.state.audio.fileInfo!.name} (id: {this.state.audio.fileInfo!.id})</Header>
+                            <Header as='h1'>{this.state.audio.fileInfo!.name} (id: {this.state.audio.fileInfo!.id})</Header>
                             <Header.Subheader>Audio</Header.Subheader>
                             <List>
                                 <List.Item>

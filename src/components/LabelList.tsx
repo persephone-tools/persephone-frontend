@@ -96,7 +96,7 @@ class LabelList extends React.Component<any, ILabelState> {
     public render() {
         return (
             <div>
-                <Header as='h2'>Label</Header>
+                <Header as='h1'>Label</Header>
                 <Button primary={true} onClick={this.openModal}>
                     <Icon name='plus' />
                     Create new label

@@ -27,7 +27,6 @@ class App extends React.Component {
         <div className="App">
           <Route exact={true} path="*" component={MainMenu} />
           <Container>
-            <h1>Persephone frontend</h1>
             <Switch>
               <Route exact={true} path="/audio/" component={Audio} />
               <Route exact={true} path="/audio/:audioId" component={AudioDetail} />

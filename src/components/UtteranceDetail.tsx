@@ -46,7 +46,7 @@ export default class Utterance extends React.Component<any, IUtteranceDetailStat
                     </Dimmer>
                     {this.state.utterance &&
                         <React.Fragment>
-                            <Header as='h2'>Utterance {this.state.utterance.id}</Header>
+                            <Header as='h1'>Utterance {this.state.utterance.id}</Header>
                             <Header.Subheader>Utterance</Header.Subheader>
                             <List>
                                 <List.Item>
