@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { Dimmer, Header, List, Loader, Segment } from 'semantic-ui-react';
+import { Dimmer, Header, Icon, List, Loader, Segment } from 'semantic-ui-react';
 
 import { api } from '../API';
 
@@ -63,7 +63,9 @@ export default class Model extends React.Component<any, IModelDetailState> {
                                 </List.Item>
                                 <List.Item>
                                     <List.Header>Merge repeated characters when decoding</List.Header>
-                                    {this.state.model!.decodingMergeRepeated}
+                                    {this.state.model!.decodingMergeRepeated !== undefined &&
+                                        (this.state.model!.decodingMergeRepeated ? <Icon name='check' /> : <Icon name='times' />)
+                                    }
                                 </List.Item>
                                 <List.Item>
                                     <List.Header>Stop training after this number of steps if no LER improvement has been made</List.Header>

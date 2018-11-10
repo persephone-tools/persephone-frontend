@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { Button, Card, Container, List } from 'semantic-ui-react';
+import { Button, Card, Container, Icon, List } from 'semantic-ui-react';
 
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 
@@ -33,7 +33,9 @@ class ModelCard extends React.Component<IModelCardProps, {}> {
                             </List.Item>
                             <List.Item>
                                 <List.Header>Merge repeated characters when decoding</List.Header>
-                                {this.props.model.decodingMergeRepeated}
+                                {this.props.model.decodingMergeRepeated !== undefined &&
+                                    (this.props.model.decodingMergeRepeated ? <Icon name='check' /> : <Icon name='times' />)
+                                }
                             </List.Item>
                             <List.Item>
                                 <List.Header>Stop training after this number of steps if no LER improvement has been made</List.Header>
