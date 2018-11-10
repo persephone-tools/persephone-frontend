@@ -4,7 +4,7 @@ import { Button, Card, Dimmer, Form, Header, Icon, Loader, Message, Modal, Segme
 
 import { api } from '../API';
 
-import { ModelInformation } from '../gen/api';
+import { ModelInformation, ModelPostRequest } from '../gen/api';
 
 import ModelCard from './ModelCard';
 
@@ -15,23 +15,37 @@ export interface IModelState {
     formFailed: boolean;
     formLoading: boolean;
     modalOpen: boolean;
+    name?: string;
+    beamWidth?: string;
+    corpusID?: string;
+    decodingMergeRepeated: boolean;
+    earlyStoppingSteps?: string;
+    hiddenSize?: string;
+    numberLayers?: string;
+    minimumEpochs?: string;
+    maximumEpochs?: string;
+    maxTrainingLER?: string;
+    maxValidationLER?: string;
 }
 
 export default class Model extends React.Component<{}, IModelState> {
     constructor(props: any) {
         super(props);
         this.state = {
+            decodingMergeRepeated: false,
             formErrorMessage: "No error.",
             formFailed: false,
             formLoading: false,
             isLoading: true,
             modalOpen: false,
-            models: []
+            models: [],
         };
         this.getData = this.getData.bind(this);
         this.openModal = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
         this.submitForm = this.submitForm.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        this.toggleCheckbox = this.toggleCheckbox.bind(this);
     }
 
     public getData() {
@@ -53,11 +67,8 @@ export default class Model extends React.Component<{}, IModelState> {
         this.setState({
             formErrorMessage: "No error.",
             formFailed: false,
-            formLoading: true,
+            formLoading: false,
             modalOpen: true
-        })
-        api.utteranceGet().then(utterances => {
-            console.log(utterances);
         })
     }
 
@@ -67,17 +78,44 @@ export default class Model extends React.Component<{}, IModelState> {
         })
     }
 
+    public parseNumber(input: any): number {
+        return Number.parseInt(input || "-1", 10) || -1;
+    }
+
     public submitForm() {
-        console.log("you pressed the magic button")
         this.setState({formLoading: true})
-        /*api.audioPost().then(res => {
+        const modelInfo: ModelInformation = {
+            beamWidth: this.parseNumber(this.state.beamWidth),
+            corpusID: this.parseNumber(this.state.corpusID),
+            decodingMergeRepeated: this.state.decodingMergeRepeated,
+            earlyStoppingSteps: this.parseNumber(this.state.earlyStoppingSteps),
+            hiddenSize: this.parseNumber(this.state.hiddenSize),
+            maxTrainingLER: this.parseNumber(this.state.maxTrainingLER),
+            maxValidationLER: this.parseNumber(this.state.maxValidationLER),
+            maximumEpochs: this.parseNumber(this.state.maximumEpochs),
+            minimumEpochs: this.parseNumber(this.state.minimumEpochs),
+            name: this.state.name || "",
+            numberLayers: this.parseNumber(this.state.numberLayers),
+        }
+        const requestData: ModelPostRequest = {
+            modelInfo
+        }
+        api.modelPost(requestData).then(res => {
             this.setState({modalOpen: false});
             this.getData();
         }).catch(res => res.text()).then(err => {
             console.error(err);
             this.setState({formLoading: false, formFailed: true, formErrorMessage: "The error message is: " + err});
-        });*/
+        });
     }
+
+    toggleCheckbox = (field: string) => (event: any) => {
+        this.setState({ [field]: !this.state[field] } as Pick<IModelState, any>);
+    };
+
+    handleChange = (field: string) => (event: any) => {
+        this.setState({ [field]: event.target.value } as Pick<IModelState, any>);
+    };
 
     public render() {
         return (
@@ -106,11 +144,18 @@ export default class Model extends React.Component<{}, IModelState> {
                             <Form loading={this.state.formLoading} error={this.state.formFailed}>
                                 <Header>Basic model information</Header>
                                 <Form.Field>
-                                    <Form.Input label="The name of this model" type="text" name="name" placeholder="Example Model" />
-                                    <Form.Input label="The type of the labels" type="text" name="label_type" placeholder="phonemes" />
-                                    <Form.Input label="The type of the features" type="text" name="feature_type" placeholder="fbank" />
+                                    <Form.Input label="The name of this model" type="text" name="name" placeholder="ExampleLang model 1" onChange={this.handleChange('name')} />
+                                    <Form.Input label="Beam width size" type="text" name="beamWidth" placeholder="1" onChange={this.handleChange('beamWidth')} />
+                                    <Form.Input label="The ID of the corpus to use for this model" type="text" name="corpusID" placeholder="1" onChange={this.handleChange('corpusID')} />
+                                    <Form.Checkbox label="Merge repeated characters when decoding" name="decodingMergeRepeated" checked={this.state.decodingMergeRepeated} onChange={this.toggleCheckbox('decodingMergeRepeated')} />
+                                    <Form.Input label=" Stop training after this number of steps if no LER improvement has been made" type="text" name="earlyStoppingSteps" placeholder="0" onChange={this.handleChange('earlyStoppingSteps')} />
+                                    <Form.Input label="Size of the hidden layers" type="text" name="hiddenSize" placeholder="0" onChange={this.handleChange('hiddenSize')} />
+                                    <Form.Input label="Number of layers in the network" type="text" name="numberLayers" placeholder="0" onChange={this.handleChange('numberLayers')} />
+                                    <Form.Input label="Minimum number of training epochs" type="text" name="minimumEpochs" placeholder="0" onChange={this.handleChange('minimumEpochs')} />
+                                    <Form.Input label="Maximum number of training epochs" type="text" name="maximumEpochs" placeholder="0" onChange={this.handleChange('maximumEpochs')} />
+                                    <Form.Input label="Maximum Label Error Rate (LER) on training data" type="text" name="maxTrainingLER" placeholder="0" onChange={this.handleChange('maxTrainingLER')} />
+                                    <Form.Input label="Maximum Label Error Rate (LER) on validation data" type="text" name="maxValidationLER" placeholder="0" onChange={this.handleChange('maxValidationLER')} />
                                 </Form.Field>
-                                <Header>Choose utterances into training, validation, and testing groups</Header>
                                 <Message id="errormessage" error={true} header='Model creation failed' content={this.state.formErrorMessage} />
                             </Form>
                         </Modal.Description>
