@@ -25,7 +25,7 @@ class App extends React.Component {
     return (
       <BrowserRouter>
         <div className="App">
-          <MainMenu />
+          <Route exact={true} path="*" component={MainMenu} />
           <Container>
             <h1>Persephone frontend</h1>
             <Switch>

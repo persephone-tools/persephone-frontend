@@ -4,7 +4,7 @@ import { Icon, Menu } from 'semantic-ui-react';
 
 import VersionBadge from './VersionBadge';
 
-export default class MainMenu extends React.Component {
+export default class MainMenu extends React.Component<any, any> {
     public render() {
         return (
             <Menu vertical={true} secondary={true} pointing={true} fixed="left">
@@ -12,15 +12,15 @@ export default class MainMenu extends React.Component {
                 <Menu.Item>
                     <Menu.Header>Introduction</Menu.Header>
                     <Menu.Menu>
-                        <Menu.Item>
+                        <Menu.Item onClick={() => this.props.history.push("/")}>
                             <Icon name='home' />
                             Home
                         </Menu.Item>
-                        <Menu.Item>
+                        <Menu.Item onClick={() => this.props.history.push("/intro")}>
                             <Icon name='info' />
                             Introduction
                         </Menu.Item>
-                        <Menu.Item>
+                        <Menu.Item onClick={() => this.props.history.push("/howto")}>
                             <Icon name='help' />
                             How-to
                         </Menu.Item>
@@ -29,27 +29,27 @@ export default class MainMenu extends React.Component {
                 <Menu.Item>
                     <Menu.Header>Data</Menu.Header>
                     <Menu.Menu>
-                        <Menu.Item>
+                        <Menu.Item onClick={() => this.props.history.push("/model/")}>
                             <Icon name='box' />
                             Models
                         </Menu.Item>
-                        <Menu.Item>
+                        <Menu.Item onClick={() => this.props.history.push("/corpus/")}>
                             <Icon name='book' />
                             Corpuses
                         </Menu.Item>
-                        <Menu.Item>
+                        <Menu.Item onClick={() => this.props.history.push("/audio/")}>
                             <Icon name='music' />
                             Audio
                         </Menu.Item>
-                        <Menu.Item>
+                        <Menu.Item onClick={() => this.props.history.push("/transcription/")}>
                             <Icon name='pencil alternate' />
                             Transcriptions
                         </Menu.Item>
-                        <Menu.Item>
+                        <Menu.Item onClick={() => this.props.history.push("/utterance/")}>
                             <Icon name='talk' />
                             Utterances
                         </Menu.Item>
-                        <Menu.Item>
+                        <Menu.Item onClick={() => this.props.history.push("/label/")}>
                             <Icon name='tag' />
                             Labels
                         </Menu.Item>
@@ -58,15 +58,15 @@ export default class MainMenu extends React.Component {
                 <Menu.Item>
                     <Menu.Header>Operations</Menu.Header>
                     <Menu.Menu>
-                        <Menu.Item>
+                        <Menu.Item onClick={() => this.props.history.push("/preprocess/")}>>
                             <Icon name='filter' />
                             Preprocess
                         </Menu.Item>
-                        <Menu.Item>
+                        <Menu.Item onClick={() => this.props.history.push("/train/")}>>
                             <Icon name='hourglass start' />
                             Train
                         </Menu.Item>
-                        <Menu.Item>
+                        <Menu.Item onClick={() => this.props.history.push("/transcribe/")}>>
                             <Icon name='language' />
                             Transcribe
                         </Menu.Item>
