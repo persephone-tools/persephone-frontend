@@ -14,6 +14,7 @@ import Intro from './components/Intro';
 import LabelList from './components/LabelList';
 import Model from './components/Model';
 import ModelDetail from './components/ModelDetail';
+import Preprocess from './components/Preprocess';
 import Transcription from './components/Transcription';
 import TranscriptionDetail from './components/TranscriptionDetail';
 import Utterance from './components/Utterance';
@@ -40,6 +41,7 @@ class App extends React.Component {
               <Route exact={true} path="/label/" component={LabelList} />
               <Route exact={true} path="/model/" component={Model} />
               <Route exact={true} path="/model/:modelId" component={ModelDetail} />
+              <Route exact={true} path="/preprocess/" component={Preprocess} />
               <Route exact={true} path="/transcription/" component={Transcription} />
               <Route exact={true} path="/transcription/:transcriptionId" component={TranscriptionDetail} />
             </Switch>
