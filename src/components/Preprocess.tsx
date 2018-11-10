@@ -16,7 +16,7 @@ export interface IPreprocessState {
     selectedCorpus: number;
 }
 
-export default class Corpus extends React.Component<{}, IPreprocessState> {
+export default class Preprocess extends React.Component<{}, IPreprocessState> {
     constructor(props: any) {
         super(props);
         this.state = {
