@@ -118,7 +118,7 @@ export default class Train extends React.Component<{}, ITrainState> {
                 <Modal
                     open={this.state.modalOpen}
                     onClose={this.closeModal}>
-                    <Modal.Header>Confirm train</Modal.Header>
+                    <Modal.Header>Confirm operation</Modal.Header>
                     <Modal.Content>
                         <Modal.Description>
                             <Form loading={this.state.formLoading} error={this.state.formFailed}>

@@ -115,7 +115,7 @@ export default class Preprocess extends React.Component<{}, IPreprocessState> {
                 <Modal
                     open={this.state.modalOpen}
                     onClose={this.closeModal}>
-                    <Modal.Header>Confirm preprocess</Modal.Header>
+                    <Modal.Header>Confirm operation</Modal.Header>
                     <Modal.Content>
                         <Modal.Description>
                             <Form loading={this.state.formLoading} error={this.state.formFailed}>
