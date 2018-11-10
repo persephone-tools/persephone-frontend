@@ -10,6 +10,7 @@ import AudioDetail from './components/AudioDetail';
 import Corpus from './components/Corpus';
 import CorpusDetail from './components/CorpusDetail';
 import Index from './components/Index';
+import Intro from './components/Intro';
 import LabelList from './components/LabelList';
 import Model from './components/Model';
 import ModelDetail from './components/ModelDetail';
@@ -28,6 +29,8 @@ class App extends React.Component {
           <Route exact={true} path="*" component={MainMenu} />
           <Container>
             <Switch>
+              <Route exact={true} path="/" component={Index} />
+              <Route exact={true} path="/intro" component={Intro} />
               <Route exact={true} path="/audio/" component={Audio} />
               <Route exact={true} path="/audio/:audioId" component={AudioDetail} />
               <Route exact={true} path="/corpus/" component={Corpus} />
@@ -39,7 +42,6 @@ class App extends React.Component {
               <Route exact={true} path="/model/:modelId" component={ModelDetail} />
               <Route exact={true} path="/transcription/" component={Transcription} />
               <Route exact={true} path="/transcription/:transcriptionId" component={TranscriptionDetail} />
-              <Route exact={true} path="/" component={Index} />
             </Switch>
           </Container>
         </div>
