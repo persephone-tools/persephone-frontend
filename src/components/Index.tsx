@@ -13,6 +13,7 @@ class Index extends React.Component<RouteComponentProps<any>, React.Props<any>> 
                 <Button primary={true} onClick={() => this.props.history.push("/utterance/")}>See utterances</Button>
                 <Button primary={true} onClick={() => this.props.history.push("/transcription/")}>See transcriptions</Button>
                 <Button primary={true} onClick={() => this.props.history.push("/label/")}>See labels</Button>
+                <Button primary={true} onClick={() => this.props.history.push("/model/")}>See models</Button>
             </div>
         )
     }
