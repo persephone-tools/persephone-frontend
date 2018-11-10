@@ -29,7 +29,7 @@ class CorpusCard extends React.Component<ICorpusCardProps, {}> {
                             </List.Item>
                             <List.Item>
                                 <List.Header>Max samples</List.Header>
-                                {this.props.corpus.maxSamples || "N/A"}
+                                {this.props.corpus.maximumSamples || "N/A"}
                             </List.Item>
                             <List.Item>
                                 <List.Header>Number of testing utterances</List.Header>

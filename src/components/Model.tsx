@@ -24,8 +24,8 @@ export interface IModelState {
     numberLayers?: string;
     minimumEpochs?: string;
     maximumEpochs?: string;
-    maxTrainingLER?: string;
-    maxValidationLER?: string;
+    maximumTrainingLER?: string;
+    maximumValidationLER?: string;
 }
 
 export default class Model extends React.Component<{}, IModelState> {
@@ -90,9 +90,9 @@ export default class Model extends React.Component<{}, IModelState> {
             decodingMergeRepeated: this.state.decodingMergeRepeated,
             earlyStoppingSteps: this.parseNumber(this.state.earlyStoppingSteps),
             hiddenSize: this.parseNumber(this.state.hiddenSize),
-            maxTrainingLER: this.parseNumber(this.state.maxTrainingLER),
-            maxValidationLER: this.parseNumber(this.state.maxValidationLER),
             maximumEpochs: this.parseNumber(this.state.maximumEpochs),
+            maximumTrainingLER: this.parseNumber(this.state.maximumTrainingLER),
+            maximumValidationLER: this.parseNumber(this.state.maximumValidationLER),
             minimumEpochs: this.parseNumber(this.state.minimumEpochs),
             name: this.state.name || "",
             numberLayers: this.parseNumber(this.state.numberLayers),
@@ -153,8 +153,8 @@ export default class Model extends React.Component<{}, IModelState> {
                                     <Form.Input label="Number of layers in the network" type="text" name="numberLayers" placeholder="0" onChange={this.handleChange('numberLayers')} />
                                     <Form.Input label="Minimum number of training epochs" type="text" name="minimumEpochs" placeholder="0" onChange={this.handleChange('minimumEpochs')} />
                                     <Form.Input label="Maximum number of training epochs" type="text" name="maximumEpochs" placeholder="0" onChange={this.handleChange('maximumEpochs')} />
-                                    <Form.Input label="Maximum Label Error Rate (LER) on training data" type="text" name="maxTrainingLER" placeholder="0" onChange={this.handleChange('maxTrainingLER')} />
-                                    <Form.Input label="Maximum Label Error Rate (LER) on validation data" type="text" name="maxValidationLER" placeholder="0" onChange={this.handleChange('maxValidationLER')} />
+                                    <Form.Input label="Maximum Label Error Rate (LER) on training data" type="text" name="maximumTrainingLER" placeholder="0" onChange={this.handleChange('maximumTrainingLER')} />
+                                    <Form.Input label="Maximum Label Error Rate (LER) on validation data" type="text" name="maximumValidationLER" placeholder="0" onChange={this.handleChange('maximumValidationLER')} />
                                 </Form.Field>
                                 <Message id="errormessage" error={true} header='Model creation failed' content={this.state.formErrorMessage} />
                             </Form>

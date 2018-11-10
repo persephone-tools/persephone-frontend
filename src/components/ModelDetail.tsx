@@ -89,11 +89,11 @@ export default class Model extends React.Component<any, IModelDetailState> {
                                 </List.Item>
                                 <List.Item>
                                     <List.Header>Maximum Label Error Rate (LER) on training data</List.Header>
-                                    {this.state.model!.maxTrainingLER}
+                                    {this.state.model!.maximumTrainingLER}
                                 </List.Item>
                                 <List.Item>
                                     <List.Header>Maximum Label Error Rate (LER) on validation data</List.Header>
-                                    {this.state.model!.maxValidationLER}
+                                    {this.state.model!.maximumValidationLER}
                                 </List.Item>
                             </List>
                         </React.Fragment>

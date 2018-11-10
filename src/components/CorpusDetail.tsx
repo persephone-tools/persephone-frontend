@@ -59,7 +59,7 @@ export default class Corpus extends React.Component<any, ICorpusDetailState> {
                                 </List.Item>
                                 <List.Item>
                                     <List.Header>Max samples</List.Header>
-                                    {this.state.corpus!.maxSamples || "N/A"}
+                                    {this.state.corpus!.maximumSamples || "N/A"}
                                 </List.Item>
                                 <List.Item>
                                     <List.Header>Number of testing utterances</List.Header>

@@ -59,11 +59,11 @@ class ModelCard extends React.Component<IModelCardProps, {}> {
                             </List.Item>
                             <List.Item>
                                 <List.Header>Maximum Label Error Rate (LER) on training data</List.Header>
-                                {this.props.model.maxTrainingLER}
+                                {this.props.model.maximumTrainingLER}
                             </List.Item>
                             <List.Item>
                                 <List.Header>Maximum Label Error Rate (LER) on validation data</List.Header>
-                                {this.props.model.maxValidationLER}
+                                {this.props.model.maximumValidationLER}
                             </List.Item>
                         </List>
                     </Card.Description>
