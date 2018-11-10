@@ -2,10 +2,13 @@ import * as React from 'react';
 
 import { Icon, Menu } from 'semantic-ui-react';
 
+import VersionBadge from './VersionBadge';
+
 export default class MainMenu extends React.Component {
     public render() {
         return (
             <Menu vertical={true} secondary={true} pointing={true} fixed="left">
+                <Menu.Item header={true}>Persephone frontend</Menu.Item>
                 <Menu.Item>
                     <Menu.Header>Introduction</Menu.Header>
                     <Menu.Menu>
@@ -105,6 +108,14 @@ export default class MainMenu extends React.Component {
                             <Icon name='dollar' />
                             Enterprise support
                     </Menu.Item>
+                    </Menu.Menu>
+                </Menu.Item>
+                <Menu.Item>
+                    <Menu.Header>Version information</Menu.Header>
+                    <Menu.Menu>
+                        <Menu.Item>
+                            <VersionBadge />
+                        </Menu.Item>
                     </Menu.Menu>
                 </Menu.Item>
             </Menu>

@@ -17,7 +17,6 @@ import Transcription from './components/Transcription';
 import TranscriptionDetail from './components/TranscriptionDetail';
 import Utterance from './components/Utterance';
 import UtteranceDetail from './components/UtteranceDetail';
-import VersionBadge from './components/VersionBadge';
 
 import MainMenu from './components/Menu';
 
@@ -29,7 +28,6 @@ class App extends React.Component {
           <MainMenu />
           <Container>
             <h1>Persephone frontend</h1>
-            <VersionBadge />
             <Switch>
               <Route exact={true} path="/audio/" component={Audio} />
               <Route exact={true} path="/audio/:audioId" component={AudioDetail} />
