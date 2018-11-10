@@ -1,6 +1,8 @@
 import * as React from 'react';
 import './App.css';
 
+import { Container } from 'semantic-ui-react';
+
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import Audio from './components/Audio';
@@ -17,13 +19,17 @@ import Utterance from './components/Utterance';
 import UtteranceDetail from './components/UtteranceDetail';
 import VersionBadge from './components/VersionBadge';
 
+import MainMenu from './components/Menu';
+
 class App extends React.Component {
   public render() {
     return (
       <BrowserRouter>
         <div className="App">
-          <h1>Persephone frontend</h1>
-          <VersionBadge />
+          <MainMenu />
+          <Container>
+            <h1>Persephone frontend</h1>
+            <VersionBadge />
             <Switch>
               <Route exact={true} path="/audio/" component={Audio} />
               <Route exact={true} path="/audio/:audioId" component={AudioDetail} />
@@ -38,6 +44,7 @@ class App extends React.Component {
               <Route exact={true} path="/transcription/:transcriptionId" component={TranscriptionDetail} />
               <Route exact={true} path="/" component={Index} />
             </Switch>
+          </Container>
         </div>
       </BrowserRouter>
     );
