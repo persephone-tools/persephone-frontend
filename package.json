@@ -3,13 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@types/react-router-dom": "^4.3.1",
-    "react": "^16.4.2",
-    "react-dom": "^16.4.2",
+    "react": "^16.6.1",
+    "react-dom": "^16.6.1",
     "react-router-dom": "^4.3.1",
-    "react-scripts-ts": "2.17.0",
-    "semantic-ui-css": "^2.3.3",
-    "semantic-ui-react": "^0.82.2"
+    "react-scripts-ts": "3.1.0",
+    "semantic-ui-css": "^2.4.1",
+    "semantic-ui-react": "^0.83.0"
   },
   "scripts": {
     "start": "react-scripts-ts start",
@@ -19,10 +18,11 @@
     "codegen": "java -jar ../swagger-codegen-typescript-browser/target/TypescriptBrowser-swagger-codegen-shaded.jar generate -l TypescriptBrowser -i ../../persephone-web-API-master/persephone_api/api_spec.yaml -o src/gen/"
   },
   "devDependencies": {
-    "@types/jest": "^23.3.1",
-    "@types/node": "^10.7.1",
-    "@types/react": "^16.4.11",
-    "@types/react-dom": "^16.0.7",
-    "typescript": "^3.0.1"
+    "@types/jest": "^23.3.9",
+    "@types/node": "^10.12.5",
+    "@types/react": "^16.7.2",
+    "@types/react-dom": "^16.0.9",
+    "@types/react-router-dom": "^4.3.1",
+    "typescript": "^3.1.6"
   }
 }
