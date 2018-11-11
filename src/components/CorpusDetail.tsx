@@ -1,10 +1,11 @@
 import * as React from 'react';
 
-import { Dimmer, Header, List, Loader, Segment } from 'semantic-ui-react';
+import { Dimmer, Header, List, Loader, Segment, Table } from 'semantic-ui-react';
 
 import { api } from '../API';
 
 import { CorpusCorpusIDGetRequest, CorpusInformation } from '../gen/api';
+import CorpusDetailUtteranceRow from './CorpusDetailUtteranceRow';
 
 export interface ICorpusDetailState {
     corpus?: CorpusInformation;
@@ -74,6 +75,31 @@ export default class Corpus extends React.Component<any, ICorpusDetailState> {
                                     {this.state.corpus!.partition.testing!.length}
                                 </List.Item>
                             </List>
+                            <Header as='h2'>Utterances in this corpus</Header>
+                            {console.log(this.state.corpus!.partition!)}
+                            <Table basic='very'>
+                                <Table.Header>
+                                <Table.Row>
+                                    <Table.HeaderCell>ID</Table.HeaderCell>
+                                    <Table.HeaderCell>Audio</Table.HeaderCell>
+                                    <Table.HeaderCell>Transcription</Table.HeaderCell>
+                                    <Table.HeaderCell>Training</Table.HeaderCell>
+                                    <Table.HeaderCell>Validation</Table.HeaderCell>
+                                    <Table.HeaderCell>Testing</Table.HeaderCell>
+                                </Table.Row>
+                                </Table.Header>
+
+                                <Table.Body>
+                                    {Array.from(new Set([...this.state.corpus!.partition!.training!, ...this.state.corpus!.partition!.validation!, ...this.state.corpus!.partition!.testing!]).values())
+                                        .map(utterance => (
+                                            <CorpusDetailUtteranceRow
+                                                utteranceId={utterance}
+                                                training={this.state.corpus!.partition!.training!.find(u => u === utterance)! === utterance}
+                                                validation={this.state.corpus!.partition!.validation!.find(u => u === utterance)! === utterance}
+                                                testing={this.state.corpus!.partition!.testing!.find(u => u === utterance)! === utterance} />
+                                    ))}
+                                </Table.Body>
+                            </Table>
                         </React.Fragment>
                     }
                 </Segment>
