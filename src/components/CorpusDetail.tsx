@@ -62,16 +62,16 @@ export default class Corpus extends React.Component<any, ICorpusDetailState> {
                                     {this.state.corpus!.maximumSamples || "N/A"}
                                 </List.Item>
                                 <List.Item>
-                                    <List.Header>Number of testing utterances</List.Header>
-                                    {this.state.corpus!.partition.testing!.length}
-                                </List.Item>
-                                <List.Item>
                                     <List.Header>Number of training utterances</List.Header>
                                     {this.state.corpus!.partition.training!.length}
                                 </List.Item>
                                 <List.Item>
                                     <List.Header>Number of validation utterances</List.Header>
                                     {this.state.corpus!.partition.validation!.length}
+                                </List.Item>
+                                <List.Item>
+                                    <List.Header>Number of testing utterances</List.Header>
+                                    {this.state.corpus!.partition.testing!.length}
                                 </List.Item>
                             </List>
                         </React.Fragment>

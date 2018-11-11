@@ -32,16 +32,16 @@ class CorpusCard extends React.Component<ICorpusCardProps, {}> {
                                 {this.props.corpus.maximumSamples || "N/A"}
                             </List.Item>
                             <List.Item>
-                                <List.Header>Number of testing utterances</List.Header>
-                                {this.props.corpus.partition.testing!.length}
-                            </List.Item>
-                            <List.Item>
                                 <List.Header>Number of training utterances</List.Header>
                                 {this.props.corpus.partition.training!.length}
                             </List.Item>
                             <List.Item>
                                 <List.Header>Number of validation utterances</List.Header>
                                 {this.props.corpus.partition.validation!.length}
+                            </List.Item>
+                            <List.Item>
+                                <List.Header>Number of testing utterances</List.Header>
+                                {this.props.corpus.partition.testing!.length}
                             </List.Item>
                         </List>
                     </Card.Description>
