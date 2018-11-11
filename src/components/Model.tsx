@@ -148,7 +148,7 @@ export default class Model extends React.Component<{}, IModelState> {
                                 <Form.Input label="Beam width size" type="text" name="beamWidth" placeholder="1" onChange={this.handleChange('beamWidth')} />
                                 <Form.Field>
                                     <label>The corpus to use for this model</label>
-                                    <CorpusDropdown onChange={(selection: number) => {console.log(selection); this.setState({corpusID: selection} as Pick<IModelState, any>)}} />
+                                    <CorpusDropdown onChange={(selection: number) => this.setState({corpusID: selection} as Pick<IModelState, any>)} />
                                 </Form.Field>
                                 <Form.Checkbox label="Merge repeated characters when decoding" name="decodingMergeRepeated" checked={this.state.decodingMergeRepeated} onChange={this.toggleCheckbox('decodingMergeRepeated')} />
                                 <Form.Input label=" Stop training after this number of steps if no LER improvement has been made" type="text" name="earlyStoppingSteps" placeholder="0" onChange={this.handleChange('earlyStoppingSteps')} />
