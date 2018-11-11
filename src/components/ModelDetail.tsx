@@ -5,6 +5,7 @@ import { Dimmer, Header, Icon, List, Loader, Segment } from 'semantic-ui-react';
 import { api } from '../API';
 
 import { ModelInformation, ModelModelIDGetRequest } from '../gen/api';
+import CorpusName from './CorpusName';
 
 export interface IModelDetailState {
     model?: ModelInformation;
@@ -58,8 +59,8 @@ export default class Model extends React.Component<any, IModelDetailState> {
                                     {this.state.model!.beamWidth}
                                 </List.Item>
                                 <List.Item>
-                                    <List.Header>ID of corpus for this model</List.Header>
-                                    {this.state.model!.corpusID}
+                                    <List.Header>Corpus for this model</List.Header>
+                                    <CorpusName corpusId={this.state.model!.corpusID} /> (id: {this.state.model!.corpusID})
                                 </List.Item>
                                 <List.Item>
                                     <List.Header>Merge repeated characters when decoding</List.Header>
