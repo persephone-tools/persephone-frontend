@@ -58,7 +58,7 @@ export default class CorpusDetailUtteranceRow extends React.Component<ICorpusDet
                     <Table.Row key={this.state.utterance!.id!.toString()}>
                         <Table.Cell>{this.state.utterance!.id}</Table.Cell>
                         <Table.Cell><AudioName audioId={this.state.utterance!.audio} /> (id: {this.state.utterance!.audio})</Table.Cell>
-                        <Table.Cell><TranscriptionName transcriptionId={this.state.utterance!.transcription} />(id: {this.state.utterance!.transcription})</Table.Cell>
+                        <Table.Cell><TranscriptionName transcriptionId={this.state.utterance!.transcription} /> (id: {this.state.utterance!.transcription})</Table.Cell>
                         <Table.Cell>{this.props.training ? <Icon name='check' /> : ""}</Table.Cell>
                         <Table.Cell>{this.props.validation ? <Icon name='check' /> : ""}</Table.Cell>
                         <Table.Cell>{this.props.testing ? <Icon name='check' /> : ""}</Table.Cell>
