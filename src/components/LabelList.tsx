@@ -134,7 +134,7 @@ class LabelList extends React.Component<any, ILabelState> {
                             <Form loading={this.state.formLoading} error={this.state.formFailed}>
                                 <Header>Label details</Header>
                                 <Form.Input label="Phonetic label" type="text" name="phonetic_label" value={this.state.phoneticLabel} placeholder="1" onChange={this.handlePhoneticLabelChange} />
-                                <Message id="errormessage" error={true} header='Corpus creation failed' content={this.state.formErrorMessage} />
+                                <Message error={true} header='Label creation failed' content={this.state.formErrorMessage} />
                             </Form>
                         </Modal.Description>
                     </Modal.Content>

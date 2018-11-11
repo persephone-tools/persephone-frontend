@@ -200,7 +200,7 @@ export default class Corpus extends React.Component<{}, ICorpusState> {
                                     ))}
                                     </Table.Body>
                                 </Table>
-                                <Message id="errormessage" error={true} header='Corpus creation failed' content={this.state.formErrorMessage} />
+                                <Message error={true} header='Corpus creation failed' content={this.state.formErrorMessage} />
                             </Form>
                         </Modal.Description>
                     </Modal.Content>

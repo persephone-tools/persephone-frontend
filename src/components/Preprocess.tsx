@@ -126,7 +126,7 @@ export default class Preprocess extends React.Component<{}, IPreprocessState> {
                                         <Form.Input label="Name" type="text" name="name" value={this.state.corpuses!.find(corpus => corpus!.id === this.state!.selectedCorpus)!.name} readOnly={true} />
                                     </React.Fragment>
                                 }
-                                <Message id="errormessage" error={true} header='Corpus preprocessing failed' content={this.state.formErrorMessage} />
+                                <Message error={true} header='Corpus preprocessing failed' content={this.state.formErrorMessage} />
                             </Form>
                         </Modal.Description>
                     </Modal.Content>

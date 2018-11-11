@@ -128,7 +128,7 @@ class Audio extends React.Component<any, IAudioState> {
                                     <label>File</label>
                                     <Form.Input type="file" name="File" id="fileUploadId" />
                                 </Form.Field>
-                                <Message id="errormessage" error={true} header='File upload failed' content={this.state.formErrorMessage} />
+                                <Message error={true} header='File upload failed' content={this.state.formErrorMessage} />
                             </Form>
                         </Modal.Description>
                     </Modal.Content>

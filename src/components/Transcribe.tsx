@@ -187,7 +187,7 @@ export default class Train extends React.Component<{}, ITrainState> {
                                         }
                                     </React.Fragment>
                                 }
-                                <Message id="errormessage" error={true} header='Model training failed' content={this.state.formErrorMessage} />
+                                <Message error={true} header='Transcription failed' content={this.state.formErrorMessage} />
                             </Form>
                         </Modal.Description>
                     </Modal.Content>

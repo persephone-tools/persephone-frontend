@@ -129,7 +129,7 @@ export default class Train extends React.Component<{}, ITrainState> {
                                         <Form.Input label="Name" type="text" name="name" value={this.state.models!.find(model => model!.id === this.state!.selectedModel)!.name} readOnly={true} />
                                     </React.Fragment>
                                 }
-                                <Message id="errormessage" error={true} header='Model training failed' content={this.state.formErrorMessage} />
+                                <Message error={true} header='Model training failed' content={this.state.formErrorMessage} />
                             </Form>
                         </Modal.Description>
                     </Modal.Content>
