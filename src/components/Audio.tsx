@@ -85,7 +85,7 @@ class Audio extends React.Component<any, IAudioState> {
     public render() {
         return (
             <div>
-                <Header as='h1'>Audio</Header>
+                <Header as='h1'>All Audio</Header>
                 <Button primary={true} onClick={this.openModal}>
                     <Icon name='upload' />
                     Upload new audio file

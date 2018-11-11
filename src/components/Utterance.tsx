@@ -95,7 +95,7 @@ class Utterance extends React.Component<any, IUtteranceState> {
     public render() {
         return (
             <div>
-                <Header as='h1'>Utterance</Header>
+                <Header as='h1'>All Utterances</Header>
                 <Button primary={true} onClick={this.openModal}>
                     <Icon name='plus' />
                     Create new utterance

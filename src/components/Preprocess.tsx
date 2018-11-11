@@ -82,7 +82,7 @@ export default class Preprocess extends React.Component<{}, IPreprocessState> {
     public render() {
         return (
             <div>
-                <Header as='h1'>Preprocess a corpus</Header>
+                <Header as='h1'>Preprocess a Corpus</Header>
                 <Segment>
                     <Dimmer active={this.state.isLoading}>
                         <Loader>Loading</Loader>

@@ -103,7 +103,7 @@ export default class Train extends React.Component<{}, ITrainState> {
     public render() {
         return (
             <div>
-                <Header as='h1'>Transcribe audio</Header>
+                <Header as='h1'>Transcribe Audio</Header>
                 <Button primary={true} onClick={this.clickTranscribe}>
                     <Icon name='translate' />
                     Transcribe

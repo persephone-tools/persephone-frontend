@@ -41,13 +41,14 @@ export default class Utterance extends React.Component<any, IUtteranceDetailStat
     public render() {
         return (
             <div>
+                <Header as='h1'>Utterance Details</Header>
                 <Segment basic={true}>
                     <Dimmer active={this.state.isLoading}>
                         <Loader>Loading</Loader>
                     </Dimmer>
                     {this.state.utterance &&
                         <React.Fragment>
-                            <Header as='h1'>Utterance {this.state.utterance.id}</Header>
+                            <Header as='h2'>Utterance {this.state.utterance.id}</Header>
                             <Header.Subheader>Utterance</Header.Subheader>
                             <List>
                                 <List.Item>

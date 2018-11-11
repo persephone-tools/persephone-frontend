@@ -83,7 +83,7 @@ export default class Train extends React.Component<{}, ITrainState> {
     public render() {
         return (
             <div>
-                <Header as='h1'>Train a model</Header>
+                <Header as='h1'>Train a Model</Header>
                 <Segment>
                     <Dimmer active={this.state.isLoading}>
                         <Loader>Loading</Loader>

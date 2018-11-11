@@ -42,13 +42,14 @@ export default class Model extends React.Component<any, IModelDetailState> {
     public render() {
         return (
             <div>
+                <Header as='h1'>Model Details</Header>
                 <Segment basic={true}>
                     <Dimmer active={this.state.isLoading}>
                         <Loader>Loading</Loader>
                     </Dimmer>
                     {this.state.model &&
                         <React.Fragment>
-                            <Header as='h1'>{this.state.model!.name} (id: {this.state.model!.id})</Header>
+                            <Header as='h2'>{this.state.model!.name} (id: {this.state.model!.id})</Header>
                             <Header.Subheader>Model</Header.Subheader>
                             <List>
                                 <List.Item>

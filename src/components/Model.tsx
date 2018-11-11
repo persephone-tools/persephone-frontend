@@ -120,7 +120,7 @@ export default class Model extends React.Component<{}, IModelState> {
     public render() {
         return (
             <div>
-                <Header as='h1'>Models</Header>
+                <Header as='h1'>All Models</Header>
                 <Button primary={true} onClick={this.openModal}>
                     <Icon name='upload' />
                     Create new model

@@ -41,13 +41,14 @@ export default class Transcription extends React.Component<any, ITranscriptionDe
     public render() {
         return (
             <div>
+                <Header as='h1'>Transcription Details</Header>
                 <Segment basic={true}>
                     <Dimmer active={this.state.isLoading}>
                         <Loader>Loading</Loader>
                     </Dimmer>
                     {this.state.transcription &&
                         <React.Fragment>
-                            <Header as='h1'>{this.state.transcription.fileInfo!.name} (id: {this.state.transcription.fileInfo!.id})</Header>
+                            <Header as='h2'>{this.state.transcription.fileInfo!.name} (id: {this.state.transcription.fileInfo!.id})</Header>
                             <Header.Subheader>Transcription</Header.Subheader>
                             <List>
                                 <List.Item>

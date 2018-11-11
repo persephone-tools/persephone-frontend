@@ -137,7 +137,7 @@ export default class Corpus extends React.Component<{}, ICorpusState> {
     public render() {
         return (
             <div>
-                <Header as='h1'>Corpuses</Header>
+                <Header as='h1'>All Corpuses</Header>
                 <Button primary={true} onClick={this.openModal}>
                     <Icon name='upload' />
                     Create new corpus
