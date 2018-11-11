@@ -22,6 +22,7 @@ export default class Model extends React.Component<any, IModelDetailState> {
     }
 
     public getData() {
+        this.setState({isLoading: true});
         const requestData: ModelModelIDGetRequest = {
             modelID: this.props.match.params.modelId
         }

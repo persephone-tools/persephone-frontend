@@ -21,6 +21,7 @@ export default class Utterance extends React.Component<any, IUtteranceDetailStat
     }
 
     public getData() {
+        this.setState({isLoading: true});
         const requestData: UtteranceUtteranceIDGetRequest = {
             utteranceID: this.props.match.params.utteranceId
         }

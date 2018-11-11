@@ -21,6 +21,7 @@ export default class Transcription extends React.Component<any, ITranscriptionDe
     }
 
     public getData() {
+        this.setState({isLoading: true});
         const requestData: TranscriptionTranscriptionIDGetRequest = {
             transcriptionID: this.props.match.params.transcriptionId
         }

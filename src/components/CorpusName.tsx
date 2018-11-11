@@ -25,6 +25,7 @@ export default class CorpusName extends React.Component<ICorpusNameProps, ICorpu
     }
 
     public getData() {
+        this.setState({isLoading: true});
         const requestData: CorpusCorpusIDGetRequest = {
             corpusID: this.props.corpusId as number
         }

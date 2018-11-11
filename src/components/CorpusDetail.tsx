@@ -23,6 +23,7 @@ export default class Corpus extends React.Component<any, ICorpusDetailState> {
     }
 
     public getData() {
+        this.setState({isLoading: true});
         const requestData: CorpusCorpusIDGetRequest = {
             corpusID: this.props.match.params.corpusId
         }

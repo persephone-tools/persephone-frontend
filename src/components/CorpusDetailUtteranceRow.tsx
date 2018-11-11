@@ -30,6 +30,7 @@ export default class CorpusDetailUtteranceRow extends React.Component<ICorpusDet
     }
 
     public getData() {
+        this.setState({isLoading: true});
         const requestData: UtteranceUtteranceIDGetRequest = {
             utteranceID: this.props.utteranceId as number
         }

@@ -26,6 +26,7 @@ export default class CorpusDetailLabelList extends React.Component<ICorpusDetail
     }
 
     public getData() {
+        this.setState({isLoading: true});
         const requestData: PersephoneApiApiEndpointsCorpusGetLabelSetRequest = {
             corpusID: this.props.corpusId
         }

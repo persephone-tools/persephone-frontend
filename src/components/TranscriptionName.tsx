@@ -25,6 +25,7 @@ export default class TranscriptionName extends React.Component<ITranscriptionNam
     }
 
     public getData() {
+        this.setState({isLoading: true});
         const requestData: TranscriptionTranscriptionIDGetRequest = {
             transcriptionID: this.props.transcriptionId as number
         }

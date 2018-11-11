@@ -21,6 +21,7 @@ export default class Audio extends React.Component<any, IAudioDetailState> {
     }
 
     public getData() {
+        this.setState({isLoading: true});
         const requestData: AudioAudioIDGetRequest = {
             audioID: this.props.match.params.audioId
         }
