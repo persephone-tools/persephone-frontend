@@ -65,7 +65,6 @@ class Audio extends React.Component<any, IAudioState> {
     }
 
     public submitForm() {
-        console.log("you pressed the magic button")
         this.setState({formLoading: true})
         const fileButton: any = document.getElementById("fileUploadId");
         const file = fileButton ? fileButton.files[0] : null;
