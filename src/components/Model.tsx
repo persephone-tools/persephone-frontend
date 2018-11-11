@@ -6,6 +6,7 @@ import { api } from '../API';
 
 import { ModelInformation, ModelPostRequest } from '../gen/api';
 
+import CorpusDropdown from './CorpusDropdown';
 import ModelCard from './ModelCard';
 
 export interface IModelState {
@@ -17,7 +18,7 @@ export interface IModelState {
     modalOpen: boolean;
     name?: string;
     beamWidth?: string;
-    corpusID?: string;
+    corpusID?: number;
     decodingMergeRepeated: boolean;
     earlyStoppingSteps?: string;
     hiddenSize?: string;
@@ -86,7 +87,7 @@ export default class Model extends React.Component<{}, IModelState> {
         this.setState({formLoading: true})
         const modelInfo: ModelInformation = {
             beamWidth: this.parseNumber(this.state.beamWidth),
-            corpusID: this.parseNumber(this.state.corpusID),
+            corpusID: this.state.corpusID || -1,
             decodingMergeRepeated: this.state.decodingMergeRepeated,
             earlyStoppingSteps: this.parseNumber(this.state.earlyStoppingSteps),
             hiddenSize: this.parseNumber(this.state.hiddenSize),
@@ -145,7 +146,10 @@ export default class Model extends React.Component<{}, IModelState> {
                                 <Header>Basic model information</Header>
                                 <Form.Input label="The name of this model" type="text" name="name" placeholder="ExampleLang model 1" onChange={this.handleChange('name')} />
                                 <Form.Input label="Beam width size" type="text" name="beamWidth" placeholder="1" onChange={this.handleChange('beamWidth')} />
-                                <Form.Input label="The ID of the corpus to use for this model" type="text" name="corpusID" placeholder="1" onChange={this.handleChange('corpusID')} />
+                                <Form.Field>
+                                    <label>The corpus to use for this model</label>
+                                    <CorpusDropdown onChange={(selection: number) => {console.log(selection); this.setState({corpusID: selection} as Pick<IModelState, any>)}} />
+                                </Form.Field>
                                 <Form.Checkbox label="Merge repeated characters when decoding" name="decodingMergeRepeated" checked={this.state.decodingMergeRepeated} onChange={this.toggleCheckbox('decodingMergeRepeated')} />
                                 <Form.Input label=" Stop training after this number of steps if no LER improvement has been made" type="text" name="earlyStoppingSteps" placeholder="0" onChange={this.handleChange('earlyStoppingSteps')} />
                                 <Form.Input label="Size of the hidden layers" type="text" name="hiddenSize" placeholder="0" onChange={this.handleChange('hiddenSize')} />
