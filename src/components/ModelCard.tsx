@@ -5,6 +5,7 @@ import { Button, Card, Container, Icon, List } from 'semantic-ui-react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 
 import { ModelInformation } from '../gen/api';
+import CorpusName from './CorpusName';
 
 export interface IModelCardProps extends RouteComponentProps {
     model: ModelInformation
@@ -28,8 +29,8 @@ class ModelCard extends React.Component<IModelCardProps, {}> {
                                 {this.props.model.beamWidth}
                             </List.Item>
                             <List.Item>
-                                <List.Header>ID of corpus for this model</List.Header>
-                                {this.props.model.corpusID}
+                                <List.Header>Corpus for this model</List.Header>
+                                <CorpusName corpusId={this.props.model.corpusID} /> (id: {this.props.model.corpusID})
                             </List.Item>
                             <List.Item>
                                 <List.Header>Merge repeated characters when decoding</List.Header>
