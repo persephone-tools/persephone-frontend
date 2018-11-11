@@ -61,7 +61,7 @@ export default class AudioDropdown extends React.Component<IAudioDropdownProps, 
 
     public render() {
         return (
-            <Dropdown placeholder='Select audio' fluid={true} search={true} selection={true} options={this.state.audioResults} value={this.state.selection} onChange={this.handleChange} />
+            <Dropdown loading={this.state.isLoading} placeholder='Select audio' fluid={true} search={true} selection={true} options={this.state.audioResults} value={this.state.selection} onChange={this.handleChange} />
         )
     }
 }

@@ -61,7 +61,7 @@ export default class CorpusDropdown extends React.Component<ICorpusDropdownProps
 
     public render() {
         return (
-            <Dropdown placeholder='Select corpus' fluid={true} search={true} selection={true} options={this.state.corpusResults} value={this.state.selection} onChange={this.handleChange} />
+            <Dropdown loading={this.state.isLoading} placeholder='Select corpus' fluid={true} search={true} selection={true} options={this.state.corpusResults} value={this.state.selection} onChange={this.handleChange} />
         )
     }
 }

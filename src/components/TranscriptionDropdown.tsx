@@ -61,7 +61,7 @@ export default class TranscriptionDropdown extends React.Component<ITranscriptio
 
     public render() {
         return (
-            <Dropdown placeholder='Select transcription' fluid={true} search={true} selection={true} options={this.state.transcriptionResults} value={this.state.selection} onChange={this.handleChange} />
+            <Dropdown loading={this.state.isLoading} placeholder='Select transcription' fluid={true} search={true} selection={true} options={this.state.transcriptionResults} value={this.state.selection} onChange={this.handleChange} />
         )
     }
 }
