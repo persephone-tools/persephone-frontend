@@ -14,7 +14,7 @@ class Index extends React.Component<RouteComponentProps<any>, React.Props<any>> 
                         <Header.Content>Welcome to Persephone</Header.Content>
                         <Button primary={true} onClick={() => this.props.history.push("/intro")}>Getting started</Button>
                     </Header>
-                    <p>Welcome to the Persephone. Persephone is a suite of tools for Automatic Speech Recognition (ASR).</p>
+                    <p>Welcome to Persephone. Persephone is a suite of tools for Automatic Speech Recognition (ASR).</p>
                 </Container>
             </div>
         )
