@@ -134,10 +134,8 @@ class Utterance extends React.Component<any, IUtteranceState> {
                         <Modal.Description>
                             <Form loading={this.state.formLoading} error={this.state.formFailed}>
                                 <Header>Utterance details</Header>
-                                <Form.Field>
-                                    <Form.Input label="Audio" type="text" name="audio" value={this.state.audio} placeholder="1" onChange={this.handleChange('audio')} />
-                                    <Form.Input label="Transcription" type="text" name="transcription" value={this.state.transcription} placeholder="1" onChange={this.handleChange('transcription')} />
-                                </Form.Field>
+                                <Form.Input label="Audio" type="text" name="audio" value={this.state.audio} placeholder="1" onChange={this.handleChange('audio')} />
+                                <Form.Input label="Transcription" type="text" name="transcription" value={this.state.transcription} placeholder="1" onChange={this.handleChange('transcription')} />
                                 <Message id="errormessage" error={true} header='Corpus creation failed' content={this.state.formErrorMessage} />
                             </Form>
                         </Modal.Description>

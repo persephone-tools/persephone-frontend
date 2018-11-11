@@ -124,10 +124,10 @@ export default class Train extends React.Component<{}, ITrainState> {
                             <Form loading={this.state.formLoading} error={this.state.formFailed}>
                                 <Header>Are you sure you want to train this model?</Header>
                                 {this.state.models && this.state.selectedModel !== -1 &&
-                                    <Form.Field>
+                                    <React.Fragment>
                                         <Form.Input label="ID" type="text" name="id" value={this.state.models!.find(model => model!.id === this.state!.selectedModel)!.id} readOnly={true} />
                                         <Form.Input label="Name" type="text" name="name" value={this.state.models!.find(model => model!.id === this.state!.selectedModel)!.name} readOnly={true} />
-                                    </Form.Field>
+                                    </React.Fragment>
                                 }
                                 <Message id="errormessage" error={true} header='Model training failed' content={this.state.formErrorMessage} />
                             </Form>

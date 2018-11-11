@@ -143,19 +143,17 @@ export default class Model extends React.Component<{}, IModelState> {
                         <Modal.Description>
                             <Form loading={this.state.formLoading} error={this.state.formFailed}>
                                 <Header>Basic model information</Header>
-                                <Form.Field>
-                                    <Form.Input label="The name of this model" type="text" name="name" placeholder="ExampleLang model 1" onChange={this.handleChange('name')} />
-                                    <Form.Input label="Beam width size" type="text" name="beamWidth" placeholder="1" onChange={this.handleChange('beamWidth')} />
-                                    <Form.Input label="The ID of the corpus to use for this model" type="text" name="corpusID" placeholder="1" onChange={this.handleChange('corpusID')} />
-                                    <Form.Checkbox label="Merge repeated characters when decoding" name="decodingMergeRepeated" checked={this.state.decodingMergeRepeated} onChange={this.toggleCheckbox('decodingMergeRepeated')} />
-                                    <Form.Input label=" Stop training after this number of steps if no LER improvement has been made" type="text" name="earlyStoppingSteps" placeholder="0" onChange={this.handleChange('earlyStoppingSteps')} />
-                                    <Form.Input label="Size of the hidden layers" type="text" name="hiddenSize" placeholder="0" onChange={this.handleChange('hiddenSize')} />
-                                    <Form.Input label="Number of layers in the network" type="text" name="numberLayers" placeholder="0" onChange={this.handleChange('numberLayers')} />
-                                    <Form.Input label="Minimum number of training epochs" type="text" name="minimumEpochs" placeholder="0" onChange={this.handleChange('minimumEpochs')} />
-                                    <Form.Input label="Maximum number of training epochs" type="text" name="maximumEpochs" placeholder="0" onChange={this.handleChange('maximumEpochs')} />
-                                    <Form.Input label="Maximum Label Error Rate (LER) on training data" type="text" name="maximumTrainingLER" placeholder="0" onChange={this.handleChange('maximumTrainingLER')} />
-                                    <Form.Input label="Maximum Label Error Rate (LER) on validation data" type="text" name="maximumValidationLER" placeholder="0" onChange={this.handleChange('maximumValidationLER')} />
-                                </Form.Field>
+                                <Form.Input label="The name of this model" type="text" name="name" placeholder="ExampleLang model 1" onChange={this.handleChange('name')} />
+                                <Form.Input label="Beam width size" type="text" name="beamWidth" placeholder="1" onChange={this.handleChange('beamWidth')} />
+                                <Form.Input label="The ID of the corpus to use for this model" type="text" name="corpusID" placeholder="1" onChange={this.handleChange('corpusID')} />
+                                <Form.Checkbox label="Merge repeated characters when decoding" name="decodingMergeRepeated" checked={this.state.decodingMergeRepeated} onChange={this.toggleCheckbox('decodingMergeRepeated')} />
+                                <Form.Input label=" Stop training after this number of steps if no LER improvement has been made" type="text" name="earlyStoppingSteps" placeholder="0" onChange={this.handleChange('earlyStoppingSteps')} />
+                                <Form.Input label="Size of the hidden layers" type="text" name="hiddenSize" placeholder="0" onChange={this.handleChange('hiddenSize')} />
+                                <Form.Input label="Number of layers in the network" type="text" name="numberLayers" placeholder="0" onChange={this.handleChange('numberLayers')} />
+                                <Form.Input label="Minimum number of training epochs" type="text" name="minimumEpochs" placeholder="0" onChange={this.handleChange('minimumEpochs')} />
+                                <Form.Input label="Maximum number of training epochs" type="text" name="maximumEpochs" placeholder="0" onChange={this.handleChange('maximumEpochs')} />
+                                <Form.Input label="Maximum Label Error Rate (LER) on training data" type="text" name="maximumTrainingLER" placeholder="0" onChange={this.handleChange('maximumTrainingLER')} />
+                                <Form.Input label="Maximum Label Error Rate (LER) on validation data" type="text" name="maximumValidationLER" placeholder="0" onChange={this.handleChange('maximumValidationLER')} />
                                 <Message id="errormessage" error={true} header='Model creation failed' content={this.state.formErrorMessage} />
                             </Form>
                         </Modal.Description>

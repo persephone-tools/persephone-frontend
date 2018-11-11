@@ -160,11 +160,9 @@ export default class Corpus extends React.Component<{}, ICorpusState> {
                         <Modal.Description>
                             <Form loading={this.state.formLoading} error={this.state.formFailed}>
                                 <Header>Basic corpus information</Header>
-                                <Form.Field>
-                                    <Form.Input label="The name of this corpus" type="text" name="name" placeholder="Example Corpus" onChange={this.handleChange('name')} />
-                                    <Form.Input label="The type of the labels" type="text" name="labelType" placeholder="phonemes" onChange={this.handleChange('labelType')} />
-                                    <Form.Input label="The type of the features" type="text" name="featureType" placeholder="fbank" onChange={this.handleChange('featureType')} />
-                                </Form.Field>
+                                <Form.Input label="The name of this corpus" type="text" name="name" placeholder="Example Corpus" onChange={this.handleChange('name')} />
+                                <Form.Input label="The type of the labels" type="text" name="labelType" placeholder="phonemes" onChange={this.handleChange('labelType')} />
+                                <Form.Input label="The type of the features" type="text" name="featureType" placeholder="fbank" onChange={this.handleChange('featureType')} />
                                 <Header>Choose utterances into training, validation, and testing groups</Header>
                                 <Table basic='very'>
                                     <Table.Header>
