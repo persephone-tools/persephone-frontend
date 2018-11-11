@@ -76,7 +76,6 @@ export default class Corpus extends React.Component<any, ICorpusDetailState> {
                                 </List.Item>
                             </List>
                             <Header as='h2'>Utterances in this corpus</Header>
-                            {console.log(this.state.corpus!.partition!)}
                             <Table basic='very'>
                                 <Table.Header>
                                 <Table.Row>
