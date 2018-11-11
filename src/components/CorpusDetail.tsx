@@ -5,6 +5,7 @@ import { Dimmer, Header, List, Loader, Segment, Table } from 'semantic-ui-react'
 import { api } from '../API';
 
 import { CorpusCorpusIDGetRequest, CorpusInformation } from '../gen/api';
+import CorpusDetailLabelList from './CorpusDetailLabelList';
 import CorpusDetailUtteranceRow from './CorpusDetailUtteranceRow';
 
 export interface ICorpusDetailState {
@@ -99,6 +100,8 @@ export default class Corpus extends React.Component<any, ICorpusDetailState> {
                                     ))}
                                 </Table.Body>
                             </Table>
+                            <Header as='h2'>Labels in this corpus</Header>
+                            <CorpusDetailLabelList corpusId={this.state.corpus!.id!} />
                         </React.Fragment>
                     }
                 </Segment>
