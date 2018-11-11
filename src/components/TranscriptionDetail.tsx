@@ -48,19 +48,23 @@ export default class Transcription extends React.Component<any, ITranscriptionDe
                     </Dimmer>
                     {this.state.transcription &&
                         <React.Fragment>
-                            <Header as='h2'>{this.state.transcription.fileInfo!.name} (id: {this.state.transcription.fileInfo!.id})</Header>
+                            <Header as='h2'>{this.state.transcription.fileInfo!.name} (id: {this.state.transcription.id})</Header>
                             <Header.Subheader>Transcription</Header.Subheader>
                             <List>
                                 <List.Item>
-                                    <List.Header>ID</List.Header>
+                                    <List.Header>Transcription ID</List.Header>
+                                    {this.state.transcription.id}
+                                </List.Item>
+                                <List.Item>
+                                    <List.Header>File ID</List.Header>
                                     {this.state.transcription.fileInfo!.id}
                                 </List.Item>
                                 <List.Item>
-                                    <List.Header>Name</List.Header>
+                                    <List.Header>File name</List.Header>
                                     {this.state.transcription.fileInfo!.name}
                                 </List.Item>
                                 <List.Item>
-                                    <List.Header>Created at</List.Header>
+                                    <List.Header>File created at</List.Header>
                                     {this.state.transcription.fileInfo!.createdAt}
                                 </List.Item>
                             </List>

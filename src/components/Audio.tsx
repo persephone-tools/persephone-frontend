@@ -96,16 +96,18 @@ class Audio extends React.Component<any, IAudioState> {
                     <Table basic='very'>
                         <Table.Header>
                         <Table.Row>
-                            <Table.HeaderCell>ID</Table.HeaderCell>
-                            <Table.HeaderCell>Name</Table.HeaderCell>
-                            <Table.HeaderCell>Created at</Table.HeaderCell>
+                            <Table.HeaderCell>Audio ID</Table.HeaderCell>
+                            <Table.HeaderCell>File ID</Table.HeaderCell>
+                            <Table.HeaderCell>File name</Table.HeaderCell>
+                            <Table.HeaderCell>File created at</Table.HeaderCell>
                             <Table.HeaderCell>Actions</Table.HeaderCell>
                         </Table.Row>
                         </Table.Header>
 
                         <Table.Body>
                         {this.state.audios.map((audio) => (
-                            <Table.Row key={audio.fileInfo!.id}>
+                            <Table.Row key={audio.id as number}>
+                                <Table.Cell>{audio.id}</Table.Cell>
                                 <Table.Cell>{audio.fileInfo!.id}</Table.Cell>
                                 <Table.Cell>{audio.fileInfo!.name}</Table.Cell>
                                 <Table.Cell>{audio.fileInfo!.createdAt}</Table.Cell>

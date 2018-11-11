@@ -42,7 +42,7 @@ export default class TranscriptionDropdown extends React.Component<ITranscriptio
                 isLoading: false,
                 transcriptionResults: transcriptions.map(transcription => {return {
                     key: transcription.id!,
-                    text: `${transcription.name} (id: ${transcription.id})`,
+                    text: `${transcription.fileInfo!.name} (id: ${transcription.id})`,
                     transcription,
                     value: transcription.id!,
                 } as ITranscriptionResult}),

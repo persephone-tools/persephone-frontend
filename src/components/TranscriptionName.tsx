@@ -50,7 +50,7 @@ export default class TranscriptionName extends React.Component<ITranscriptionNam
                         <Placeholder.Line />
                     </Placeholder>
                 :
-                    this.state.transcription!.name
+                    this.state.transcription!.fileInfo!.name
                 }
             </React.Fragment>
         )
