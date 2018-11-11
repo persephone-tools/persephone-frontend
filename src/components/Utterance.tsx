@@ -8,7 +8,9 @@ import { api } from '../API';
 
 import { UtteranceInfo, UtteranceInformation, UtterancePostRequest } from '../gen/api';
 
+import AudioDropdown from './AudioDropdown';
 import AudioName from './AudioName';
+import TranscriptionDropdown from './TranscriptionDropdown';
 import TranscriptionName from './TranscriptionName';
 
 export interface IUtteranceState {
@@ -134,8 +136,14 @@ class Utterance extends React.Component<any, IUtteranceState> {
                         <Modal.Description>
                             <Form loading={this.state.formLoading} error={this.state.formFailed}>
                                 <Header>Utterance details</Header>
-                                <Form.Input label="Audio" type="text" name="audio" value={this.state.audio} placeholder="1" onChange={this.handleChange('audio')} />
-                                <Form.Input label="Transcription" type="text" name="transcription" value={this.state.transcription} placeholder="1" onChange={this.handleChange('transcription')} />
+                                <Form.Field>
+                                    <label>Audio</label>
+                                    <AudioDropdown onChange={(selection: number) => this.setState({audio: selection} as Pick<IUtteranceState, any>)} />
+                                </Form.Field>
+                                <Form.Field>
+                                    <label>Transcription</label>
+                                    <TranscriptionDropdown onChange={(selection: number) => this.setState({transcription: selection} as Pick<IUtteranceState, any>)} />
+                                </Form.Field>
                                 <Message error={true} header='Utterance creation failed' content={this.state.formErrorMessage} />
                             </Form>
                         </Modal.Description>
