@@ -121,7 +121,7 @@ class Utterance extends React.Component<any, IUtteranceState> {
                             <Table.Row key={utterance.id!.toString()}>
                                 <Table.Cell>{utterance.id}</Table.Cell>
                                 <Table.Cell><AudioName audioId={utterance.audio} /> (id: {utterance.audio})</Table.Cell>
-                                <Table.Cell><TranscriptionName transcriptionId={utterance.transcription} />(id: {utterance.transcription})</Table.Cell>
+                                <Table.Cell><TranscriptionName transcriptionId={utterance.transcription} /> (id: {utterance.transcription})</Table.Cell>
                                 <Table.Cell><Button circular={true} icon='angle right' onClick={() => this.props.history.push("/utterance/" + utterance.id)} /><Button circular={true} icon='download' onClick={() => { window.open(utterance.id!.toString(), '_blank'); }} /></Table.Cell>
                             </Table.Row>
                         ))}
