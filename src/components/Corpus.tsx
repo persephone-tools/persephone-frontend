@@ -6,7 +6,9 @@ import { api } from '../API';
 
 import { CorpusInfo, CorpusInformation, CorpusPostRequest, FeatureType, IDarray, LabelType, UtteranceInformation } from '../gen/api';
 
+import AudioName from './AudioName';
 import CorpusCard from './CorpusCard';
+import TranscriptionName from './TranscriptionName';
 
 enum UtteranceGroup {
     None,
@@ -178,8 +180,8 @@ export default class Corpus extends React.Component<{}, ICorpusState> {
                                     {this.state.formUtterances && this.state.formUtterances.map((utterance) => (
                                         <Table.Row key={utterance.uid}>
                                             <Table.Cell>{utterance.utteranceInfo.id}</Table.Cell>
-                                            <Table.Cell>{utterance.utteranceInfo.audio}</Table.Cell>
-                                            <Table.Cell>{utterance.utteranceInfo.transcription}</Table.Cell>
+                                            <Table.Cell><AudioName audioId={utterance.utteranceInfo.audio} /> (id: {utterance.utteranceInfo.audio})</Table.Cell>
+                                            <Table.Cell><TranscriptionName transcriptionId={utterance.utteranceInfo.transcription} /> (id: {utterance.utteranceInfo.transcription})</Table.Cell>
                                             <Table.Cell>
                                                 <Form.Group inline={true}>
                                                     <Form.Field>
