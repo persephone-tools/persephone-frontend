@@ -79,24 +79,20 @@ export default class Model extends React.Component<{}, IModelState> {
         })
     }
 
-    public parseNumber(input: any): number {
-        return Number.parseInt(input || "-1", 10) || -1;
-    }
-
     public submitForm() {
         this.setState({formLoading: true})
         const modelInfo: ModelInformation = {
-            beamWidth: this.parseNumber(this.state.beamWidth),
+            beamWidth: Number(this.state.beamWidth),
             corpusID: this.state.corpusID || -1,
             decodingMergeRepeated: this.state.decodingMergeRepeated,
-            earlyStoppingSteps: this.parseNumber(this.state.earlyStoppingSteps),
-            hiddenSize: this.parseNumber(this.state.hiddenSize),
-            maximumEpochs: this.parseNumber(this.state.maximumEpochs),
-            maximumTrainingLER: this.parseNumber(this.state.maximumTrainingLER),
-            maximumValidationLER: this.parseNumber(this.state.maximumValidationLER),
-            minimumEpochs: this.parseNumber(this.state.minimumEpochs),
+            earlyStoppingSteps: Number(this.state.earlyStoppingSteps),
+            hiddenSize: Number(this.state.hiddenSize),
+            maximumEpochs: Number(this.state.maximumEpochs),
+            maximumTrainingLER: Number(this.state.maximumTrainingLER),
+            maximumValidationLER: Number(this.state.maximumValidationLER),
+            minimumEpochs: Number(this.state.minimumEpochs),
             name: this.state.name || "",
-            numberLayers: this.parseNumber(this.state.numberLayers),
+            numberLayers: Number(this.state.numberLayers),
         }
         const requestData: ModelPostRequest = {
             modelInfo
