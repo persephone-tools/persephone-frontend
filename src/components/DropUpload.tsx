@@ -47,7 +47,7 @@ export interface IUtterance {
     transcription: IUploadedFile<TranscriptionInformation>;
 }
 
-export interface ITranscriptionState {
+export interface IDropUploadState {
     dragActive: boolean;
     utterances: IUtterance[];
     uploadedFiles: Array<IUploadedFile<AudioFileInformation> | IUploadedFile<TranscriptionInformation>>;
@@ -58,7 +58,7 @@ export interface ITranscriptionState {
     acceptedFileTypes: IAcceptedFileTypes;
 }
 
-class Transcription extends React.Component<any, ITranscriptionState> {
+class DropUpload extends React.Component<any, IDropUploadState> {
     constructor(props: any) {
         super(props);
         this.state = {
@@ -265,4 +265,4 @@ class Transcription extends React.Component<any, ITranscriptionState> {
     }
 }
 
-export default withRouter(Transcription);
+export default withRouter(DropUpload);
