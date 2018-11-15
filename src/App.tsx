@@ -24,6 +24,8 @@ import UtteranceDetail from './components/UtteranceDetail';
 
 import MainMenu from './components/Menu';
 
+import DropUpload from './components/DropUpload';
+
 class App extends React.Component {
   public render() {
     return (
@@ -36,6 +38,7 @@ class App extends React.Component {
               <Route exact={true} path="/intro" component={Intro} />
               <Route exact={true} path="/audio/" component={Audio} />
               <Route exact={true} path="/audio/:audioId" component={AudioDetail} />
+              <Route exact={true} path="/upload/" component={DropUpload} />
               <Route exact={true} path="/corpus/" component={Corpus} />
               <Route exact={true} path="/corpus/:corpusId" component={CorpusDetail} />
               <Route exact={true} path="/utterance/" component={Utterance} />

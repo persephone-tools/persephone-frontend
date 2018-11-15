@@ -29,6 +29,10 @@ export default class MainMenu extends React.Component<any, any> {
                 <Menu.Item>
                     <Menu.Header>Data</Menu.Header>
                     <Menu.Menu>
+                        <Menu.Item onClick={() => this.props.history.push("/upload/")}>
+                            <Icon name='cloud upload' />
+                            Drag 'n' drop upload
+                        </Menu.Item>
                         <Menu.Item onClick={() => this.props.history.push("/model/")}>
                             <Icon name='box' />
                             Models
