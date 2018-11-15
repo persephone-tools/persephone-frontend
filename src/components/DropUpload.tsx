@@ -126,7 +126,6 @@ class Transcription extends React.Component<any, ITranscriptionState> {
         const val = files.find(f => f.id === id);
         if (val) {
             const index = files.indexOf(val);
-            console.log("a", index)
             for (const key in file) {
                 if (file.hasOwnProperty(key)) {
                     files[index][key] = file[key];
@@ -229,9 +228,9 @@ class Transcription extends React.Component<any, ITranscriptionState> {
                     <Table.Row>
                         <Table.HeaderCell>Type</Table.HeaderCell>
                         <Table.HeaderCell>Upload state</Table.HeaderCell>
+                        <Table.HeaderCell>File name</Table.HeaderCell>
                         <Table.HeaderCell>ID</Table.HeaderCell>
                         <Table.HeaderCell>File ID</Table.HeaderCell>
-                        <Table.HeaderCell>File name</Table.HeaderCell>
                         <Table.HeaderCell>File created at</Table.HeaderCell>
                     </Table.Row>
                     </Table.Header>
@@ -240,10 +239,12 @@ class Transcription extends React.Component<any, ITranscriptionState> {
                         {this.state.uploadedFiles.length > 0 ? 
                             this.state.uploadedFiles
                                 .sort((one, two) => {
-                                    if (one.state === two.state && one.name === two.name) {
-                                        return 0;
+                                    const stateRank = [UploadState.COMPLETE, UploadState.STARTED, UploadState.NOT_STARTED, UploadState.FAILED];
+                                    const sr = stateRank.indexOf(one.state) - stateRank.indexOf(two.state)
+                                    if (sr !== 0) {
+                                        return sr
                                     } else {
-                                        return one.name! < two.name! ? -1 : 1;
+                                        return one.name < two.name ? -1 : 1;
                                     }
                                 }).map(file => {
                                     console.log("key", file.id)
@@ -251,10 +252,10 @@ class Transcription extends React.Component<any, ITranscriptionState> {
                                     <Table.Row key={file.id}>
                                         <Table.Cell>{file.fileType}</Table.Cell>
                                         <Table.Cell>{file.state}</Table.Cell>
-                                        <Table.Cell>{file.fileT ? file.fileT.id : <Placeholder><PlaceholderLine /></Placeholder>}</Table.Cell>
-                                        <Table.Cell>{file.fileT ? file.fileT.fileInfo!.id : <Placeholder><PlaceholderLine /></Placeholder>}</Table.Cell>
-                                        <Table.Cell>{file.fileT ? file.fileT.fileInfo!.name : <Placeholder><PlaceholderLine /></Placeholder>}</Table.Cell>
-                                        <Table.Cell>{file.fileT ? file.fileT.fileInfo!.createdAt : <Placeholder><PlaceholderLine /></Placeholder>}</Table.Cell>
+                                        <Table.Cell>{file.name}</Table.Cell>
+                                        <Table.Cell>{file.fileT ? file.fileT.id : (file.state === UploadState.STARTED && <Placeholder><PlaceholderLine /></Placeholder>)}</Table.Cell>
+                                        <Table.Cell>{file.fileT ? file.fileT.fileInfo!.id : (file.state === UploadState.STARTED && <Placeholder><PlaceholderLine /></Placeholder>)}</Table.Cell>
+                                        <Table.Cell>{file.fileT ? file.fileT.fileInfo!.createdAt : (file.state === UploadState.STARTED && <Placeholder><PlaceholderLine /></Placeholder>)}</Table.Cell>
                                     </Table.Row>
                                 )})
                         :
