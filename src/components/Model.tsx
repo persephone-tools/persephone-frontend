@@ -1,10 +1,12 @@
 import * as React from 'react';
 
-import { Button, Card, Dimmer, Form, Header, Icon, Loader, Message, Modal, Segment } from 'semantic-ui-react';
+import { Button, Card, Dimmer, Form, Header, Icon, Loader, Modal, Segment } from 'semantic-ui-react';
+
+import ErrorMessageComponent from './ErrorMessageComponent';
 
 import { api } from '../API';
 
-import { ModelInformation, ModelPostRequest } from '../gen/api';
+import { ErrorMessage, ModelInformation, ModelPostRequest } from '../gen/api';
 
 import CorpusDropdown from './CorpusDropdown';
 import ModelCard from './ModelCard';
@@ -12,8 +14,7 @@ import ModelCard from './ModelCard';
 export interface IModelState {
     models: ModelInformation[];
     isLoading: boolean;
-    formErrorMessage: string;
-    formFailed: boolean;
+    formError?: ErrorMessage;
     formLoading: boolean;
     modalOpen: boolean;
     name?: string;
@@ -27,6 +28,7 @@ export interface IModelState {
     maximumEpochs?: string;
     maximumTrainingLER?: string;
     maximumValidationLER?: string;
+    error?: ErrorMessage;
 }
 
 export default class Model extends React.Component<{}, IModelState> {
@@ -34,8 +36,6 @@ export default class Model extends React.Component<{}, IModelState> {
         super(props);
         this.state = {
             decodingMergeRepeated: false,
-            formErrorMessage: "No error.",
-            formFailed: false,
             formLoading: false,
             isLoading: true,
             modalOpen: false,
@@ -64,23 +64,29 @@ export default class Model extends React.Component<{}, IModelState> {
         this.getData();
     }
 
-    public openModal() {
+    public clearForm() {
         this.setState({
-            formErrorMessage: "No error.",
-            formFailed: false,
-            formLoading: false,
+            formError: undefined,
+            formLoading: false
+        })
+    }
+
+    public openModal() {
+        this.clearForm();
+        this.setState({
             modalOpen: true
         })
     }
 
     public closeModal() {
+        this.clearForm();
         this.setState({
             modalOpen: false
         })
     }
 
     public submitForm() {
-        this.setState({formLoading: true})
+        this.setState({formLoading: true, error: undefined})
         const modelInfo: ModelInformation = {
             beamWidth: Number(this.state.beamWidth),
             corpusID: this.state.corpusID || -1,
@@ -100,9 +106,8 @@ export default class Model extends React.Component<{}, IModelState> {
         api.modelPost(requestData).then(res => {
             this.setState({modalOpen: false});
             this.getData();
-        }).catch(res => res.text()).then(err => {
-            console.error(err);
-            this.setState({formLoading: false, formFailed: true, formErrorMessage: "The error message is: " + err});
+        }).catch(err => {
+            this.setState({formLoading: false, error: err})
         });
     }
 
@@ -138,7 +143,7 @@ export default class Model extends React.Component<{}, IModelState> {
                     <Modal.Header>New model</Modal.Header>
                     <Modal.Content>
                         <Modal.Description>
-                            <Form loading={this.state.formLoading} error={this.state.formFailed}>
+                            <Form loading={this.state.formLoading}>
                                 <Header>Basic model information</Header>
                                 <Form.Input label="The name of this model" type="text" name="name" placeholder="ExampleLang model 1" onChange={this.handleChange('name')} />
                                 <Form.Input label="Beam width size" type="text" name="beamWidth" placeholder="1" onChange={this.handleChange('beamWidth')} />
@@ -154,7 +159,7 @@ export default class Model extends React.Component<{}, IModelState> {
                                 <Form.Input label="Maximum number of training epochs" type="text" name="maximumEpochs" placeholder="0" onChange={this.handleChange('maximumEpochs')} />
                                 <Form.Input label="Maximum Label Error Rate (LER) on training data" type="text" name="maximumTrainingLER" placeholder="0" onChange={this.handleChange('maximumTrainingLER')} />
                                 <Form.Input label="Maximum Label Error Rate (LER) on validation data" type="text" name="maximumValidationLER" placeholder="0" onChange={this.handleChange('maximumValidationLER')} />
-                                <Message error={true} header='Model creation failed' content={this.state.formErrorMessage} />
+                                <ErrorMessageComponent error={this.state.formError} header='Model creation failed' />
                             </Form>
                         </Modal.Description>
                     </Modal.Content>

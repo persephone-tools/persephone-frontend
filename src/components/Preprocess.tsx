@@ -1,16 +1,17 @@
 import * as React from 'react';
 
-import { Button, Dimmer, Form, Header, Icon, Loader, Message, Modal, Segment, Table } from 'semantic-ui-react';
+import { Button, Dimmer, Form, Header, Icon, Loader, Modal, Segment, Table } from 'semantic-ui-react';
+
+import ErrorMessageComponent from './ErrorMessageComponent';
 
 import { api } from '../API';
 
-import { CorpusInformation, PersephoneApiApiEndpointsCorpusPreprocessRequest } from '../gen/api';
+import { CorpusInformation, ErrorMessage, PersephoneApiApiEndpointsCorpusPreprocessRequest } from '../gen/api';
 
 export interface IPreprocessState {
     corpuses: CorpusInformation[];
     isLoading: boolean;
-    formErrorMessage: string;
-    formFailed: boolean;
+    formError?: ErrorMessage;
     formLoading: boolean;
     modalOpen: boolean;
     selectedCorpus: number;
@@ -21,14 +22,13 @@ export default class Preprocess extends React.Component<{}, IPreprocessState> {
         super(props);
         this.state = {
             corpuses: [],
-            formErrorMessage: "No error.",
-            formFailed: false,
             formLoading: false,
             isLoading: true,
             modalOpen: false,
             selectedCorpus: -1,
         };
         this.getData = this.getData.bind(this);
+        this.clearForm = this.clearForm.bind(this);
         this.clickPreprocessCorpus = this.clickPreprocessCorpus.bind(this);
         this.closeModal = this.closeModal.bind(this);
         this.submitForm = this.submitForm.bind(this);
@@ -49,7 +49,15 @@ export default class Preprocess extends React.Component<{}, IPreprocessState> {
         this.getData();
     }
 
+    public clearForm() {
+        this.setState({
+            formError: undefined,
+            formLoading: false
+        })
+    }
+
     public closeModal() {
+        this.clearForm();
         this.setState({
             modalOpen: false,
             selectedCorpus: -1,
@@ -58,8 +66,6 @@ export default class Preprocess extends React.Component<{}, IPreprocessState> {
 
     clickPreprocessCorpus = (corpusId: number) => (event: any) => {
         this.setState({
-            formErrorMessage: "No error.",
-            formFailed: false,
             formLoading: false,
             modalOpen: true,
             selectedCorpus: corpusId,
@@ -73,9 +79,8 @@ export default class Preprocess extends React.Component<{}, IPreprocessState> {
         }
         api.persephoneApiApiEndpointsCorpusPreprocess(requestData).then(res => {
             this.setState({modalOpen: false});
-        }).catch(res => res.text()).then(err => {
-            console.error(err);
-            this.setState({formLoading: false, formFailed: true, formErrorMessage: "The error message is: " + err});
+        }).catch(err => {
+            this.setState({formLoading: false, formError: err})
         });
     }
 
@@ -118,7 +123,7 @@ export default class Preprocess extends React.Component<{}, IPreprocessState> {
                     <Modal.Header>Confirm operation</Modal.Header>
                     <Modal.Content>
                         <Modal.Description>
-                            <Form loading={this.state.formLoading} error={this.state.formFailed}>
+                            <Form loading={this.state.formLoading}>
                                 <Header>Are you sure you want to preprocess this corpus?</Header>
                                 {this.state.corpuses && this.state.selectedCorpus !== -1 &&
                                     <React.Fragment>
@@ -126,7 +131,7 @@ export default class Preprocess extends React.Component<{}, IPreprocessState> {
                                         <Form.Input label="Name" type="text" name="name" value={this.state.corpuses!.find(corpus => corpus!.id === this.state!.selectedCorpus)!.name} readOnly={true} />
                                     </React.Fragment>
                                 }
-                                <Message error={true} header='Corpus preprocessing failed' content={this.state.formErrorMessage} />
+                                <ErrorMessageComponent error={this.state.formError} header='Corpus preprocessing failed' />
                             </Form>
                         </Modal.Description>
                     </Modal.Content>

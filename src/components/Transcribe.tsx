@@ -1,18 +1,19 @@
 import * as React from 'react';
 
-import { Button, Dimmer, Form, Header, Icon, Loader, Message, Modal, Radio, Segment, Table } from 'semantic-ui-react';
+import { Button, Dimmer, Form, Header, Icon, Loader, Modal, Radio, Segment, Table } from 'semantic-ui-react';
+
+import ErrorMessageComponent from './ErrorMessageComponent';
 
 import { api } from '../API';
 
-import { AudioFileInformation, ModelInformation, PersephoneApiApiEndpointsModelTranscribeRequest } from '../gen/api';
+import { AudioFileInformation, ErrorMessage, ModelInformation, PersephoneApiApiEndpointsModelTranscribeRequest } from '../gen/api';
 
 export interface ITrainState {
     audio: AudioFileInformation[];
     models: ModelInformation[];
     isLoadingAudio: boolean;
     isLoadingModels: boolean;
-    formErrorMessage: string;
-    formFailed: boolean;
+    formError?: ErrorMessage;
     formLoading: boolean;
     modalOpen: boolean;
     selectedAudio: number;
@@ -24,8 +25,6 @@ export default class Train extends React.Component<{}, ITrainState> {
         super(props);
         this.state = {
             audio: [],
-            formErrorMessage: "No error.",
-            formFailed: false,
             formLoading: false,
             isLoadingAudio: true,
             isLoadingModels: true,
@@ -35,6 +34,7 @@ export default class Train extends React.Component<{}, ITrainState> {
             selectedModel: -1,
         };
         this.getData = this.getData.bind(this);
+        this.clearForm = this.clearForm.bind(this);
         this.clickTranscribe = this.clickTranscribe.bind(this);
         this.closeModal = this.closeModal.bind(this);
         this.startTranscribe = this.startTranscribe.bind(this);
@@ -62,7 +62,15 @@ export default class Train extends React.Component<{}, ITrainState> {
         this.getData();
     }
 
+    public clearForm() {
+        this.setState({
+            formError: undefined,
+            formLoading: false
+        })
+    }
+
     public closeModal() {
+        this.clearForm();
         this.setState({
             modalOpen: false
         })
@@ -70,8 +78,6 @@ export default class Train extends React.Component<{}, ITrainState> {
 
     public clickTranscribe() {
         this.setState({
-            formErrorMessage: "No error.",
-            formFailed: false,
             formLoading: false,
             modalOpen: true
         } as Pick<ITrainState, any>)
@@ -94,9 +100,8 @@ export default class Train extends React.Component<{}, ITrainState> {
         api.persephoneApiApiEndpointsModelTranscribe(requestData).then(res => {
             this.setState({modalOpen: false, selectedModel: -1});
             this.getData()
-        }).catch(res => res.text()).then(err => {
-            console.error(err);
-            this.setState({formLoading: false, formFailed: true, formErrorMessage: "The error message is: " + err});
+        }).catch(err => {
+            this.setState({formLoading: false, formError: err})
         });
     }
 
@@ -172,7 +177,7 @@ export default class Train extends React.Component<{}, ITrainState> {
                     <Modal.Header>Confirm operation</Modal.Header>
                     <Modal.Content>
                         <Modal.Description>
-                            <Form loading={this.state.formLoading} error={this.state.formFailed}>
+                            <Form loading={this.state.formLoading}>
                                 <Header>Are you sure you want to transcribe this?</Header>
                                 {this.state.models && this.state.selectedModel !== -1 &&
                                     <React.Fragment>
@@ -187,7 +192,7 @@ export default class Train extends React.Component<{}, ITrainState> {
                                         }
                                     </React.Fragment>
                                 }
-                                <Message error={true} header='Transcription failed' content={this.state.formErrorMessage} />
+                                <ErrorMessageComponent error={this.state.formError} header='Transcription failed' />
                             </Form>
                         </Modal.Description>
                     </Modal.Content>

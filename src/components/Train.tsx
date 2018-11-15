@@ -1,16 +1,17 @@
 import * as React from 'react';
 
-import { Button, Dimmer, Form, Header, Icon, Loader, Message, Modal, Segment, Table } from 'semantic-ui-react';
+import { Button, Dimmer, Form, Header, Icon, Loader, Modal, Segment, Table } from 'semantic-ui-react';
+
+import ErrorMessageComponent from './ErrorMessageComponent';
 
 import { api } from '../API';
 
-import { ModelInformation, PersephoneApiApiEndpointsModelTrainRequest } from '../gen/api';
+import { ErrorMessage, ModelInformation, PersephoneApiApiEndpointsModelTrainRequest } from '../gen/api';
 
 export interface ITrainState {
     models: ModelInformation[];
     isLoading: boolean;
-    formErrorMessage: string;
-    formFailed: boolean;
+    formError?: ErrorMessage;
     formLoading: boolean;
     modalOpen: boolean;
     selectedModel: number;
@@ -20,8 +21,6 @@ export default class Train extends React.Component<{}, ITrainState> {
     constructor(props: any) {
         super(props);
         this.state = {
-            formErrorMessage: "No error.",
-            formFailed: false,
             formLoading: false,
             isLoading: true,
             modalOpen: false,
@@ -29,6 +28,7 @@ export default class Train extends React.Component<{}, ITrainState> {
             selectedModel: -1,
         };
         this.getData = this.getData.bind(this);
+        this.clearForm = this.clearForm.bind(this);
         this.clickTrainModel = this.clickTrainModel.bind(this);
         this.closeModal = this.closeModal.bind(this);
         this.submitForm = this.submitForm.bind(this);
@@ -49,7 +49,15 @@ export default class Train extends React.Component<{}, ITrainState> {
         this.getData();
     }
 
+    public clearForm() {
+        this.setState({
+            formError: undefined,
+            formLoading: false
+        })
+    }
+
     public closeModal() {
+        this.clearForm();
         this.setState({
             modalOpen: false,
             selectedModel: -1,
@@ -58,8 +66,6 @@ export default class Train extends React.Component<{}, ITrainState> {
 
     clickTrainModel = (modelId: number) => (event: any) => {
         this.setState({
-            formErrorMessage: "No error.",
-            formFailed: false,
             formLoading: false,
             modalOpen: true,
             selectedModel: modelId,
@@ -74,9 +80,9 @@ export default class Train extends React.Component<{}, ITrainState> {
         api.persephoneApiApiEndpointsModelTrain(requestData).then(res => {
             this.setState({modalOpen: false, selectedModel: -1});
             this.getData()
-        }).catch(res => res.text()).then(err => {
-            console.error(err);
-            this.setState({formLoading: false, formFailed: true, formErrorMessage: "The error message is: " + err});
+        }).catch(err => {
+            console.error(err)
+            this.setState({formLoading: false, formError: err})
         });
     }
 
@@ -121,7 +127,7 @@ export default class Train extends React.Component<{}, ITrainState> {
                     <Modal.Header>Confirm operation</Modal.Header>
                     <Modal.Content>
                         <Modal.Description>
-                            <Form loading={this.state.formLoading} error={this.state.formFailed}>
+                            <Form loading={this.state.formLoading}>
                                 <Header>Are you sure you want to train this model?</Header>
                                 {this.state.models && this.state.selectedModel !== -1 &&
                                     <React.Fragment>
@@ -129,7 +135,7 @@ export default class Train extends React.Component<{}, ITrainState> {
                                         <Form.Input label="Name" type="text" name="name" value={this.state.models!.find(model => model!.id === this.state!.selectedModel)!.name} readOnly={true} />
                                     </React.Fragment>
                                 }
-                                <Message error={true} header='Model training failed' content={this.state.formErrorMessage} />
+                                <ErrorMessageComponent error={this.state.formError} header='Model training failed' />
                             </Form>
                         </Modal.Description>
                     </Modal.Content>

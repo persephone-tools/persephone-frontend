@@ -2,18 +2,19 @@
 
 import * as React from 'react';
 
-import { Button, Dimmer, Form, Header, Icon, Loader, Message, Modal, Segment, Table } from 'semantic-ui-react';
+import { Button, Dimmer, Form, Header, Icon, Loader, Modal, Segment, Table } from 'semantic-ui-react';
+
+import ErrorMessageComponent from './ErrorMessageComponent';
 
 import { withRouter } from 'react-router';
 
 import { api } from '../API';
 
-import { Label, LabelInfo, LabelPostRequest } from '../gen/api';
+import { ErrorMessage, Label, LabelInfo, LabelPostRequest } from '../gen/api';
 
 export interface ILabelState {
     labels: Label[];
-    formErrorMessage: string;
-    formFailed: boolean;
+    formError?: ErrorMessage;
     formLoading: boolean;
     isLoading: boolean;
     uploadModalOpen: boolean;
@@ -24,14 +25,13 @@ class LabelList extends React.Component<any, ILabelState> {
     constructor(props: any) {
         super(props);
         this.state = {
-            formErrorMessage: "No error.",
-            formFailed: false,
             formLoading: false,
             isLoading: true,
             labels: [],
             uploadModalOpen: false
         };
         this.getData = this.getData.bind(this);
+        this.clearForm = this.clearForm.bind(this);
         this.openModal = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
         this.submitForm = this.submitForm.bind(this);
@@ -53,16 +53,22 @@ class LabelList extends React.Component<any, ILabelState> {
         this.getData();
     }
 
-    public openModal() {
+    public clearForm() {
         this.setState({
-            formErrorMessage: "No error.",
-            formFailed: false,
-            formLoading: false,
+            formError: undefined,
+            formLoading: false
+        })
+    }
+
+    public openModal() {
+        this.clearForm();
+        this.setState({
             uploadModalOpen: true
         })
     }
 
     public closeModal() {
+        this.clearForm();
         this.setState({
             uploadModalOpen: false
         })
@@ -84,12 +90,19 @@ class LabelList extends React.Component<any, ILabelState> {
             api.labelPost(requestData).then(res => {
                 this.setState({uploadModalOpen: false});
                 this.getData();
-            }).catch(res => res.text()).then(err => {
-                console.error(err);
-                this.setState({formLoading: false, formFailed: true, formErrorMessage: "The error message is: " + err});
+            }).catch(err => {
+                this.setState({formLoading: false, formError: err})
             });
         } else {
-            this.setState({formLoading: false, formFailed: true, formErrorMessage: "The error message is: \"Invalid phonetic label\""});
+            this.setState({
+                formError: {
+                    errorMessage: "Invalid phonetic label",
+                    reason: "Invalid phonetic label",
+                    status: -1,
+                    userErrorMessage: "Invalid phonetic label",
+                } as ErrorMessage,
+                formLoading: false,
+            })
         }
     }
 
@@ -131,10 +144,10 @@ class LabelList extends React.Component<any, ILabelState> {
                     <Modal.Header>Create label</Modal.Header>
                     <Modal.Content>
                         <Modal.Description>
-                            <Form loading={this.state.formLoading} error={this.state.formFailed}>
+                            <Form loading={this.state.formLoading}>
                                 <Header>Label details</Header>
                                 <Form.Input label="Phonetic label" type="text" name="phonetic_label" value={this.state.phoneticLabel} placeholder="1" onChange={this.handlePhoneticLabelChange} />
-                                <Message error={true} header='Label creation failed' content={this.state.formErrorMessage} />
+                                <ErrorMessageComponent error={this.state.formError} header='Label creation failed' />
                             </Form>
                         </Modal.Description>
                     </Modal.Content>

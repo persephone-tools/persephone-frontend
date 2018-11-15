@@ -1,12 +1,14 @@
 import * as React from 'react';
 
-import { Button, Dimmer, Form, Header, Icon, Loader, Message, Modal, Segment, Table } from 'semantic-ui-react';
+import { Button, Dimmer, Form, Header, Icon, Loader, Modal, Segment, Table } from 'semantic-ui-react';
+
+import ErrorMessageComponent from './ErrorMessageComponent';
 
 import { withRouter } from 'react-router';
 
 import { api } from '../API';
 
-import { UtteranceInfo, UtteranceInformation, UtterancePostRequest } from '../gen/api';
+import { ErrorMessage, UtteranceInfo, UtteranceInformation, UtterancePostRequest } from '../gen/api';
 
 import AudioDropdown from './AudioDropdown';
 import AudioName from './AudioName';
@@ -15,8 +17,7 @@ import TranscriptionName from './TranscriptionName';
 
 export interface IUtteranceState {
     utterances: UtteranceInformation[];
-    formErrorMessage: string;
-    formFailed: boolean;
+    formError?: ErrorMessage;
     formLoading: boolean;
     isLoading: boolean;
     uploadModalOpen: boolean;
@@ -28,14 +29,13 @@ class Utterance extends React.Component<any, IUtteranceState> {
     constructor(props: any) {
         super(props);
         this.state = {
-            formErrorMessage: "No error.",
-            formFailed: false,
             formLoading: false,
             isLoading: true,
             uploadModalOpen: false,
             utterances: []
         };
         this.getData = this.getData.bind(this);
+        this.clearForm = this.clearForm.bind(this);
         this.openModal = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
         this.submitForm = this.submitForm.bind(this);
@@ -53,20 +53,26 @@ class Utterance extends React.Component<any, IUtteranceState> {
         });
     }
 
+    public clearForm() {
+        this.setState({
+            formError: undefined,
+            formLoading: false
+        })
+    }
+
     public componentDidMount() {
         this.getData();
     }
 
     public openModal() {
+        this.clearForm();
         this.setState({
-            formErrorMessage: "No error.",
-            formFailed: false,
-            formLoading: false,
             uploadModalOpen: true
         })
     }
 
     public closeModal() {
+        this.clearForm();
         this.setState({
             uploadModalOpen: false
         })
@@ -88,9 +94,8 @@ class Utterance extends React.Component<any, IUtteranceState> {
         api.utterancePost(requestData).then(res => {
             this.setState({uploadModalOpen: false});
             this.getData();
-        }).catch(res => res.text()).then(err => {
-            console.error(err);
-            this.setState({formLoading: false, formFailed: true, formErrorMessage: "The error message is: " + err});
+        }).catch(err => {
+            this.setState({formLoading: false, formError: err})
         });
     }
 
@@ -134,7 +139,7 @@ class Utterance extends React.Component<any, IUtteranceState> {
                     <Modal.Header>Create utterance</Modal.Header>
                     <Modal.Content>
                         <Modal.Description>
-                            <Form loading={this.state.formLoading} error={this.state.formFailed}>
+                            <Form loading={this.state.formLoading}>
                                 <Header>Utterance details</Header>
                                 <Form.Field>
                                     <label>Audio</label>
@@ -144,7 +149,7 @@ class Utterance extends React.Component<any, IUtteranceState> {
                                     <label>Transcription</label>
                                     <TranscriptionDropdown onChange={(selection: number) => this.setState({transcription: selection} as Pick<IUtteranceState, any>)} />
                                 </Form.Field>
-                                <Message error={true} header='Utterance creation failed' content={this.state.formErrorMessage} />
+                                <ErrorMessageComponent error={this.state.formError} header='Utterance creation failed' />
                             </Form>
                         </Modal.Description>
                     </Modal.Content>

@@ -1,10 +1,12 @@
 import * as React from 'react';
 
-import { Button, Card, Dimmer, Form, Header, Icon, Loader, Message, Modal, Radio, Segment, Table } from 'semantic-ui-react';
+import { Button, Card, Dimmer, Form, Header, Icon, Loader, Modal, Radio, Segment, Table } from 'semantic-ui-react';
+
+import ErrorMessageComponent from './ErrorMessageComponent';
 
 import { api } from '../API';
 
-import { CorpusInfo, CorpusInformation, CorpusPostRequest, FeatureType, IDarray, LabelType, UtteranceInformation } from '../gen/api';
+import { CorpusInfo, CorpusInformation, CorpusPostRequest, ErrorMessage, FeatureType, IDarray, LabelType, UtteranceInformation } from '../gen/api';
 
 import AudioName from './AudioName';
 import CorpusCard from './CorpusCard';
@@ -26,8 +28,7 @@ interface IUtteranceSelection {
 export interface ICorpusState {
     corpuses: CorpusInformation[];
     isLoading: boolean;
-    formErrorMessage: string;
-    formFailed: boolean;
+    formError?: ErrorMessage;
     formLoading: boolean;
     modalOpen: boolean;
     name?: string;
@@ -41,13 +42,12 @@ export default class Corpus extends React.Component<{}, ICorpusState> {
         super(props);
         this.state = {
             corpuses: [],
-            formErrorMessage: "No error.",
-            formFailed: false,
             formLoading: false,
             isLoading: true,
             modalOpen: false
         };
         this.getData = this.getData.bind(this);
+        this.clearForm = this.clearForm.bind(this);
         this.openModal = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
         this.submitForm = this.submitForm.bind(this);
@@ -70,10 +70,16 @@ export default class Corpus extends React.Component<{}, ICorpusState> {
         this.getData();
     }
 
-    public openModal() {
+    public clearForm() {
         this.setState({
-            formErrorMessage: "No error.",
-            formFailed: false,
+            formError: undefined,
+            formLoading: false
+        })
+    }
+
+    public openModal() {
+        this.clearForm();
+        this.setState({
             formLoading: true,
             modalOpen: true
         })
@@ -91,6 +97,7 @@ export default class Corpus extends React.Component<{}, ICorpusState> {
     }
 
     public closeModal() {
+        this.clearForm();
         this.setState({
             modalOpen: false
         })
@@ -117,9 +124,9 @@ export default class Corpus extends React.Component<{}, ICorpusState> {
         api.corpusPost(requestData).then(res => {
             this.setState({modalOpen: false});
             this.getData();
-        }).catch(res => res.text()).then(err => {
-            console.error(err);
-            this.setState({formLoading: false, formFailed: true, formErrorMessage: "The error message is: " + err});
+        }).catch(err => {
+            console.log(err)
+            this.setState({formLoading: false, formError: err})
         });
     }
 
@@ -158,7 +165,7 @@ export default class Corpus extends React.Component<{}, ICorpusState> {
                     <Modal.Header>New corpus</Modal.Header>
                     <Modal.Content>
                         <Modal.Description>
-                            <Form loading={this.state.formLoading} error={this.state.formFailed}>
+                            <Form loading={this.state.formLoading}>
                                 <Header>Basic corpus information</Header>
                                 <Form.Input label="The name of this corpus" type="text" name="name" placeholder="Example Corpus" onChange={this.handleChange('name')} />
                                 <Form.Input label="The type of the labels" type="text" name="labelType" placeholder="phonemes" onChange={this.handleChange('labelType')} />
@@ -200,7 +207,7 @@ export default class Corpus extends React.Component<{}, ICorpusState> {
                                     ))}
                                     </Table.Body>
                                 </Table>
-                                <Message error={true} header='Corpus creation failed' content={this.state.formErrorMessage} />
+                                <ErrorMessageComponent error={this.state.formError} header='Corpus creation failed' />
                             </Form>
                         </Modal.Description>
                     </Modal.Content>
