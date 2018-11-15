@@ -240,12 +240,7 @@ class Transcription extends React.Component<any, ITranscriptionState> {
                             this.state.uploadedFiles
                                 .sort((one, two) => {
                                     const stateRank = [UploadState.COMPLETE, UploadState.STARTED, UploadState.NOT_STARTED, UploadState.FAILED];
-                                    const sr = stateRank.indexOf(one.state) - stateRank.indexOf(two.state)
-                                    if (sr !== 0) {
-                                        return sr
-                                    } else {
-                                        return one.name < two.name ? -1 : 1;
-                                    }
+                                    return (one.state !== two.state) ? stateRank.indexOf(one.state) - stateRank.indexOf(two.state) : (one.name < two.name ? -1 : 1);
                                 }).map(file => {
                                     console.log("key", file.id)
                                     return (
