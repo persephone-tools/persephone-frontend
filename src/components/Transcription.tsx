@@ -10,6 +10,8 @@ import { api } from '../API';
 
 import { ErrorMessage, PersephoneApiApiEndpointsTranscriptionFromFileRequest, TranscriptionInformation } from '../gen/api';
 
+import Time from './Time';
+
 export interface ITranscriptionState {
     transcriptions: TranscriptionInformation[];
     formError?: ErrorMessage;
@@ -119,7 +121,7 @@ class Transcription extends React.Component<any, ITranscriptionState> {
                                 <Table.Cell>{transcription.manuallyGenerated !== undefined &&
                                     (transcription.manuallyGenerated ? <Icon name='check' /> : <Icon name='times' />)
                                 }</Table.Cell>
-                                <Table.Cell>{transcription.fileInfo!.createdAt}</Table.Cell>
+                                <Table.Cell><Time time={transcription.fileInfo!.createdAt} /></Table.Cell>
                                 <Table.Cell><Button circular={true} icon='angle right' onClick={() => this.props.history.push("/transcription/" + transcription.id)} /><Button circular={true} icon='download' onClick={() => { window.open(transcription.fileInfo!.name, '_blank'); }} /></Table.Cell>
                             </Table.Row>
                         ))}

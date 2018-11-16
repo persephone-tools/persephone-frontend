@@ -12,6 +12,8 @@ import Dropzone from 'react-dropzone';
 
 import { v4 } from 'uuid';
 
+import Time from './Time';
+
 // QQQQ API doesn't specify this yet
 export interface IAcceptedFileTypes {
     audio: string[];
@@ -284,7 +286,7 @@ class DropUpload extends React.Component<any, IDropUploadState> {
                                                 <Table.Cell>{m.audio.name}</Table.Cell>
                                                 <Table.Cell>{m.audio.fileT ? m.audio.fileT.id : (m.audio.state === RequestState.STARTED && <Placeholder><PlaceholderLine /></Placeholder>)}</Table.Cell>
                                                 <Table.Cell>{m.audio.fileT ? m.audio.fileT.fileInfo!.id : (m.audio.state === RequestState.STARTED && <Placeholder><PlaceholderLine /></Placeholder>)}</Table.Cell>
-                                                <Table.Cell>{m.audio.fileT ? m.audio.fileT.fileInfo!.createdAt : (m.audio.state === RequestState.STARTED && <Placeholder><PlaceholderLine /></Placeholder>)}</Table.Cell>
+                                                <Table.Cell>{m.audio.fileT ? <Time time={m.audio.fileT.fileInfo!.createdAt} /> : (m.audio.state === RequestState.STARTED && <Placeholder><PlaceholderLine /></Placeholder>)}</Table.Cell>
                                             </Table.Row>
                                             <Table.Row key={m.transcription.id}>
                                                 <Table.Cell>{m.transcription.fileType}</Table.Cell>
@@ -292,7 +294,7 @@ class DropUpload extends React.Component<any, IDropUploadState> {
                                                 <Table.Cell>{m.transcription.name}</Table.Cell>
                                                 <Table.Cell>{m.transcription.fileT ? m.transcription.fileT.id : (m.transcription.state === RequestState.STARTED && <Placeholder><PlaceholderLine /></Placeholder>)}</Table.Cell>
                                                 <Table.Cell>{m.transcription.fileT ? m.transcription.fileT.fileInfo!.id : (m.transcription.state === RequestState.STARTED && <Placeholder><PlaceholderLine /></Placeholder>)}</Table.Cell>
-                                                <Table.Cell>{m.transcription.fileT ? m.transcription.fileT.fileInfo!.createdAt : (m.transcription.state === RequestState.STARTED && <Placeholder><PlaceholderLine /></Placeholder>)}</Table.Cell>
+                                                <Table.Cell>{m.transcription.fileT ? <Time time={m.transcription.fileT.fileInfo!.createdAt} /> : (m.transcription.state === RequestState.STARTED && <Placeholder><PlaceholderLine /></Placeholder>)}</Table.Cell>
                                             </Table.Row>
                                         </React.Fragment>
                                 )}
@@ -309,7 +311,7 @@ class DropUpload extends React.Component<any, IDropUploadState> {
                                             <Table.Cell>{file.name}</Table.Cell>
                                             <Table.Cell>{file.fileT ? file.fileT.id : (file.state === RequestState.STARTED && <Placeholder><PlaceholderLine /></Placeholder>)}</Table.Cell>
                                             <Table.Cell>{file.fileT ? file.fileT.fileInfo!.id : (file.state === RequestState.STARTED && <Placeholder><PlaceholderLine /></Placeholder>)}</Table.Cell>
-                                            <Table.Cell>{file.fileT ? file.fileT.fileInfo!.createdAt : (file.state === RequestState.STARTED && <Placeholder><PlaceholderLine /></Placeholder>)}</Table.Cell>
+                                            <Table.Cell>{file.fileT ? <Time time={file.fileT.fileInfo!.createdAt} /> : (file.state === RequestState.STARTED && <Placeholder><PlaceholderLine /></Placeholder>)}</Table.Cell>
                                         </Table.Row>
                                 )}
                             </React.Fragment>
