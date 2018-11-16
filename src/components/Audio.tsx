@@ -10,6 +10,8 @@ import { api } from '../API';
 
 import { AudioFileInformation, AudioPostRequest, ErrorMessage } from '../gen/api';
 
+import Time from './Time';
+
 export interface IAudioState {
     audios: AudioFileInformation[];
     formError?: ErrorMessage;
@@ -115,7 +117,7 @@ class Audio extends React.Component<any, IAudioState> {
                                 <Table.Cell>{audio.id}</Table.Cell>
                                 <Table.Cell>{audio.fileInfo!.id}</Table.Cell>
                                 <Table.Cell>{audio.fileInfo!.name}</Table.Cell>
-                                <Table.Cell>{audio.fileInfo!.createdAt}</Table.Cell>
+                                <Table.Cell><Time time={audio.fileInfo!.createdAt} /></Table.Cell>
                                 <Table.Cell><Button circular={true} icon='angle right' onClick={() => this.props.history.push("/audio/" + audio.id)} /><Button circular={true} icon='download' onClick={() => { window.open(audio.fileInfo!.name, '_blank'); }} /></Table.Cell>
                             </Table.Row>
                         ))}

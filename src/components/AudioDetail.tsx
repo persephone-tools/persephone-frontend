@@ -6,6 +6,8 @@ import { api } from '../API';
 
 import { AudioAudioIDGetRequest, AudioFileInformation } from '../gen/api';
 
+import Time from './Time';
+
 export interface IAudioDetailState {
     audio?: AudioFileInformation;
     isLoading: boolean;
@@ -65,7 +67,7 @@ export default class Audio extends React.Component<any, IAudioDetailState> {
                                 </List.Item>
                                 <List.Item>
                                     <List.Header>File created at</List.Header>
-                                    {this.state.audio.fileInfo!.createdAt}
+                                    <Time time={this.state.audio.fileInfo!.createdAt} />
                                 </List.Item>
                             </List>
                         </React.Fragment>

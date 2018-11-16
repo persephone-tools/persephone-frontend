@@ -6,6 +6,8 @@ import { api } from '../API';
 
 import { TranscriptionInformation, TranscriptionTranscriptionIDGetRequest } from '../gen/api';
 
+import Time from './Time';
+
 export interface ITranscriptionDetailState {
     transcription?: TranscriptionInformation;
     isLoading: boolean;
@@ -65,7 +67,7 @@ export default class Transcription extends React.Component<any, ITranscriptionDe
                                 </List.Item>
                                 <List.Item>
                                     <List.Header>File created at</List.Header>
-                                    {this.state.transcription.fileInfo!.createdAt}
+                                    <Time time={this.state.transcription.fileInfo!.createdAt} />
                                 </List.Item>
                             </List>
                         </React.Fragment>
