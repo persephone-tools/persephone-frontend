@@ -18,9 +18,10 @@ WORKDIR /app
 COPY . /app
 
 RUN yarn install
+RUN yarn build
 
-EXPOSE 3000
+RUN  npm install http-server -g
 
-ENTRYPOINT [ "yarn" ]
+EXPOSE 8000
 
-CMD [ "start" ]
+CMD [ "http-server", "build", "-p", "8000" ]
