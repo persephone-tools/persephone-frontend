@@ -8,7 +8,7 @@ import { api } from '../API';
 
 import { AudioFileInformation, ErrorMessage, ModelInformation, PersephoneApiApiEndpointsModelTranscribeRequest } from '../gen/api';
 
-export interface ITrainState {
+export interface ITranscribeState {
     audio: AudioFileInformation[];
     models: ModelInformation[];
     isLoadingAudio: boolean;
@@ -20,7 +20,7 @@ export interface ITrainState {
     selectedModel: number;
 }
 
-export default class Train extends React.Component<{}, ITrainState> {
+export default class Transcribe extends React.Component<{}, ITranscribeState> {
     constructor(props: any) {
         super(props);
         this.state = {
@@ -80,7 +80,7 @@ export default class Train extends React.Component<{}, ITrainState> {
         this.setState({
             formLoading: false,
             modalOpen: true
-        } as Pick<ITrainState, any>)
+        } as Pick<ITranscribeState, any>)
     }
 
     handleAudioSelection = (audioID: number) => (event: any) => {
