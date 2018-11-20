@@ -158,7 +158,7 @@ class Utterance extends React.Component<any, IUtteranceState> {
                         </Modal.Description>
                     </Modal.Content>
                     <Modal.Actions>
-                        <Button primary={true} onClick={this.submitForm}>
+                        <Button primary={true} onClick={this.submitForm} loading={this.state.formLoading}>
                             <Icon name='plus' />
                             Create
                         </Button>

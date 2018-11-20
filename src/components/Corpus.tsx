@@ -228,7 +228,7 @@ export default class Corpus extends React.Component<{}, ICorpusState> {
                         </Modal.Description>
                     </Modal.Content>
                     <Modal.Actions>
-                        <Button primary={true} onClick={this.submitForm}>
+                        <Button primary={true} onClick={this.submitForm} loading={this.state.formLoading}>
                             <Icon name='plus' />
                             Create
                         </Button>

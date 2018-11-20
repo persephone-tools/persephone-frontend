@@ -140,7 +140,7 @@ export default class Preprocess extends React.Component<{}, IPreprocessState> {
                         </Modal.Description>
                     </Modal.Content>
                     <Modal.Actions>
-                        <Button primary={true} onClick={this.submitForm}>
+                        <Button primary={true} onClick={this.submitForm} loading={this.state.formLoading}>
                             <Icon name='check' />
                             Confirm
                         </Button>

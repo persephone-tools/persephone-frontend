@@ -156,7 +156,7 @@ class LabelList extends React.Component<any, ILabelState> {
                         </Modal.Description>
                     </Modal.Content>
                     <Modal.Actions>
-                        <Button primary={true} onClick={this.submitForm}>
+                        <Button primary={true} onClick={this.submitForm} loading={this.state.formLoading}>
                             <Icon name='plus' />
                             Create
                         </Button>

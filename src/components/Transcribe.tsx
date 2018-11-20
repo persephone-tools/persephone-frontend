@@ -205,7 +205,7 @@ export default class Transcribe extends React.Component<{}, ITranscribeState> {
                         </Modal.Description>
                     </Modal.Content>
                     <Modal.Actions>
-                        <Button primary={true} onClick={this.startTranscribe}>
+                        <Button primary={true} onClick={this.startTranscribe} loading={this.state.formLoading}>
                             <Icon name='check' />
                             Confirm
                         </Button>

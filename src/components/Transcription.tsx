@@ -149,7 +149,7 @@ class Transcription extends React.Component<any, ITranscriptionState> {
                         </Modal.Description>
                     </Modal.Content>
                     <Modal.Actions>
-                        <Button primary={true} onClick={this.submitForm}>
+                        <Button primary={true} onClick={this.submitForm} loading={this.state.formLoading}>
                             <Icon name='upload' />
                             Upload
                         </Button>
