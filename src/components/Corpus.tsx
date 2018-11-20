@@ -10,6 +10,8 @@ import { CorpusGetRequest, CorpusInfo, CorpusInformation, CorpusPostRequest, Err
 
 import AudioName from './AudioName';
 import CorpusCard from './CorpusCard';
+import FeatureTypeDropdown from './FeatureTypeDropdown';
+import LabelTypeDropdown from './LabelTypeDropdown';
 import TranscriptionName from './TranscriptionName';
 
 enum UtteranceGroup {
@@ -168,8 +170,14 @@ export default class Corpus extends React.Component<{}, ICorpusState> {
                             <Form loading={this.state.formLoading}>
                                 <Header>Basic corpus information</Header>
                                 <Form.Input label="The name of this corpus" type="text" name="name" placeholder="Example Corpus" onChange={this.handleChange('name')} />
-                                <Form.Input label="The type of the labels" type="text" name="labelType" placeholder="phonemes" onChange={this.handleChange('labelType')} />
-                                <Form.Input label="The type of the features" type="text" name="featureType" placeholder="fbank" onChange={this.handleChange('featureType')} />
+                                <Form.Field>
+                                    <label>The type of the labels</label>
+                                    <LabelTypeDropdown onChange={(selection: string) => this.setState({labelType: selection} as Pick<ICorpusState, any>)} />
+                                </Form.Field>
+                                <Form.Field>
+                                    <label>The type of the features</label>
+                                    <FeatureTypeDropdown onChange={(selection: string) => this.setState({featureType: selection} as Pick<ICorpusState, any>)} />
+                                </Form.Field>
                                 <Header>Choose utterances into training, validation, and testing groups</Header>
                                 <Table basic='very'>
                                     <Table.Header>
