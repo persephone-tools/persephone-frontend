@@ -156,9 +156,13 @@ export default class Corpus extends React.Component<{}, ICorpusState> {
                         <Loader>Loading</Loader>
                     </Dimmer>
                     <Card.Group>
-                        {this.state.corpuses.map((corpus) => (
+                        {this.state.corpuses.length > 0 ? this.state.corpuses.map((corpus) => (
                             <CorpusCard key={corpus.id} corpus={corpus} />
-                        ))}
+                        )) :
+                            <Segment basic={true}>
+                                No corpuses to show.
+                            </Segment>
+                        }
                     </Card.Group>
                 </Segment>
                 <Modal
