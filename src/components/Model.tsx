@@ -6,7 +6,7 @@ import ErrorMessageComponent from './ErrorMessageComponent';
 
 import { api } from '../API';
 
-import { ErrorMessage, ModelInformation, ModelPostRequest } from '../gen/api';
+import { ErrorMessage, ModelGetRequest, ModelInformation, ModelPostRequest } from '../gen/api';
 
 import CorpusDropdown from './CorpusDropdown';
 import ModelCard from './ModelCard';
@@ -51,7 +51,7 @@ export default class Model extends React.Component<{}, IModelState> {
 
     public getData() {
         this.setState({isLoading: true});
-        api.modelGet().then(models => {
+        api.modelGet({} as ModelGetRequest).then(models => {
             console.log(models)
             this.setState({
                 isLoading: false,
