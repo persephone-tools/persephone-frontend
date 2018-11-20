@@ -4,7 +4,7 @@ import { Dimmer, Loader, Segment, Table } from 'semantic-ui-react';
 
 import { api } from '../API';
 
-import { Label, PersephoneApiApiEndpointsCorpusGetLabelSetRequest } from '../gen/api';
+import { Label, LabelGetRequest, PersephoneApiApiEndpointsCorpusGetLabelSetRequest } from '../gen/api';
 
 export interface ICorpusDetailLabelListProps {
     corpusId: number;
@@ -38,7 +38,7 @@ export default class CorpusDetailLabelList extends React.Component<ICorpusDetail
             })
         }).catch(console.error);
         this.setState({isLoading: true});
-        api.labelGet().then(labels => {
+        api.labelGet({} as LabelGetRequest).then(labels => {
             console.log(labels)
             this.setState({
                 isLoading: false,

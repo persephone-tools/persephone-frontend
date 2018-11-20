@@ -4,7 +4,7 @@ import { Dropdown } from 'semantic-ui-react';
 
 import { api } from '../API';
 
-import { TranscriptionInformation } from '../gen/api';
+import { TranscriptionGetRequest, TranscriptionInformation } from '../gen/api';
 
 export interface ITranscriptionResult {
     transcription: TranscriptionInformation;
@@ -36,7 +36,7 @@ export default class TranscriptionDropdown extends React.Component<ITranscriptio
 
     public getData() {
         this.setState({isLoading: true});
-        api.transcriptionGet().then(transcriptions => {
+        api.transcriptionGet({} as TranscriptionGetRequest).then(transcriptions => {
             console.log(transcriptions)
             this.setState({
                 isLoading: false,

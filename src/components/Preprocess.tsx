@@ -6,7 +6,7 @@ import ErrorMessageComponent from './ErrorMessageComponent';
 
 import { api } from '../API';
 
-import { CorpusInformation, ErrorMessage, PersephoneApiApiEndpointsCorpusPreprocessRequest } from '../gen/api';
+import { CorpusGetRequest, CorpusInformation, ErrorMessage, PersephoneApiApiEndpointsCorpusPreprocessRequest } from '../gen/api';
 
 export interface IPreprocessState {
     corpuses: CorpusInformation[];
@@ -36,7 +36,7 @@ export default class Preprocess extends React.Component<{}, IPreprocessState> {
 
     public getData() {
         this.setState({isLoading: true});
-        api.corpusGet().then(corpuses => {
+        api.corpusGet({} as CorpusGetRequest).then(corpuses => {
             console.log(corpuses)
             this.setState({
                 corpuses,

@@ -4,7 +4,7 @@ import { Dropdown } from 'semantic-ui-react';
 
 import { api } from '../API';
 
-import { CorpusInformation } from '../gen/api';
+import { CorpusGetRequest, CorpusInformation } from '../gen/api';
 
 export interface ICorpusResult {
     corpus: CorpusInformation;
@@ -36,7 +36,7 @@ export default class CorpusDropdown extends React.Component<ICorpusDropdownProps
 
     public getData() {
         this.setState({isLoading: true});
-        api.corpusGet().then(corpuses => {
+        api.corpusGet({} as CorpusGetRequest).then(corpuses => {
             console.log(corpuses)
             this.setState({
                 corpusResults: corpuses.map(corpus => {return {

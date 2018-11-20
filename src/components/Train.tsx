@@ -6,7 +6,7 @@ import ErrorMessageComponent from './ErrorMessageComponent';
 
 import { api } from '../API';
 
-import { ErrorMessage, ModelInformation, PersephoneApiApiEndpointsModelTrainRequest } from '../gen/api';
+import { ErrorMessage, ModelGetRequest, ModelInformation, PersephoneApiApiEndpointsModelTrainRequest } from '../gen/api';
 
 export interface ITrainState {
     models: ModelInformation[];
@@ -36,7 +36,7 @@ export default class Train extends React.Component<{}, ITrainState> {
 
     public getData() {
         this.setState({isLoading: true});
-        api.modelGet().then(models => {
+        api.modelGet({} as ModelGetRequest).then(models => {
             console.log(models)
             this.setState({
                 isLoading: false,

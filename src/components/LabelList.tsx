@@ -10,7 +10,7 @@ import { withRouter } from 'react-router';
 
 import { api } from '../API';
 
-import { ErrorMessage, Label, LabelInfo, LabelPostRequest } from '../gen/api';
+import { ErrorMessage, Label, LabelGetRequest, LabelInfo, LabelPostRequest } from '../gen/api';
 
 export interface ILabelState {
     labels: Label[];
@@ -40,7 +40,7 @@ class LabelList extends React.Component<any, ILabelState> {
 
     public getData() {
         this.setState({isLoading: true});
-        api.labelGet().then(labels => {
+        api.labelGet({} as LabelGetRequest).then(labels => {
             console.log(labels)
             this.setState({
                 isLoading: false,
