@@ -6,7 +6,7 @@ import ErrorMessageComponent from './ErrorMessageComponent';
 
 import { api } from '../API';
 
-import { CorpusInfo, CorpusInformation, CorpusPostRequest, ErrorMessage, FeatureType, IDarray, LabelType, UtteranceInformation } from '../gen/api';
+import { CorpusGetRequest, CorpusInfo, CorpusInformation, CorpusPostRequest, ErrorMessage, FeatureType, IDarray, LabelType, UtteranceGetRequest, UtteranceInformation } from '../gen/api';
 
 import AudioName from './AudioName';
 import CorpusCard from './CorpusCard';
@@ -57,7 +57,7 @@ export default class Corpus extends React.Component<{}, ICorpusState> {
 
     public getData() {
         this.setState({isLoading: true});
-        api.corpusGet().then(corpuses => {
+        api.corpusGet({} as CorpusGetRequest).then(corpuses => {
             console.log(corpuses)
             this.setState({
                 corpuses,
@@ -83,7 +83,7 @@ export default class Corpus extends React.Component<{}, ICorpusState> {
             formLoading: true,
             modalOpen: true
         })
-        api.utteranceGet().then(utterances => {
+        api.utteranceGet({} as UtteranceGetRequest).then(utterances => {
             console.log(utterances)
             this.setState({
                 formLoading: false,

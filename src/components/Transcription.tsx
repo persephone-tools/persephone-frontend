@@ -8,7 +8,7 @@ import { withRouter } from 'react-router';
 
 import { api } from '../API';
 
-import { ErrorMessage, PersephoneApiApiEndpointsTranscriptionFromFileRequest, TranscriptionInformation } from '../gen/api';
+import { ErrorMessage, PersephoneApiApiEndpointsTranscriptionFromFileRequest, TranscriptionGetRequest, TranscriptionInformation } from '../gen/api';
 
 import Time from './Time';
 
@@ -38,7 +38,7 @@ class Transcription extends React.Component<any, ITranscriptionState> {
 
     public getData() {
         this.setState({isLoading: true});
-        api.transcriptionGet().then(transcriptions => {
+        api.transcriptionGet({} as TranscriptionGetRequest).then(transcriptions => {
             console.log(transcriptions)
             this.setState({
                 isLoading: false,

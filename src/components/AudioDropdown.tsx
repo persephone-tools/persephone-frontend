@@ -4,7 +4,7 @@ import { Dropdown } from 'semantic-ui-react';
 
 import { api } from '../API';
 
-import { AudioFileInformation } from '../gen/api';
+import { AudioFileInformation, AudioGetRequest } from '../gen/api';
 
 export interface IAudioResult {
     audio: AudioFileInformation;
@@ -36,7 +36,7 @@ export default class AudioDropdown extends React.Component<IAudioDropdownProps, 
 
     public getData() {
         this.setState({isLoading: true});
-        api.audioGet().then(audio => {
+        api.audioGet({} as AudioGetRequest).then(audio => {
             console.log(audio)
             this.setState({
                 audioResults: audio.map(ao => {return {

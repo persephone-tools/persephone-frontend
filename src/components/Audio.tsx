@@ -8,7 +8,7 @@ import { withRouter } from 'react-router';
 
 import { api } from '../API';
 
-import { AudioFileInformation, AudioPostRequest, ErrorMessage } from '../gen/api';
+import { AudioFileInformation, AudioGetRequest, AudioPostRequest, ErrorMessage } from '../gen/api';
 
 import Time from './Time';
 
@@ -38,7 +38,7 @@ class Audio extends React.Component<any, IAudioState> {
 
     public getData() {
         this.setState({isLoading: true});
-        api.audioGet().then(audios => {
+        api.audioGet({} as AudioGetRequest).then(audios => {
             console.log(audios)
             this.setState({
                 audios,

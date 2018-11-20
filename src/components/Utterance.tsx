@@ -8,7 +8,7 @@ import { withRouter } from 'react-router';
 
 import { api } from '../API';
 
-import { ErrorMessage, UtteranceInfo, UtteranceInformation, UtterancePostRequest } from '../gen/api';
+import { ErrorMessage, UtteranceGetRequest, UtteranceInfo, UtteranceInformation, UtterancePostRequest } from '../gen/api';
 
 import AudioDropdown from './AudioDropdown';
 import AudioName from './AudioName';
@@ -44,7 +44,7 @@ class Utterance extends React.Component<any, IUtteranceState> {
 
     public getData() {
         this.setState({isLoading: true});
-        api.utteranceGet().then(utterances => {
+        api.utteranceGet({} as UtteranceGetRequest).then(utterances => {
             console.log(utterances)
             this.setState({
                 isLoading: false,

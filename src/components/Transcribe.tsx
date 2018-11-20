@@ -6,7 +6,7 @@ import ErrorMessageComponent from './ErrorMessageComponent';
 
 import { api } from '../API';
 
-import { AudioFileInformation, ErrorMessage, ModelInformation, PersephoneApiApiEndpointsModelTranscribeRequest } from '../gen/api';
+import { AudioFileInformation, AudioGetRequest, ErrorMessage, ModelGetRequest, ModelInformation, PersephoneApiApiEndpointsModelTranscribeRequest } from '../gen/api';
 
 export interface ITranscribeState {
     audio: AudioFileInformation[];
@@ -42,14 +42,14 @@ export default class Transcribe extends React.Component<{}, ITranscribeState> {
 
     public getData() {
         this.setState({isLoadingAudio: true, isLoadingModels: true, selectedAudio: -1, selectedModel: -1});
-        api.modelGet().then(models => {
+        api.modelGet({} as ModelGetRequest).then(models => {
             console.log(models)
             this.setState({
                 isLoadingModels: false,
                 models,
             })
         });
-        api.audioGet().then(audio => {
+        api.audioGet({} as AudioGetRequest).then(audio => {
             console.log(audio)
             this.setState({
                 audio,
