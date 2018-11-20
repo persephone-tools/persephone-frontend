@@ -4,17 +4,17 @@ class ErrorMiddleware implements Middleware {
     async post(fetch: FetchAPI, url: string, init: RequestInit, response: Response) {
         if (response.status === 500) {
             throw {
-                errorMessage: "Server error",
-                reason: "Server error",
+                detail: "Server error",
                 status: 500,
-                userErrorMessage: "Server error"
+                title: "Server error",
+                type: "about:blank",
             } as ErrorMessage;
         } else if (response.status < 200 || response.status >= 300) {
             let error = {
-                errorMessage: "Couldn't parse error",
-                reason: "Unknown",
+                detail: "An unkown error occured",
                 status: 400,
-                userErrorMessage: "An unkown error occured"
+                title: "Couldn't parse error",
+                type: "about:blank",
             } as ErrorMessage;
             try {
                 // TypeScript can only check at compile time, which it doesn't do for thrown exceptions,

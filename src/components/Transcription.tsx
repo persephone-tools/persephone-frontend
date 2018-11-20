@@ -140,7 +140,7 @@ class Transcription extends React.Component<any, ITranscriptionState> {
                                     <label>File</label>
                                     <Form.Input type="file" name="File" id="fileUploadId" />
                                 </Form.Field>
-                                <ErrorMessageComponent error={this.state.formError} header='File upload failed' />
+                                <ErrorMessageComponent error={this.state.formError} />
                             </Form>
                         </Modal.Description>
                     </Modal.Content>

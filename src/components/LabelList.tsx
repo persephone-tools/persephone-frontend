@@ -96,10 +96,10 @@ class LabelList extends React.Component<any, ILabelState> {
         } else {
             this.setState({
                 formError: {
-                    errorMessage: "Invalid phonetic label",
-                    reason: "Invalid phonetic label",
-                    status: -1,
-                    userErrorMessage: "Invalid phonetic label",
+                    detail: "Invalid phonetic label",
+                    status: 400,
+                    title: "Invalid phonetic label",
+                    type: "about:blank",
                 } as ErrorMessage,
                 formLoading: false,
             })
@@ -147,7 +147,7 @@ class LabelList extends React.Component<any, ILabelState> {
                             <Form loading={this.state.formLoading}>
                                 <Header>Label details</Header>
                                 <Form.Input label="Phonetic label" type="text" name="phonetic_label" value={this.state.phoneticLabel} placeholder="1" onChange={this.handlePhoneticLabelChange} />
-                                <ErrorMessageComponent error={this.state.formError} header='Label creation failed' />
+                                <ErrorMessageComponent error={this.state.formError} />
                             </Form>
                         </Modal.Description>
                     </Modal.Content>

@@ -192,7 +192,7 @@ export default class Transcribe extends React.Component<{}, ITranscribeState> {
                                         }
                                     </React.Fragment>
                                 }
-                                <ErrorMessageComponent error={this.state.formError} header='Transcription failed' />
+                                <ErrorMessageComponent error={this.state.formError} />
                             </Form>
                         </Modal.Description>
                     </Modal.Content>
