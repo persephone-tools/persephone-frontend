@@ -149,7 +149,7 @@ class Utterance extends React.Component<any, IUtteranceState> {
                                     <label>Transcription</label>
                                     <TranscriptionDropdown onChange={(selection: number) => this.setState({transcription: selection} as Pick<IUtteranceState, any>)} />
                                 </Form.Field>
-                                <ErrorMessageComponent error={this.state.formError} header='Utterance creation failed' />
+                                <ErrorMessageComponent error={this.state.formError} />
                             </Form>
                         </Modal.Description>
                     </Modal.Content>

@@ -159,7 +159,7 @@ export default class Model extends React.Component<{}, IModelState> {
                                 <Form.Input label="Maximum number of training epochs" type="text" name="maximumEpochs" placeholder="0" onChange={this.handleChange('maximumEpochs')} />
                                 <Form.Input label="Maximum Label Error Rate (LER) on training data" type="text" name="maximumTrainingLER" placeholder="0" onChange={this.handleChange('maximumTrainingLER')} />
                                 <Form.Input label="Maximum Label Error Rate (LER) on validation data" type="text" name="maximumValidationLER" placeholder="0" onChange={this.handleChange('maximumValidationLER')} />
-                                <ErrorMessageComponent error={this.state.formError} header='Model creation failed' />
+                                <ErrorMessageComponent error={this.state.formError} />
                             </Form>
                         </Modal.Description>
                     </Modal.Content>

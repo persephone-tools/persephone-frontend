@@ -6,11 +6,10 @@ import { ErrorMessage } from '../gen/api';
 
 export interface IModelProps {
     error?: ErrorMessage;
-    header: string;
 }
 
 export default class ErrorMessageComponent extends React.Component<IModelProps, {}> {
     public render() {
-        return this.props.error ? (<Message negative={true} header={this.props.header} content={this.props.error.userErrorMessage} />) : (<></>);
+        return this.props.error ? (<Message negative={true} header={this.props.error.title} content={this.props.error.detail} />) : (<></>);
     }
 }
