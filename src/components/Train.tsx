@@ -105,7 +105,7 @@ export default class Train extends React.Component<{}, ITrainState> {
                         </Table.Header>
 
                         <Table.Body>
-                        {this.state.models.map((model) => (
+                        {this.state.models.length > 0 ? this.state.models.map((model) => (
                             <Table.Row key={model.id}>
                                 <Table.Cell>{model.id}</Table.Cell>
                                 <Table.Cell>{model.name}</Table.Cell>
@@ -117,7 +117,11 @@ export default class Train extends React.Component<{}, ITrainState> {
                                     </Button>
                                 </Table.Cell>
                             </Table.Row>
-                        ))}
+                        )) :
+                            <Table.Row>
+                                <Table.Cell colSpan="4">This table is empty</Table.Cell>
+                            </Table.Row>
+                        }
                         </Table.Body>
                     </Table>
                 </Segment>

@@ -113,7 +113,7 @@ class Transcription extends React.Component<any, ITranscriptionState> {
                         </Table.Header>
 
                         <Table.Body>
-                        {this.state.transcriptions.map((transcription) => (
+                        {this.state.transcriptions.length > 0 ? this.state.transcriptions.map((transcription) => (
                             <Table.Row key={transcription.id as number}>
                                 <Table.Cell>{transcription.id}</Table.Cell>
                                 <Table.Cell>{transcription.fileInfo!.id}</Table.Cell>
@@ -124,7 +124,11 @@ class Transcription extends React.Component<any, ITranscriptionState> {
                                 <Table.Cell><Time time={transcription.fileInfo!.createdAt} /></Table.Cell>
                                 <Table.Cell><Button circular={true} icon='angle right' onClick={() => this.props.history.push("/transcription/" + transcription.id)} /><Button circular={true} icon='download' onClick={() => { window.open(transcription.fileInfo!.name, '_blank'); }} /></Table.Cell>
                             </Table.Row>
-                        ))}
+                        )) :
+                            <Table.Row>
+                                <Table.Cell colSpan="6">This table is empty</Table.Cell>
+                            </Table.Row>
+                        }
                         </Table.Body>
                     </Table>
                 </Segment>

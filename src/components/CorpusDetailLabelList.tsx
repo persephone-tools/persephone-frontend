@@ -67,12 +67,16 @@ export default class CorpusDetailLabelList extends React.Component<ICorpusDetail
                         </Table.Header>
 
                         <Table.Body>
-                        {this.state.labels.map((label) => (
+                        {this.state.labels.length > 0 ? this.state.labels.map((label) => (
                             <Table.Row key={label.id!.toString()}>
                                 <Table.Cell>{label.id}</Table.Cell>
                                 <Table.Cell>{label.label}</Table.Cell>
                             </Table.Row>
-                        ))}
+                        )) :
+                            <Table.Row>
+                                <Table.Cell colSpan="2">This table is empty</Table.Cell>
+                            </Table.Row>
+                        }
                         </Table.Body>
                     </Table>
                 </Segment>

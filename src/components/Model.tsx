@@ -132,9 +132,13 @@ export default class Model extends React.Component<{}, IModelState> {
                         <Loader>Loading</Loader>
                     </Dimmer>
                     <Card.Group>
-                        {this.state.models.map((model) => (
+                        {this.state.models.length > 0 ? this.state.models.map((model) => (
                             <ModelCard key={model.id} model={model} />
-                        ))}
+                        )) :
+                            <Segment basic={true}>
+                                No corpuses to show.
+                            </Segment>
+                        }
                     </Card.Group>
                 </Segment>
                 <Modal

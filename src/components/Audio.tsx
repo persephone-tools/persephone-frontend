@@ -112,7 +112,7 @@ class Audio extends React.Component<any, IAudioState> {
                         </Table.Header>
 
                         <Table.Body>
-                        {this.state.audios.map((audio) => (
+                        {this.state.audios.length > 0 ? this.state.audios.map((audio) => (
                             <Table.Row key={audio.id as number}>
                                 <Table.Cell>{audio.id}</Table.Cell>
                                 <Table.Cell>{audio.fileInfo!.id}</Table.Cell>
@@ -120,7 +120,11 @@ class Audio extends React.Component<any, IAudioState> {
                                 <Table.Cell><Time time={audio.fileInfo!.createdAt} /></Table.Cell>
                                 <Table.Cell><Button circular={true} icon='angle right' onClick={() => this.props.history.push("/audio/" + audio.id)} /><Button circular={true} icon='download' onClick={() => { window.open(audio.fileInfo!.name, '_blank'); }} /></Table.Cell>
                             </Table.Row>
-                        ))}
+                        )) :
+                            <Table.Row>
+                                <Table.Cell colSpan="5">This table is empty</Table.Cell>
+                            </Table.Row>
+                        }
                         </Table.Body>
                     </Table>
                 </Segment>

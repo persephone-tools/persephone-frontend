@@ -156,9 +156,13 @@ export default class Corpus extends React.Component<{}, ICorpusState> {
                         <Loader>Loading</Loader>
                     </Dimmer>
                     <Card.Group>
-                        {this.state.corpuses.map((corpus) => (
+                        {this.state.corpuses.length > 0 ? this.state.corpuses.map((corpus) => (
                             <CorpusCard key={corpus.id} corpus={corpus} />
-                        ))}
+                        )) :
+                            <Segment basic={true}>
+                                No corpuses to show.
+                            </Segment>
+                        }
                     </Card.Group>
                 </Segment>
                 <Modal
@@ -190,7 +194,7 @@ export default class Corpus extends React.Component<{}, ICorpusState> {
                                     </Table.Header>
 
                                     <Table.Body>
-                                    {this.state.formUtterances && this.state.formUtterances.map((utterance) => (
+                                    {this.state.formUtterances && (this.state.formUtterances.length > 0 ? this.state.formUtterances.map((utterance) => (
                                         <Table.Row key={utterance.uid}>
                                             <Table.Cell>{utterance.utteranceInfo.id}</Table.Cell>
                                             <Table.Cell><AudioName audioId={utterance.utteranceInfo.audio} /> (id: {utterance.utteranceInfo.audio})</Table.Cell>
@@ -212,7 +216,11 @@ export default class Corpus extends React.Component<{}, ICorpusState> {
                                                 </Form.Group>
                                             </Table.Cell>
                                         </Table.Row>
-                                    ))}
+                                    )) :
+                                        <Table.Row>
+                                            <Table.Cell colSpan="4">This table is empty</Table.Cell>
+                                        </Table.Row>
+                                    )}
                                     </Table.Body>
                                 </Table>
                                 <ErrorMessageComponent error={this.state.formError} />

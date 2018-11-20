@@ -128,7 +128,7 @@ export default class Transcribe extends React.Component<{}, ITranscribeState> {
                         </Table.Row>
                         </Table.Header>
                         <Table.Body>
-                        {this.state.models.map((model) => (
+                        {this.state.models.length > 0 ? this.state.models.map((model) => (
                             <Table.Row key={model.id}>
                                 <Table.Cell>{model.id}</Table.Cell>
                                 <Table.Cell>{model.name}</Table.Cell>
@@ -139,7 +139,11 @@ export default class Transcribe extends React.Component<{}, ITranscribeState> {
                                     </Form.Field>
                                 </Table.Cell>
                             </Table.Row>
-                        ))}
+                        )) :
+                            <Table.Row>
+                                <Table.Cell colSpan="4">This table is empty</Table.Cell>
+                            </Table.Row>
+                        }
                         </Table.Body>
                     </Table>
                 </Segment>
@@ -157,7 +161,7 @@ export default class Transcribe extends React.Component<{}, ITranscribeState> {
                         </Table.Row>
                         </Table.Header>
                         <Table.Body>
-                        {this.state.audio.map((audio) => (
+                        {this.state.audio.length > 0 ? this.state.audio.map((audio) => (
                             <Table.Row key={audio.id as number}>
                                 <Table.Cell>{audio.id}</Table.Cell>
                                 <Table.Cell>{audio.fileInfo!.name}</Table.Cell>
@@ -167,7 +171,11 @@ export default class Transcribe extends React.Component<{}, ITranscribeState> {
                                     </Form.Field>
                                 </Table.Cell>
                             </Table.Row>
-                        ))}
+                        )) :
+                            <Table.Row>
+                                <Table.Cell colSpan="3">This table is empty</Table.Cell>
+                            </Table.Row>
+                        }
                         </Table.Body>
                     </Table>
                 </Segment>
