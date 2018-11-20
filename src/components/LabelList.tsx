@@ -128,13 +128,17 @@ class LabelList extends React.Component<any, ILabelState> {
                         </Table.Header>
 
                         <Table.Body>
-                        {this.state.labels.map((label) => (
+                        {this.state.labels.length > 0 ? this.state.labels.map((label) => (
                             <Table.Row key={label.id!.toString()}>
                                 <Table.Cell>{label.id}</Table.Cell>
                                 <Table.Cell>{label.label}</Table.Cell>
                                 <Table.Cell><Button circular={true} icon='angle right' onClick={() => this.props.history.push("/label/" + label.id)} /><Button circular={true} icon='download' onClick={() => { window.open(label.id!.toString(), '_blank'); }} /></Table.Cell>
                             </Table.Row>
-                        ))}
+                        )) :
+                            <Table.Row>
+                                <Table.Cell colSpan="3">This table is empty</Table.Cell>
+                            </Table.Row>
+                        }
                         </Table.Body>
                     </Table>
                 </Segment>

@@ -92,14 +92,20 @@ export default class Corpus extends React.Component<any, ICorpusDetailState> {
                                 </Table.Header>
 
                                 <Table.Body>
-                                    {Array.from(new Set([...this.state.corpus!.partition!.training!, ...this.state.corpus!.partition!.validation!, ...this.state.corpus!.partition!.testing!]).values())
+                                    {
+                                        this.state.corpus!.partition!.training!.length + this.state.corpus!.partition!.validation!.length + this.state.corpus!.partition!.testing!.length > 0 ?
+                                        Array.from(new Set([...this.state.corpus!.partition!.training!, ...this.state.corpus!.partition!.validation!, ...this.state.corpus!.partition!.testing!]).values())
                                         .map(utterance => (
                                             <CorpusDetailUtteranceRow
                                                 utteranceId={utterance}
                                                 training={this.state.corpus!.partition!.training!.find(u => u === utterance)! === utterance}
                                                 validation={this.state.corpus!.partition!.validation!.find(u => u === utterance)! === utterance}
                                                 testing={this.state.corpus!.partition!.testing!.find(u => u === utterance)! === utterance} />
-                                    ))}
+                                    )) :
+                                        <Table.Row>
+                                            <Table.Cell colSpan="6">This table is empty</Table.Cell>
+                                        </Table.Row>
+                                    }
                                 </Table.Body>
                             </Table>
                             <Header as='h2'>Labels in this corpus</Header>

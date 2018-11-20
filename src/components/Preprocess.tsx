@@ -102,7 +102,7 @@ export default class Preprocess extends React.Component<{}, IPreprocessState> {
                         </Table.Header>
 
                         <Table.Body>
-                        {this.state.corpuses.map((corpus) => (
+                        {this.state.corpuses.length > 0 ? this.state.corpuses.map((corpus) => (
                             <Table.Row key={corpus.id}>
                                 <Table.Cell>{corpus.id}</Table.Cell>
                                 <Table.Cell>{corpus.name}</Table.Cell>
@@ -113,7 +113,11 @@ export default class Preprocess extends React.Component<{}, IPreprocessState> {
                                     </Button>
                                 </Table.Cell>
                             </Table.Row>
-                        ))}
+                        )) :
+                            <Table.Row>
+                                <Table.Cell colSpan="3">This table is empty</Table.Cell>
+                            </Table.Row>
+                        }
                         </Table.Body>
                     </Table>
                 </Segment>
