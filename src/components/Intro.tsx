@@ -46,10 +46,21 @@ class Intro extends React.Component<RouteComponentProps<any>, React.Props<any>> 
                     Transcriptions are textual representations of some audio which contain sequences of labels.
                     Utterances are groupings of an audio file along with an associated transcription.
                 </p>
-                <Header as='h3'>Models and corpora</Header>
+                <Header as='h3'>Corpora</Header>
+                <p>
+                    A corpus provides a way of grouping together a collection of utterances into a partition
+                    of training, testing and validation groups for use in training the model.
+                    To make these audio files suitable for the underlying machine learning system the audio files
+                    must be preprocessed to be in a suitable format.
+                    Different options for preprocessing are provided as the required input data is based on what
+                    the model will support.
+                </p>
+                <Header as='h3'>Models</Header>
                 <p>
                     In order to construct a phonetic transcription model we have to define various parameters
-                    then provide a corpus of training data to train the model.
+                    then provide a corpus of training data.
+                    To be able to use a model it first must be trained against this data.
+                    Once the model is trained it can be used to transcribe audio files.
                 </p>
                 <Header as='h3'>Labels</Header>
                 <p>
