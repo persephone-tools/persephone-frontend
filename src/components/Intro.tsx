@@ -39,10 +39,18 @@ class Intro extends React.Component<RouteComponentProps<any>, React.Props<any>> 
                     </List.Item>
                 </List>
                 <p>You can access the data from the left hand menu, by clicking on the appropriate link.</p>
-                <Header as='h3'>Models and corpuses</Header>
-                <p>Explain the difference here</p>
+
                 <Header as='h3'>Audio, transcriptions, and utterances</Header>
-                <p>Explain the difference here</p>
+                <p>
+                    Audio files are wave files that contain the audio we wish to transcribe.
+                    Transcriptions are textual representations of some audio which contain sequences of labels.
+                    Utterances are groupings of an audio file along with an associated transcription.
+                </p>
+                <Header as='h3'>Models and corpora</Header>
+                <p>
+                    In order to construct a phonetic transcription model we have to define various parameters
+                    then provide a corpus of training data to train the model.
+                </p>
                 <Header as='h3'>Labels</Header>
                 <p>Explain the difference here</p>
                 <Header as='h2'>Basic workflow</Header>
