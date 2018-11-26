@@ -19,7 +19,7 @@ class Intro extends React.Component<RouteComponentProps<any>, React.Props<any>> 
                     </List.Item>
                     <List.Item>
                         <List.Icon name='book' />
-                        <List.Content>Corpuses</List.Content>
+                        <List.Content>Corpora</List.Content>
                     </List.Item>
                     <List.Item>
                         <List.Icon name='music' />
