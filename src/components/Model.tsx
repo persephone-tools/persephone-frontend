@@ -136,7 +136,7 @@ export default class Model extends React.Component<{}, IModelState> {
                             <ModelCard key={model.id} model={model} />
                         )) :
                             <Segment basic={true}>
-                                No corpuses to show.
+                                No models to show.
                             </Segment>
                         }
                     </Card.Group>
