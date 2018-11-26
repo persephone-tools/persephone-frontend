@@ -42,7 +42,7 @@ class Intro extends React.Component<RouteComponentProps<any>, React.Props<any>> 
 
                 <Header as='h3'>Audio, transcriptions, and utterances</Header>
                 <p>
-                    Audio files are wave files that contain the audio we wish to transcribe.
+                    Audio files are the wave files that contain the audio we wish to transcribe.
                     Transcriptions are textual representations of some audio which contain sequences of labels.
                     Utterances are groupings of an audio file along with an associated transcription.
                 </p>
@@ -52,7 +52,14 @@ class Intro extends React.Component<RouteComponentProps<any>, React.Props<any>> 
                     then provide a corpus of training data to train the model.
                 </p>
                 <Header as='h3'>Labels</Header>
-                <p>Explain the difference here</p>
+                <p>
+                    Labels form the atomic unit of a transcription file.
+                    The system will train a model that generates these sequences of labels from data input from Audio files.
+                    There are two main types of labels supported by the system, you can define phonemes only or a combination
+                    of phonemes with tones.
+                    Note that labels can be used to represent non speech events too, for example you may wish to make a label for
+                    a particular background noise present in a set of recordings in order to isolate that in the results.
+                </p>
                 <Header as='h2'>Basic workflow</Header>
                 <Header as='h3'>Introduction</Header>
                 <Step.Group widths={5}>
