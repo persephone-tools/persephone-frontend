@@ -7,6 +7,26 @@ The aim of this project is to make it easy for people to use the Persephone in t
 
 This frontend interacts with the [Persephone web API](https://github.com/persephone-tools/persephone-web-API).
 
+## Installation and usage
+
+An automated install for this frontend code is provided in a docker file at [./Dockerfile](https://github.com/persephone-tools/persephone-frontend/blob/master/Dockerfile).
+
+We have build automation set up so that this build is available on Docker Hub at `persephonetools/frontend:latest`.
+
+If you wish to build locally you can do so with:
+
+```sh
+docker build -t persephonefrontend:dev .
+```
+
+The to run:
+
+```sh
+docker run -p 8000:8000/tcp persephonefrontend:dev
+```
+
+If you are looking to use the whole stack the easiest way to get started is to use the docker-compose setup found in the [persephone-docker repository](https://github.com/aapeliv/persephone-docker) as this will automate the install and setup of the API server along with the frontend.
+
 ## Support
 
 If you find an issue with this code please open an issue on the [issues tracker](https://github.com/aapeliv/persephone-frontend/issues).
