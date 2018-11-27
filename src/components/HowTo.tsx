@@ -215,6 +215,13 @@ class HowTo extends React.Component<RouteComponentProps<any>, React.Props<any>> 
                     </Step>
                 </Step.Group>
                 <p>Explain here.</p>
+
+            <Header as='h2'>Use the API directly</Header>
+            <p>
+                You may wish to use the API directly without a web frontend.
+                The API is provided by the Persephone Web API, the specification for this can be found at the <a href="https://github.com/persephone-tools/persephone-web-API/">Persephone web APP repositiory.</a>
+                The repository has <a href="https://github.com/persephone-tools/persephone-web-API/tree/master/examples">example code</a> that you may wish to use as a reference.
+            </p>
             </div>
         )
     }
