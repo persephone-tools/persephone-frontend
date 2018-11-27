@@ -19,7 +19,7 @@ class Intro extends React.Component<RouteComponentProps<any>, React.Props<any>> 
                     </List.Item>
                     <List.Item>
                         <List.Icon name='book' />
-                        <List.Content>Corpuses</List.Content>
+                        <List.Content>Corpora</List.Content>
                     </List.Item>
                     <List.Item>
                         <List.Icon name='music' />
@@ -39,217 +39,38 @@ class Intro extends React.Component<RouteComponentProps<any>, React.Props<any>> 
                     </List.Item>
                 </List>
                 <p>You can access the data from the left hand menu, by clicking on the appropriate link.</p>
-                <Header as='h3'>Models and corpuses</Header>
-                <p>Explain the difference here</p>
+
                 <Header as='h3'>Audio, transcriptions, and utterances</Header>
-                <p>Explain the difference here</p>
+                <p>
+                    Audio files are the wave files that contain the audio we wish to transcribe.
+                    Transcriptions are textual representations of some audio which contain sequences of labels.
+                    Utterances are groupings of an audio file along with an associated transcription.
+                </p>
+                <Header as='h3'>Corpora</Header>
+                <p>
+                    A corpus provides a way of grouping together a collection of utterances into a partition
+                    of training, testing and validation groups for use in training the model.
+                    To make these audio files suitable for the underlying machine learning system the audio files
+                    must be preprocessed to be in a suitable format.
+                    Different options for preprocessing are provided as the required input data is based on what
+                    the model will support.
+                </p>
+                <Header as='h3'>Models</Header>
+                <p>
+                    In order to construct a phonetic transcription model we have to define various parameters
+                    then provide a corpus of training data.
+                    To be able to use a model it first must be trained against this data.
+                    Once the model is trained it can be used to transcribe audio files.
+                </p>
                 <Header as='h3'>Labels</Header>
-                <p>Explain the difference here</p>
-                <Header as='h2'>Basic workflow</Header>
-                <Header as='h3'>Introduction</Header>
-                <Step.Group widths={5}>
-                    <Step>
-                        <Icon name='plus' />
-                        <Step.Content>
-                            <Step.Title>Model creation</Step.Title>
-                        </Step.Content>
-                    </Step>
-                    <Step>
-                        <Icon name='cloud upload' />
-                        <Step.Content>
-                            <Step.Title>Data upload</Step.Title>
-                        </Step.Content>
-                    </Step>
-                    <Step>
-                        <Icon name='filter' />
-                        <Step.Content>
-                            <Step.Title>Preprocessing</Step.Title>
-                        </Step.Content>
-                    </Step>
-                    <Step>
-                        <Icon name='hourglass start' />
-                        <Step.Content>
-                            <Step.Title>Training</Step.Title>
-                        </Step.Content>
-                    </Step>
-                    <Step>
-                        <Icon name='translate' />
-                        <Step.Content>
-                            <Step.Title>Transcription</Step.Title>
-                        </Step.Content>
-                    </Step>
-                </Step.Group>
-                <p>...</p>
-                <Header as='h3'>Model creation</Header>
-                <Step.Group size="mini">
-                    <Step active={true}>
-                        <Icon name='plus' />
-                        <Step.Content>
-                            <Step.Title>Model creation</Step.Title>
-                        </Step.Content>
-                    </Step>
-                    <Step disabled={true}>
-                        <Icon name='cloud upload' />
-                        <Step.Content>
-                            <Step.Title>Data upload</Step.Title>
-                        </Step.Content>
-                    </Step>
-                    <Step disabled={true}>
-                        <Icon name='filter' />
-                        <Step.Content>
-                            <Step.Title>Preprocessing</Step.Title>
-                        </Step.Content>
-                    </Step>
-                    <Step disabled={true}>
-                        <Icon name='hourglass start' />
-                        <Step.Content>
-                            <Step.Title>Training</Step.Title>
-                        </Step.Content>
-                    </Step>
-                    <Step disabled={true}>
-                        <Icon name='translate' />
-                        <Step.Content>
-                            <Step.Title>Transcription</Step.Title>
-                        </Step.Content>
-                    </Step>
-                </Step.Group>
-                <p>Explain here.</p>
-                <Header as='h3'>Data upload</Header>
-                <Step.Group size="mini">
-                    <Step>
-                        <Icon name='plus' />
-                        <Step.Content>
-                            <Step.Title>Model creation</Step.Title>
-                        </Step.Content>
-                    </Step>
-                    <Step active={true}>
-                        <Icon name='cloud upload' />
-                        <Step.Content>
-                            <Step.Title>Data upload</Step.Title>
-                        </Step.Content>
-                    </Step>
-                    <Step disabled={true}>
-                        <Icon name='filter' />
-                        <Step.Content>
-                            <Step.Title>Preprocessing</Step.Title>
-                        </Step.Content>
-                    </Step>
-                    <Step disabled={true}>
-                        <Icon name='hourglass start' />
-                        <Step.Content>
-                            <Step.Title>Training</Step.Title>
-                        </Step.Content>
-                    </Step>
-                    <Step disabled={true}>
-                        <Icon name='translate' />
-                        <Step.Content>
-                            <Step.Title>Transcription</Step.Title>
-                        </Step.Content>
-                    </Step>
-                </Step.Group>
-                <p>Explain here.</p>
-                <Header as='h3'>Preprocessing</Header>
-                <Step.Group size="mini">
-                    <Step>
-                        <Icon name='plus' />
-                        <Step.Content>
-                            <Step.Title>Model creation</Step.Title>
-                        </Step.Content>
-                    </Step>
-                    <Step>
-                        <Icon name='cloud upload' />
-                        <Step.Content>
-                            <Step.Title>Data upload</Step.Title>
-                        </Step.Content>
-                    </Step>
-                    <Step active={true}>
-                        <Icon name='filter' />
-                        <Step.Content>
-                            <Step.Title>Preprocessing</Step.Title>
-                        </Step.Content>
-                    </Step>
-                    <Step disabled={true}>
-                        <Icon name='hourglass start' />
-                        <Step.Content>
-                            <Step.Title>Training</Step.Title>
-                        </Step.Content>
-                    </Step>
-                    <Step disabled={true}>
-                        <Icon name='translate' />
-                        <Step.Content>
-                            <Step.Title>Transcription</Step.Title>
-                        </Step.Content>
-                    </Step>
-                </Step.Group>
-                <p>Explain here.</p>
-                <Header as='h3'>Training</Header>
-                <Step.Group size="mini">
-                    <Step>
-                        <Icon name='plus' />
-                        <Step.Content>
-                            <Step.Title>Model creation</Step.Title>
-                        </Step.Content>
-                    </Step>
-                    <Step>
-                        <Icon name='cloud upload' />
-                        <Step.Content>
-                            <Step.Title>Data upload</Step.Title>
-                        </Step.Content>
-                    </Step>
-                    <Step>
-                        <Icon name='filter' />
-                        <Step.Content>
-                            <Step.Title>Preprocessing</Step.Title>
-                        </Step.Content>
-                    </Step>
-                    <Step active={true}>
-                        <Icon name='hourglass start' />
-                        <Step.Content>
-                            <Step.Title>Training</Step.Title>
-                        </Step.Content>
-                    </Step>
-                    <Step disabled={true}>
-                        <Icon name='translate' />
-                        <Step.Content>
-                            <Step.Title>Transcription</Step.Title>
-                        </Step.Content>
-                    </Step>
-                </Step.Group>
-                <p>Explain here.</p>
-                <Header as='h3'>Transcription</Header>
-                <Step.Group size="mini">
-                    <Step>
-                        <Icon name='plus' />
-                        <Step.Content>
-                            <Step.Title>Model creation</Step.Title>
-                        </Step.Content>
-                    </Step>
-                    <Step>
-                        <Icon name='cloud upload' />
-                        <Step.Content>
-                            <Step.Title>Data upload</Step.Title>
-                        </Step.Content>
-                    </Step>
-                    <Step>
-                        <Icon name='filter' />
-                        <Step.Content>
-                            <Step.Title>Preprocessing</Step.Title>
-                        </Step.Content>
-                    </Step>
-                    <Step>
-                        <Icon name='hourglass start' />
-                        <Step.Content>
-                            <Step.Title>Training</Step.Title>
-                        </Step.Content>
-                    </Step>
-                    <Step active={true}>
-                        <Icon name='translate' />
-                        <Step.Content>
-                            <Step.Title>Transcription</Step.Title>
-                        </Step.Content>
-                    </Step>
-                </Step.Group>
-                <p>Explain here.</p>
+                <p>
+                    Labels form the atomic unit of a transcription file.
+                    The system will train a model that generates these sequences of labels from data input from Audio files.
+                    There are two main types of labels supported by the system, you can define phonemes only or a combination
+                    of phonemes with tones.
+                    Note that labels can be used to represent non speech events too, for example you may wish to make a label for
+                    a particular background noise present in a set of recordings in order to isolate that in the results.
+                </p>
             </div>
         )
     }
