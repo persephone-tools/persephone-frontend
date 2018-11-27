@@ -36,6 +36,7 @@ class App extends React.Component {
             <Switch>
               <Route exact={true} path="/" component={Index} />
               <Route exact={true} path="/intro" component={Intro} />
+              <Route exact={true} path="/howto" component={HowTo} />
               <Route exact={true} path="/audio/" component={Audio} />
               <Route exact={true} path="/audio/:audioId" component={AudioDetail} />
               <Route exact={true} path="/upload/" component={DropUpload} />
