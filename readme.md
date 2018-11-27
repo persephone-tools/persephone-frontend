@@ -19,12 +19,15 @@ If you wish to build locally you can do so with:
 docker build -t persephonefrontend:dev .
 ```
 
-The to run:
+Then to run:
 
 ```sh
 docker run -p 8000:8000/tcp persephonefrontend:dev
 ```
 
+At this point the web frontend will be served up on localhost at port 8000. Point your browser to there to verify it is working.
+
+Note that the frontend must interact with the API server to work and that server must be running and accessible.
 If you are looking to use the whole stack the easiest way to get started is to use the docker-compose setup found in the [persephone-docker repository](https://github.com/aapeliv/persephone-docker) as this will automate the install and setup of the API server along with the frontend.
 
 ## Support
