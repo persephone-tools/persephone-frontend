@@ -9,4 +9,4 @@ before_install:
 install:
   - yarn install
   - curl -sLo api_spec.yaml https://github.com/persephone-tools/persephone-web-API/raw/master/persephone_api/api_spec.yaml
-  - java -jar codegen/target/TypescriptBrowser-swagger-codegen-shaded.jar generate -l TypescriptBrowser -i api_spec.yaml -o persephone-tools/persephone-frontend/src/gen/
+  - java -jar codegen/target/TypescriptBrowser-swagger-codegen-shaded.jar generate -l TypescriptBrowser -i api_spec.yaml -o ./src/gen/
