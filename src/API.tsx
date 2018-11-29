@@ -11,7 +11,7 @@ class ErrorMiddleware implements Middleware {
             } as ErrorMessage;
         } else if (response.status < 200 || response.status >= 300) {
             let error = {
-                detail: "An unkown error occured",
+                detail: "An unknown error occurred",
                 status: 400,
                 title: "Couldn't parse error",
                 type: "about:blank",
