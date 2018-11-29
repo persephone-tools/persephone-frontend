@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { RouteComponentProps, withRouter } from 'react-router-dom'
 
-import { Header, Icon, List, Step } from 'semantic-ui-react'
+import { Header, List } from 'semantic-ui-react'
 
 class Intro extends React.Component<RouteComponentProps<any>, React.Props<any>> {
     public render() {

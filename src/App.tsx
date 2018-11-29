@@ -9,6 +9,7 @@ import Audio from './components/Audio';
 import AudioDetail from './components/AudioDetail';
 import Corpus from './components/Corpus';
 import CorpusDetail from './components/CorpusDetail';
+import HowTo from './components/HowTo';
 import Index from './components/Index';
 import Intro from './components/Intro';
 import LabelList from './components/LabelList';
