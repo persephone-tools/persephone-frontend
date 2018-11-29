@@ -5,7 +5,7 @@ before_install:
   - sudo apt-get update -y
   - sudo apt-get -y install maven default-jdk
   - git clone https://github.com/aapeliv/swagger-codegen-typescript-browser codegen
-  - cd /app/codegen && mvn clean package
+  - cd codegen && mvn clean package
 install:
   - curl -sLo api_spec.yaml https://github.com/persephone-tools/persephone-web-API/raw/master/persephone_api/api_spec.yaml
   - yarn codegen
