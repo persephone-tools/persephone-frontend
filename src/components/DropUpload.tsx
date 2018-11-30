@@ -209,7 +209,7 @@ class DropUpload extends React.Component<any, IDropUploadState> {
                     }
                     api.audioPost(requestData).then(res => {
                         this.updateFile(id, {state: RequestState.COMPLETE, fileT: res})
-                        console.log("succesfully uploaded", file)
+                        console.log("successfully uploaded", file)
                     }).catch(err => {
                         this.updateFile(id, {state: RequestState.FAILED})
                     });
@@ -229,12 +229,12 @@ class DropUpload extends React.Component<any, IDropUploadState> {
                     }
                     api.persephoneApiApiEndpointsTranscriptionFromFile(requestData).then(res => {
                         this.updateFile(id, {state: RequestState.COMPLETE, fileT: res})
-                        console.log("succesfully uploaded", file)
+                        console.log("successfully uploaded", file)
                     }).catch(err => {
                         this.updateFile(id, {state: RequestState.FAILED})
                     });
                 } else {
-                    console.log("unkown filetype, not uploaded")
+                    console.log("unknown filetype, not uploaded")
                     throw Error("Unknown file type")
                 }
             } catch {
