@@ -85,6 +85,47 @@ class UnmatchedFileRow extends React.PureComponent<UnmatchedFileRowProps> {
     }
 }
 
+interface MatchedFileRowsProps {
+  match: Readonly<IUtteranceMatch>
+}
+
+// tslint:disable-next-line:max-classes-per-file
+class MatchedFileRows extends React.PureComponent<MatchedFileRowsProps> {
+    render () {
+        const { match } = this.props
+        return (
+        <React.Fragment key={match.audio.id}>
+            <Table.Row key={match.audio.id}>
+                <Table.Cell rowSpan="2">
+                    {match.state === RequestState.FAILED ?
+                        <Icon name="times" />
+                    :
+                        match.state === RequestState.COMPLETE ?
+                            <Icon name="check" />
+                        :
+                            <Icon name="circle notch" loading={true} />
+                    }
+                </Table.Cell>
+                <Table.Cell>{match.audio.fileType}</Table.Cell>
+                <Table.Cell>{match.audio.state}</Table.Cell>
+                <Table.Cell>{match.audio.name}</Table.Cell>
+                <Table.Cell>{match.audio.fileT ? match.audio.fileT.id : (match.audio.state === RequestState.STARTED && <Placeholder><PlaceholderLine /></Placeholder>)}</Table.Cell>
+                <Table.Cell>{match.audio.fileT ? match.audio.fileT.fileInfo!.id : (match.audio.state === RequestState.STARTED && <Placeholder><PlaceholderLine /></Placeholder>)}</Table.Cell>
+                <Table.Cell>{match.audio.fileT ? <Time time={match.audio.fileT.fileInfo!.createdAt} /> : (match.audio.state === RequestState.STARTED && <Placeholder><PlaceholderLine /></Placeholder>)}</Table.Cell>
+            </Table.Row>
+            <Table.Row key={match.transcription.id}>
+                <Table.Cell>{match.transcription.fileType}</Table.Cell>
+                <Table.Cell>{match.transcription.state}</Table.Cell>
+                <Table.Cell>{match.transcription.name}</Table.Cell>
+                <Table.Cell>{match.transcription.fileT ? match.transcription.fileT.id : (match.transcription.state === RequestState.STARTED && <Placeholder><PlaceholderLine /></Placeholder>)}</Table.Cell>
+                <Table.Cell>{match.transcription.fileT ? match.transcription.fileT.fileInfo!.id : (match.transcription.state === RequestState.STARTED && <Placeholder><PlaceholderLine /></Placeholder>)}</Table.Cell>
+                <Table.Cell>{match.transcription.fileT ? <Time time={match.transcription.fileT.fileInfo!.createdAt} /> : (match.transcription.state === RequestState.STARTED && <Placeholder><PlaceholderLine /></Placeholder>)}</Table.Cell>
+            </Table.Row>
+        </React.Fragment>
+        )
+    }
+}
+
 // tslint:disable-next-line:max-classes-per-file
 class DropUpload extends React.Component<any, IDropUploadState> {
     constructor(props: any) {
@@ -290,36 +331,9 @@ class DropUpload extends React.Component<any, IDropUploadState> {
                             <React.Fragment>
                                 {this.state.matches
                                     .sort((one, two) => (one.name === two.name) ? 0 : (one.name < two.name ? -1 : 1))
-                                    .map(m =>
-                                        <React.Fragment key={m.audio.id}>
-                                            <Table.Row key={m.audio.id}>
-                                                <Table.Cell rowSpan="2">
-                                                    {m.state === RequestState.FAILED ?
-                                                        <Icon name="times" />
-                                                    :
-                                                        m.state === RequestState.COMPLETE ?
-                                                            <Icon name="check" />
-                                                        :
-                                                            <Icon name="circle notch" loading={true} />
-                                                    }
-                                                </Table.Cell>
-                                                <Table.Cell>{m.audio.fileType}</Table.Cell>
-                                                <Table.Cell>{m.audio.state}</Table.Cell>
-                                                <Table.Cell>{m.audio.name}</Table.Cell>
-                                                <Table.Cell>{m.audio.fileT ? m.audio.fileT.id : (m.audio.state === RequestState.STARTED && <Placeholder><PlaceholderLine /></Placeholder>)}</Table.Cell>
-                                                <Table.Cell>{m.audio.fileT ? m.audio.fileT.fileInfo!.id : (m.audio.state === RequestState.STARTED && <Placeholder><PlaceholderLine /></Placeholder>)}</Table.Cell>
-                                                <Table.Cell>{m.audio.fileT ? <Time time={m.audio.fileT.fileInfo!.createdAt} /> : (m.audio.state === RequestState.STARTED && <Placeholder><PlaceholderLine /></Placeholder>)}</Table.Cell>
-                                            </Table.Row>
-                                            <Table.Row key={m.transcription.id}>
-                                                <Table.Cell>{m.transcription.fileType}</Table.Cell>
-                                                <Table.Cell>{m.transcription.state}</Table.Cell>
-                                                <Table.Cell>{m.transcription.name}</Table.Cell>
-                                                <Table.Cell>{m.transcription.fileT ? m.transcription.fileT.id : (m.transcription.state === RequestState.STARTED && <Placeholder><PlaceholderLine /></Placeholder>)}</Table.Cell>
-                                                <Table.Cell>{m.transcription.fileT ? m.transcription.fileT.fileInfo!.id : (m.transcription.state === RequestState.STARTED && <Placeholder><PlaceholderLine /></Placeholder>)}</Table.Cell>
-                                                <Table.Cell>{m.transcription.fileT ? <Time time={m.transcription.fileT.fileInfo!.createdAt} /> : (m.transcription.state === RequestState.STARTED && <Placeholder><PlaceholderLine /></Placeholder>)}</Table.Cell>
-                                            </Table.Row>
-                                        </React.Fragment>
-                                )}
+                                    .map(m => (
+                                        <MatchedFileRows key={m.transcription.id} match={m} />
+                                ))}
                                 {this.state.uploadedFiles
                                     .filter(f => !f.matched)
                                     .sort((one, two) => {
