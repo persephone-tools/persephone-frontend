@@ -64,6 +64,28 @@ export interface IDropUploadState {
     acceptedFileTypes: IAcceptedFileTypes;
 }
 
+interface UnmatchedFileRowProps {
+    file: IUploadedFile<any>
+}
+
+class UnmatchedFileRow extends React.PureComponent<UnmatchedFileRowProps> {
+    render() {
+      const { file } = this.props
+      return (
+        <Table.Row >
+            <Table.Cell><Icon name='question'/ ></Table.Cell>
+            <Table.Cell>{file.fileType}</Table.Cell>
+            <Table.Cell>{file.state}</Table.Cell>
+            <Table.Cell>{file.name}</Table.Cell>
+            <Table.Cell>{file.fileT ? file.fileT.id : (file.state === RequestState.STARTED && <Placeholder><PlaceholderLine /></Placeholder>)}</Table.Cell>
+            <Table.Cell>{file.fileT ? file.fileT.fileInfo!.id : (file.state === RequestState.STARTED && <Placeholder><PlaceholderLine /></Placeholder>)}</Table.Cell>
+            <Table.Cell>{file.fileT ? <Time time={file.fileT.fileInfo!.createdAt} /> : (file.state === RequestState.STARTED && <Placeholder><PlaceholderLine /></Placeholder>)}</Table.Cell>
+        </Table.Row>
+        )
+    }
+}
+
+// tslint:disable-next-line:max-classes-per-file
 class DropUpload extends React.Component<any, IDropUploadState> {
     constructor(props: any) {
         super(props);
@@ -303,17 +325,9 @@ class DropUpload extends React.Component<any, IDropUploadState> {
                                     .sort((one, two) => {
                                         const stateRank = [RequestState.COMPLETE, RequestState.STARTED, RequestState.NOT_STARTED, RequestState.FAILED];
                                         return (one.state !== two.state) ? stateRank.indexOf(one.state) - stateRank.indexOf(two.state) : (one.name < two.name ? -1 : 1);})
-                                    .map(file =>
-                                        <Table.Row key={file.id}>
-                                            <Table.Cell><Icon name='question'/ ></Table.Cell>
-                                            <Table.Cell>{file.fileType}</Table.Cell>
-                                            <Table.Cell>{file.state}</Table.Cell>
-                                            <Table.Cell>{file.name}</Table.Cell>
-                                            <Table.Cell>{file.fileT ? file.fileT.id : (file.state === RequestState.STARTED && <Placeholder><PlaceholderLine /></Placeholder>)}</Table.Cell>
-                                            <Table.Cell>{file.fileT ? file.fileT.fileInfo!.id : (file.state === RequestState.STARTED && <Placeholder><PlaceholderLine /></Placeholder>)}</Table.Cell>
-                                            <Table.Cell>{file.fileT ? <Time time={file.fileT.fileInfo!.createdAt} /> : (file.state === RequestState.STARTED && <Placeholder><PlaceholderLine /></Placeholder>)}</Table.Cell>
-                                        </Table.Row>
-                                )}
+                                        .map(file => (
+                                            <UnmatchedFileRow key={file.id} file={file} />
+                                ))}
                             </React.Fragment>
                         :
                             <Table.Row>
