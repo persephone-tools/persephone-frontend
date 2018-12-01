@@ -206,20 +206,26 @@ class DropUpload extends React.Component<any, IDropUploadState> {
         })
     }
 
-    public updateFile<T, S extends keyof IUploadedFile<T>>(id: string, file: Pick<IUploadedFile<T>, S>) {
-        // QQQQ this hurts me deep inside
-        const files = this.state.uploadedFiles;
-        const val = files.find(f => f.id === id);
-        if (val) {
-            const index = files.indexOf(val);
-            for (const key in file) {
-                if (file.hasOwnProperty(key)) {
-                    files[index][key] = file[key];
-                }
-            }
-            this.setState({uploadedFiles: files})
+    public updateFile(id: string, file: Partial<IUploadedFile<any>>) {
+        const prevFiles = this.state.uploadedFiles
+
+        // Find the file in current array of files.
+        const fileIndex = prevFiles.findIndex(f => f.id === id);
+
+        // It should always exist...
+        if (fileIndex === -1) {
+            // tslint:disable-next-line:no-console
+            console.error(`Could not find file with id ${id}`);
+            return;
         }
-        this.match()
+
+        // Duplicate the array, and replace the old instance of the file, with
+        // a new instance having updated attributes.
+        const nextFiles = [...prevFiles];
+        nextFiles[fileIndex] = { ...nextFiles[fileIndex], ...file };
+
+        // Now update the state so we can re-render with the new array.
+        this.setState({ uploadedFiles: nextFiles }, this.match);
     }
 
     public onDrop(accepted: File[], rejected: File[], event: React.DragEvent<HTMLDivElement>) {
