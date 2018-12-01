@@ -55,8 +55,8 @@ export interface IUtteranceMatch {
 
 export interface IDropUploadState {
     dragActive: boolean;
-    matches: IUtteranceMatch[];
-    uploadedFiles: Array<IUploadedFile<AudioFileInformation> | IUploadedFile<TranscriptionInformation>>;
+    matches: ReadonlyArray<Readonly<IUtteranceMatch>>;
+    uploadedFiles: ReadonlyArray<IUploadedFile<AudioFileInformation> | IUploadedFile<TranscriptionInformation>>;
     formError?: ErrorMessage;
     formLoading: boolean;
     isLoading: boolean;
@@ -329,7 +329,7 @@ class DropUpload extends React.Component<any, IDropUploadState> {
                     <Table.Body>
                         {this.state.uploadedFiles.length > 0 ?
                             <React.Fragment>
-                                {this.state.matches
+                                {[...this.state.matches]
                                     .sort((one, two) => (one.name === two.name) ? 0 : (one.name < two.name ? -1 : 1))
                                     .map(m => (
                                         <MatchedFileRows key={m.transcription.id} match={m} />
