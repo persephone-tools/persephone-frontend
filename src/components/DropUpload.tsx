@@ -64,11 +64,11 @@ export interface IDropUploadState {
     acceptedFileTypes: IAcceptedFileTypes;
 }
 
-interface UnmatchedFileRowProps {
+interface IUnmatchedFileRowProps {
     file: IUploadedFile<any>
 }
 
-class UnmatchedFileRow extends React.PureComponent<UnmatchedFileRowProps> {
+class UnmatchedFileRow extends React.PureComponent<IUnmatchedFileRowProps> {
     render() {
       const { file } = this.props
       return (
@@ -85,12 +85,12 @@ class UnmatchedFileRow extends React.PureComponent<UnmatchedFileRowProps> {
     }
 }
 
-interface MatchedFileRowsProps {
+interface IMatchedFileRowsProps {
   match: Readonly<IUtteranceMatch>
 }
 
 // tslint:disable-next-line:max-classes-per-file
-class MatchedFileRows extends React.PureComponent<MatchedFileRowsProps> {
+class MatchedFileRows extends React.PureComponent<IMatchedFileRowsProps> {
     render () {
         const { match } = this.props
         return (

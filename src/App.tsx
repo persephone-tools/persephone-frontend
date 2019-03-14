@@ -33,7 +33,7 @@ class App extends React.Component {
       <BrowserRouter>
         <div className="App">
           <Route exact={true} path="*" component={MainMenu} />
-          <Container>
+          <Container className="container-position">
             <Switch>
               <Route exact={true} path="/" component={Index} />
               <Route exact={true} path="/intro" component={Intro} />
