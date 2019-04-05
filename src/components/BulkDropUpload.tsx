@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { Header, Icon, Progress, Segment, } from 'semantic-ui-react';
+import { Dimmer, Header, Icon, Loader, Progress, Segment, } from 'semantic-ui-react';
 
 import { withRouter } from 'react-router';
 
@@ -9,6 +9,8 @@ import { api } from '../API';
 import { AudioFileInformation, ErrorMessage, PersephoneApiApiEndpointsBulkDataUtterancesRequest, TranscriptionInformation, } from '../gen/api';
 
 import Dropzone from 'react-dropzone';
+
+import { v4 } from 'uuid';
 
 export interface IAcceptedFileTypes {
     audio: string[];
@@ -40,6 +42,11 @@ export interface IUploadedFile<T> {
     matched: boolean;
 }
 
+export interface IRejectedFiles {
+    id: string;
+    name: string;
+}
+
 export interface IUtteranceMatch {
     id: string;
     name: string;
@@ -51,12 +58,15 @@ export interface IUtteranceMatch {
 export interface IDropUploadState {
     dragActive: boolean;
     matches: ReadonlyArray<Readonly<IUtteranceMatch>>;
+    rejectedFiles: ReadonlyArray<IRejectedFiles>;
     uploadedFiles: ReadonlyArray<IUploadedFile<AudioFileInformation> | IUploadedFile<TranscriptionInformation>>;
     formError?: ErrorMessage;
     formLoading: boolean;
     isLoading: boolean;
     uploadModalOpen: boolean;
+    uploading: boolean;
     acceptedFileTypes: IAcceptedFileTypes;
+    zipName: string;
 }
 
 class BulkDropUpload extends React.Component<any, IDropUploadState> {
@@ -68,8 +78,11 @@ class BulkDropUpload extends React.Component<any, IDropUploadState> {
             formLoading: false,
             isLoading: true,
             matches: [],
+            rejectedFiles: [],
             uploadModalOpen: false,
-            uploadedFiles: []
+            uploadedFiles: [],
+            uploading: false,
+            zipName: '',
         };
         this.getData = this.getData.bind(this);
         this.onDrop = this.onDrop.bind(this);
@@ -97,23 +110,44 @@ class BulkDropUpload extends React.Component<any, IDropUploadState> {
 
     public onDrop(accepted: File[], rejected: File[], event: React.DragEvent<HTMLDivElement>) {
         this.setState({
-            dragActive: false
+            dragActive: false,
+            uploading: true
         })
-        console.log("accepted: ", accepted, "rejected: ", rejected);
-
-        if (rejected.length > 0){
-            console.log(rejected, "cannot be uploaded, must be a valid zip file");
+        console.log(this.state.uploading);
+        const rejectedFiles: IRejectedFiles[] = [];
+        if (rejected.length > 0) {
+            for (const file of rejected) {
+                const id = v4();
+                rejectedFiles.push({
+                    id,
+                    name: file.name,
+                }) 
+            }
         }
         for (const file of accepted) {
-            const requestData: PersephoneApiApiEndpointsBulkDataUtterancesRequest = {
-                utterancesFile: file
-            }
-            api.persephoneApiApiEndpointsBulkDataUtterances(requestData).then(res => {                   
-                console.log("uploading valid zip file: ", file)
-            }).catch(err => {
+            try {
+                const requestData: PersephoneApiApiEndpointsBulkDataUtterancesRequest = {
+                    utterancesFile: file
+                }
+                api.persephoneApiApiEndpointsBulkDataUtterances(requestData).then(res => {                                  
+                    console.log("uploading valid zip file: ", file);
+                    console.log("result: ", res);
+                    this.setState({
+                        zipName: file.name,
+                    })
+                    Object.keys(res).forEach((item) => {
+                        console.log(item);
+                        console.log(res[item]);
+                    })          
+                })
+            } catch {
                 console.log("unsuccessful");
-            });
-        }
+            }
+        }    
+        this.setState({
+            rejectedFiles: this.state.rejectedFiles.concat(rejectedFiles),
+            uploading: false
+        })
     }
 
     public onDragLeave() {
@@ -126,6 +160,9 @@ class BulkDropUpload extends React.Component<any, IDropUploadState> {
                 <Header as='h1'>Bulk zip file upload</Header>
                 <Dropzone style={{position: "relative"}} onDrop={this.onDrop} onDragEnter={this.onDragEnter} onDragLeave={this.onDragLeave} accept=".zip">
                     <Segment placeholder={true} tertiary={this.state.dragActive} loading={this.state.isLoading}>
+                        <Dimmer active={this.state.uploading}>
+                            <Loader size='huge'>Uploading File</Loader>
+                        </Dimmer>
                         <Header icon={true}>
                             <Icon name='cloud upload' />
                             Drop a zip file containing pairs of audio and transcription files here to upload and sort into utterances.
@@ -135,8 +172,15 @@ class BulkDropUpload extends React.Component<any, IDropUploadState> {
                     </Segment>
                 </Dropzone>
                 <Header as='h2'>Uploaded zip file</Header>
-                {/* add in feedback on what got uploaded (not with every file on the table) */}
-             </div>
+                {this.state.zipName.length > 0 &&
+                    <p>{this.state.zipName} has successfully uploaded</p>}
+                {this.state.rejectedFiles.length > 0 &&
+                    <div style={{color: "red"}}>{this.state.rejectedFiles.map((rejectedFiles) => (
+                        <li key={rejectedFiles.id}>
+                            {rejectedFiles.name} has not been uploaded, must be a valid zip file
+                        </li>
+                    ))}</div>}
+            </div>
         )
     }
 }
