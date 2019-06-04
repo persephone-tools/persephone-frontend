@@ -1,6 +1,9 @@
 import * as React from 'react';
+import '../App.css';
 
-import { Header, Icon, Placeholder, PlaceholderLine, Progress, Segment, Table } from 'semantic-ui-react';
+import { Header, Icon, /*Placeholder, PlaceholderLine,*/ Progress, Segment, /*Table*/ } from 'semantic-ui-react';
+
+import { AutoSizer, Column, Table as VTable } from 'react-virtualized';
 
 import { withRouter } from 'react-router';
 
@@ -14,7 +17,6 @@ import { v4 } from 'uuid';
 
 import Time from './Time';
 
-// QQQQ API doesn't specify this yet
 export interface IAcceptedFileTypes {
     audio: string[];
     transcription: string[];
@@ -62,69 +64,7 @@ export interface IDropUploadState {
     isLoading: boolean;
     uploadModalOpen: boolean;
     acceptedFileTypes: IAcceptedFileTypes;
-}
-
-interface IUnmatchedFileRowProps {
-    file: IUploadedFile<any>
-}
-
-class UnmatchedFileRow extends React.PureComponent<IUnmatchedFileRowProps> {
-    render() {
-      const { file } = this.props
-      return (
-        <Table.Row >
-            <Table.Cell><Icon name='question'/ ></Table.Cell>
-            <Table.Cell>{file.fileType}</Table.Cell>
-            <Table.Cell>{file.state}</Table.Cell>
-            <Table.Cell>{file.name}</Table.Cell>
-            <Table.Cell>{file.fileT ? file.fileT.id : (file.state === RequestState.STARTED && <Placeholder><PlaceholderLine /></Placeholder>)}</Table.Cell>
-            <Table.Cell>{file.fileT ? file.fileT.fileInfo!.id : (file.state === RequestState.STARTED && <Placeholder><PlaceholderLine /></Placeholder>)}</Table.Cell>
-            <Table.Cell>{file.fileT ? <Time time={file.fileT.fileInfo!.createdAt} /> : (file.state === RequestState.STARTED && <Placeholder><PlaceholderLine /></Placeholder>)}</Table.Cell>
-        </Table.Row>
-        )
-    }
-}
-
-interface IMatchedFileRowsProps {
-  match: Readonly<IUtteranceMatch>
-}
-
-// tslint:disable-next-line:max-classes-per-file
-class MatchedFileRows extends React.PureComponent<IMatchedFileRowsProps> {
-    render () {
-        const { match } = this.props
-        return (
-        <React.Fragment key={match.audio.id}>
-            <Table.Row key={match.audio.id}>
-                <Table.Cell rowSpan="2">
-                    {match.state === RequestState.FAILED ?
-                        <Icon name="times" />
-                    :
-                        match.state === RequestState.COMPLETE ?
-                            <Icon name="check" />
-                        :
-                            <Icon name="circle notch" loading={true} />
-                    }
-                </Table.Cell>
-                <Table.Cell>{match.audio.fileType}</Table.Cell>
-                <Table.Cell>{match.audio.state}</Table.Cell>
-                <Table.Cell>{match.audio.name}</Table.Cell>
-                <Table.Cell>{match.audio.fileT ? match.audio.fileT.id : (match.audio.state === RequestState.STARTED && <Placeholder><PlaceholderLine /></Placeholder>)}</Table.Cell>
-                <Table.Cell>{match.audio.fileT ? match.audio.fileT.fileInfo!.id : (match.audio.state === RequestState.STARTED && <Placeholder><PlaceholderLine /></Placeholder>)}</Table.Cell>
-                <Table.Cell>{match.audio.fileT ? <Time time={match.audio.fileT.fileInfo!.createdAt} /> : (match.audio.state === RequestState.STARTED && <Placeholder><PlaceholderLine /></Placeholder>)}</Table.Cell>
-            </Table.Row>
-            <Table.Row key={match.transcription.id}>
-                <Table.Cell>{match.transcription.fileType}</Table.Cell>
-                <Table.Cell>{match.transcription.state}</Table.Cell>
-                <Table.Cell>{match.transcription.name}</Table.Cell>
-                <Table.Cell>{match.transcription.fileT ? match.transcription.fileT.id : (match.transcription.state === RequestState.STARTED && <Placeholder><PlaceholderLine /></Placeholder>)}</Table.Cell>
-                <Table.Cell>{match.transcription.fileT ? match.transcription.fileT.fileInfo!.id : (match.transcription.state === RequestState.STARTED && <Placeholder><PlaceholderLine /></Placeholder>)}</Table.Cell>
-                <Table.Cell>{match.transcription.fileT ? <Time time={match.transcription.fileT.fileInfo!.createdAt} /> : (match.transcription.state === RequestState.STARTED && <Placeholder><PlaceholderLine /></Placeholder>)}</Table.Cell>
-            </Table.Row>
-        </React.Fragment>
-        )
-    }
-}
+} 
 
 // tslint:disable-next-line:max-classes-per-file
 class DropUpload extends React.Component<any, IDropUploadState> {
@@ -145,6 +85,7 @@ class DropUpload extends React.Component<any, IDropUploadState> {
         this.onDragLeave = this.onDragLeave.bind(this);
         this.match = this.match.bind(this);
         this.updateFile = this.updateFile.bind(this);
+        this.noRowsRenderer = this.noRowsRenderer.bind(this);
     }
 
     public getData() {
@@ -230,7 +171,8 @@ class DropUpload extends React.Component<any, IDropUploadState> {
 
     public onDrop(accepted: File[], rejected: File[], event: React.DragEvent<HTMLDivElement>) {
         this.setState({
-            dragActive: false
+            dragActive: false,
+            isLoading: true
         })
         const uploadedFiles: Array<IUploadedFile<AudioFileInformation | TranscriptionInformation | undefined>> = [];
         for (const file of accepted) {
@@ -297,11 +239,22 @@ class DropUpload extends React.Component<any, IDropUploadState> {
                 })
             }
         }
-        this.setState({uploadedFiles: this.state.uploadedFiles.concat(uploadedFiles)})
+        this.setState({
+            isLoading: false,
+            uploadedFiles: this.state.uploadedFiles.concat(uploadedFiles)
+        })
     }
 
     public onDragLeave() {
         this.setState({dragActive: false})
+    }
+
+    noRowsRenderer () {
+        return (
+          <div>
+            This table is empty
+          </div>
+        )
     }
 
     public render() {
@@ -319,46 +272,62 @@ class DropUpload extends React.Component<any, IDropUploadState> {
                     </Segment>
                 </Dropzone>
                 <Header as='h2'>Uploaded files</Header>
-                <Table basic='very'>
-                    <Table.Header>
-                    <Table.Row>
-                        <Table.HeaderCell>Match</Table.HeaderCell>
-                        <Table.HeaderCell>Type</Table.HeaderCell>
-                        <Table.HeaderCell>Upload state</Table.HeaderCell>
-                        <Table.HeaderCell>File name</Table.HeaderCell>
-                        <Table.HeaderCell>ID</Table.HeaderCell>
-                        <Table.HeaderCell>File ID</Table.HeaderCell>
-                        <Table.HeaderCell>File created at</Table.HeaderCell>
-                    </Table.Row>
-                    </Table.Header>
-
-                    <Table.Body>
-                        {this.state.uploadedFiles.length > 0 ?
-                            <React.Fragment>
-                                {[...this.state.matches]
-                                    .sort((one, two) => (one.name === two.name) ? 0 : (one.name < two.name ? -1 : 1))
-                                    .map(m => (
-                                        <MatchedFileRows key={m.transcription.id} match={m} />
-                                ))}
-                                {this.state.uploadedFiles
-                                    .filter(f => !f.matched)
-                                    .sort((one, two) => {
-                                        const stateRank = [RequestState.COMPLETE, RequestState.STARTED, RequestState.NOT_STARTED, RequestState.FAILED];
-                                        return (one.state !== two.state) ? stateRank.indexOf(one.state) - stateRank.indexOf(two.state) : (one.name < two.name ? -1 : 1);})
-                                        .map(file => (
-                                            <UnmatchedFileRow key={file.id} file={file} />
-                                ))}
-                            </React.Fragment>
-                        :
-                            <Table.Row>
-                                <Table.Cell colSpan="5">This table is empty</Table.Cell>
-                            </Table.Row>
-                        }
-                    </Table.Body>
-                </Table>
+                {this.state.uploadedFiles.length > 0 &&
+                    <p>{this.state.uploadedFiles.filter(f => f.fileType === 'Audio').length} audios found, 
+                    {this.state.uploadedFiles.filter(f => f.fileType === 'Transcription').length} transcriptions found, 
+                    {this.state.uploadedFiles.filter(f => f.matched === true).length/2} matches found, 
+                    {this.state.uploadedFiles.filter(f => f.fileType === 'Unknown').length} unknown files have not been uploaded</p>}
+                <AutoSizer disableHeight={true}>
+                    {({ width }) => (
+                        <VTable
+                            headerHeight={30}
+                            height={250}
+                            noRowsRenderer={this.noRowsRenderer}
+                            rowCount={this.state.uploadedFiles.length}
+                            rowGetter={({index}) => this.state.uploadedFiles[index]}
+                            rowHeight={40}
+                            width={width} >
+                            <Column
+                                label='Match'
+                                dataKey='state'
+                                width={100} 
+                                cellRenderer={({ rowData }) => (
+                                    rowData ? <Icon name="check" />
+                                    : <Icon name="question" />
+                                )} />
+                            <Column
+                                label='Type'
+                                dataKey='fileType'
+                                width={100} />
+                            <Column
+                                label='Upload state'
+                                dataKey='state'
+                                width={100} />
+                            <Column
+                                label='File name'
+                                dataKey='name'
+                                width={300} />
+                            <Column
+                                label='ID'
+                                dataKey='id'
+                                width={100} />
+                            <Column
+                                label='File ID'
+                                dataKey='fileT'
+                                width={100} 
+                                cellRenderer={({rowData}) =>(
+                                    rowData.id)} />
+                            <Column
+                                label='File created at'
+                                dataKey='file'
+                                width={200}
+                                cellRenderer={({rowData}) =>(
+                                    <Time time={rowData.createdAt} /> )} />
+                        </VTable> 
+                    )}      
+                </AutoSizer>  
             </div>
         )
     }
 }
-
 export default withRouter(DropUpload);

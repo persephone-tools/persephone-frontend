@@ -1,7 +1,15 @@
 /*.App {
     margin: 20px;
 }*/
-
+.ReactVirtualized__Table__headerColumn{
+	display:inline-block;
+	width:150px;
+	border:1px solid black;
+}
+.ReactVirtualized__Table__rowColumn{
+	display:inline-block;
+	width:150px;
+}
 .ui.container.container-position{
 	margin-left:15rem !important;
 	margin-top:20px;
