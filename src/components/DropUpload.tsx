@@ -306,10 +306,10 @@ class DropUpload extends React.Component<any, IDropUploadState> {
                                 )} />
                             <Column
                                 label='Type'
-                                dataKey='audio | transcription'
+                                dataKey='audio'
                                 width={100}
                                 cellRenderer={({ rowData }) => (
-                                    rowData.audio.fileT ? rowData.audio.fileT.fileType : 'finding filetype'
+                                    rowData.audio ? rowData.audio.fileType : 'finding filetype'
                                 )} />
                             <Column
                                 label='Upload state'
