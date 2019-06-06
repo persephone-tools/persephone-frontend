@@ -144,7 +144,7 @@ class DropUpload extends React.Component<any, IDropUploadState> {
         this.setState({
             matches: this.state.matches.concat(newMatches),
             uploadedFiles: this.state.uploadedFiles.map(f => ({ ...f, matched: f.matched || matchedIds.indexOf(f.id) > -1 }))
-        })  
+        })
     }
 
     public updateFile(id: string, file: Partial<IUploadedFile<any>>) {
@@ -172,7 +172,7 @@ class DropUpload extends React.Component<any, IDropUploadState> {
     public onDrop(accepted: File[], rejected: File[], event: React.DragEvent<HTMLDivElement>) {
         this.setState({
             dragActive: false,
-            isLoading: true
+            // isLoading: true
         })
         const uploadedFiles: Array<IUploadedFile<AudioFileInformation | TranscriptionInformation | undefined>> = [];
         for (const file of accepted) {
@@ -197,9 +197,10 @@ class DropUpload extends React.Component<any, IDropUploadState> {
                         audioFile: file
                     }
                     api.audioPost(requestData).then(res => {
+                        // this.setState({ isLoading: true })
                         this.updateFile(id, { state: RequestState.COMPLETE, fileT: res })
-                        console.log("audio id: ", res.id)
-                        // console.log("audiofileid: ", res.fileInfo.id)
+                        console.log("audio displayid: ", res.id)
+                        res.fileInfo ? console.log("audiofileid: ", res.fileInfo.id) : console.log('cant find fileinfo')
                         console.log("successfully uploaded", file)
                     }).catch(err => {
                         this.updateFile(id, { state: RequestState.FAILED })
@@ -219,9 +220,10 @@ class DropUpload extends React.Component<any, IDropUploadState> {
                         transcriptionFile: file
                     }
                     api.persephoneApiApiEndpointsTranscriptionFromFile(requestData).then(res => {
+                        // this.setState({ isLoading: true })
                         this.updateFile(id, { state: RequestState.COMPLETE, fileT: res })
-                        console.log("transcription id", res.id)
-                        // console.log("transcriptionfile id", res.fileInfo.id)
+                        console.log("transcription displayid", res.id)
+                        res.fileInfo ? console.log("transcriptionfile id", res.fileInfo.id) : console.log('cant find fileinfo')
                         console.log("successfully uploaded", file)
                     }).catch(err => {
                         this.updateFile(id, { state: RequestState.FAILED })
@@ -244,7 +246,7 @@ class DropUpload extends React.Component<any, IDropUploadState> {
             }
         }
         this.setState({
-            isLoading: false,
+            // isLoading: false,
             uploadedFiles: this.state.uploadedFiles.concat(uploadedFiles)
         })
         console.log('matches', this.state.matches)
@@ -258,7 +260,7 @@ class DropUpload extends React.Component<any, IDropUploadState> {
     noRowsRenderer() {
         return (
             <div>
-                This table is empty
+                No uploaded files
           </div>
         )
     }
@@ -280,11 +282,12 @@ class DropUpload extends React.Component<any, IDropUploadState> {
                 <Header as='h2'>Uploaded files</Header>
                 {this.state.uploadedFiles.length > 0 &&
                     <p>{this.state.uploadedFiles.filter(f => f.fileType === 'Audio').length} audios found, {this.state.uploadedFiles.filter(f => f.fileType === 'Transcription').length} transcriptions found, {this.state.uploadedFiles.filter(f => f.matched === true).length / 2} matches found, {this.state.uploadedFiles.filter(f => f.fileType === 'Unknown').length} unknown files have not been uploaded</p>}
+                <Header as='h3'>Matched files</Header>
                 <AutoSizer disableHeight={true}>
                     {({ width }) => (
                         <VTable
                             headerHeight={30}
-                            height={250}
+                            height={200}
                             noRowsRenderer={this.noRowsRenderer}
                             rowCount={this.state.matches.length}
                             rowGetter={({ index }) => this.state.matches[index]}
@@ -306,7 +309,7 @@ class DropUpload extends React.Component<any, IDropUploadState> {
                                 dataKey='audio | transcription'
                                 width={100}
                                 cellRenderer={({ rowData }) => (
-                                    rowData.fileType
+                                    rowData.audio.fileT ? rowData.audio.fileT.fileType : 'finding filetype'
                                 )} />
                             <Column
                                 label='Upload state'
@@ -317,37 +320,38 @@ class DropUpload extends React.Component<any, IDropUploadState> {
                                 dataKey='audio'
                                 width={300}
                                 cellRenderer={({ rowData }) => (
-                                    rowData.name
+                                    rowData.audio.fileT ? rowData.audio.name : 'finding filename'
                                 )} />
                             <Column
                                 label='ID'
                                 dataKey='audio'
                                 width={100}
                                 cellRenderer={({ rowData }) => (
-                                    rowData.fileT.id
+                                    rowData.audio.fileT ? rowData.audio.fileT.id : 'finding id'
                                 )} />
                             <Column
                                 label='File ID'
                                 dataKey='audio'
                                 width={100}
                                 cellRenderer={({ rowData }) => (
-                                    rowData.fileT.fileInfo.id
+                                    rowData.audio.fileT ? rowData.audio.fileT.fileInfo!.id : 'finding fileid'
                                 )} />
                             <Column
                                 label='File created at'
                                 dataKey='audio'
                                 width={200}
                                 cellRenderer={({ rowData }) => (
-                                    <Time time={rowData.fileT.fileInfo.createdAt} />
+                                    rowData.audio.fileT ? <Time time={rowData.audio.fileT.fileInfo.createdAt} /> : 'finding date'
                                 )} />
                         </VTable>
                     )}
                 </AutoSizer>
+                <Header as='h3'>All files</Header>
                 <AutoSizer disableHeight={true}>
                     {({ width }) => (
                         <VTable
                             headerHeight={30}
-                            height={250}
+                            height={200}
                             noRowsRenderer={this.noRowsRenderer}
                             rowCount={this.state.uploadedFiles.length}
                             rowGetter={({ index }) => this.state.uploadedFiles[index]}
@@ -386,7 +390,8 @@ class DropUpload extends React.Component<any, IDropUploadState> {
                                 dataKey='file'
                                 width={200}
                                 cellRenderer={({ rowData }) => (
-                                    <Time time={rowData.createdAt} />)} />
+                                    <Time time={rowData.createdAt} />
+                                )} />
                         </VTable>
                     )}
                 </AutoSizer>
