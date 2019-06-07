@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "isomorphic-fetch": "^2.2.1",
     "moment": "^2.22.2",
     "react": "^16.6.1",
     "react-dom": "^16.6.1",
@@ -32,5 +33,11 @@
     "@types/react-router-dom": "^4.3.1",
     "@types/uuid": "^3.4.4",
     "typescript": "^3.1.6"
-  }
+  },
+  "jest": {
+    "automock": false,
+    "setupFiles": [
+      "./setupJest.js"
+    ]
+   }
 }
