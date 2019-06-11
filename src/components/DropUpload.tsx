@@ -172,7 +172,6 @@ class DropUpload extends React.Component<any, IDropUploadState> {
     public onDrop(accepted: File[], rejected: File[], event: React.DragEvent<HTMLDivElement>) {
         this.setState({
             dragActive: false,
-            // isLoading: true
         })
         const uploadedFiles: Array<IUploadedFile<AudioFileInformation | TranscriptionInformation | undefined>> = [];
         for (const file of accepted) {
@@ -197,11 +196,7 @@ class DropUpload extends React.Component<any, IDropUploadState> {
                         audioFile: file
                     }
                     api.audioPost(requestData).then(res => {
-                        // this.setState({ isLoading: true })
                         this.updateFile(id, { state: RequestState.COMPLETE, fileT: res })
-                        console.log("audio displayid: ", res.id)
-                        res.fileInfo ? console.log("audiofileid: ", res.fileInfo.id) : console.log('cant find fileinfo')
-                        console.log("successfully uploaded", file)
                     }).catch(err => {
                         this.updateFile(id, { state: RequestState.FAILED })
                     });
@@ -222,9 +217,6 @@ class DropUpload extends React.Component<any, IDropUploadState> {
                     api.persephoneApiApiEndpointsTranscriptionFromFile(requestData).then(res => {
                         // this.setState({ isLoading: true })
                         this.updateFile(id, { state: RequestState.COMPLETE, fileT: res })
-                        console.log("transcription displayid", res.id)
-                        res.fileInfo ? console.log("transcriptionfile id", res.fileInfo.id) : console.log('cant find fileinfo')
-                        console.log("successfully uploaded", file)
                     }).catch(err => {
                         this.updateFile(id, { state: RequestState.FAILED })
                     });
@@ -246,11 +238,8 @@ class DropUpload extends React.Component<any, IDropUploadState> {
             }
         }
         this.setState({
-            // isLoading: false,
             uploadedFiles: this.state.uploadedFiles.concat(uploadedFiles)
         })
-        console.log('matches', this.state.matches)
-        console.log('uploadedFiles', this.state.uploadedFiles)
     }
 
     public onDragLeave() {
