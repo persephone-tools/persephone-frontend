@@ -291,25 +291,25 @@ class DropUpload extends React.Component<any, IDropUploadState> {
                             noRowsRenderer={this.noRowsRenderer}
                             rowCount={this.state.matches.length}
                             rowGetter={({ index }) => this.state.matches[index]}
-                            rowHeight={40}
+                            rowHeight={50}
                             width={width} >
                             <Column
                                 label='Match'
                                 dataKey='state'
                                 width={100}
                                 cellRenderer={({ rowData }) => (
-                                    rowData === RequestState.FAILED ?
+                                    rowData.audio.state && rowData.transcription.state === RequestState.FAILED ?
                                         <Icon name="times" />
-                                        : rowData === RequestState.COMPLETE ?
+                                        : rowData.audio.state && rowData.transcription.state === RequestState.COMPLETE ?
                                             <Icon name="check" />
                                             : <Icon name="circle notch" loading={true} />
                                 )} />
                             <Column
                                 label='Type'
-                                dataKey='audio'
+                                dataKey='audio && transcription'
                                 width={100}
                                 cellRenderer={({ rowData }) => (
-                                    rowData.audio ? rowData.audio.fileType : 'finding filetype'
+                                    rowData.audio || rowData.transcription ? rowData.audio.fileType + '\n' + rowData.transcription.fileType : 'finding filetype'
                                 )} />
                             <Column
                                 label='Upload state'
@@ -317,31 +317,34 @@ class DropUpload extends React.Component<any, IDropUploadState> {
                                 width={100} />
                             <Column
                                 label='File name'
-                                dataKey='audio'
+                                dataKey='audio && transcription'
                                 width={300}
                                 cellRenderer={({ rowData }) => (
-                                    rowData.audio.fileT ? rowData.audio.name : 'finding filename'
+                                    rowData.audio.fileT || rowData.transcription.fileT ? rowData.audio.name + '\n' + rowData.transcription.name : 'finding filename'
                                 )} />
                             <Column
                                 label='ID'
-                                dataKey='audio'
+                                dataKey='audio && transcription'
                                 width={100}
                                 cellRenderer={({ rowData }) => (
-                                    rowData.audio.fileT ? rowData.audio.fileT.id : 'finding id'
+                                    rowData.audio.fileT || rowData.transcription.fileT ? rowData.audio.fileT.id + '\n' + rowData.transcription.fileT.id : 'finding id'
                                 )} />
                             <Column
                                 label='File ID'
-                                dataKey='audio'
+                                dataKey='audio && transcription'
                                 width={100}
                                 cellRenderer={({ rowData }) => (
-                                    rowData.audio.fileT ? rowData.audio.fileT.fileInfo!.id : 'finding fileid'
+                                    rowData.audio.fileT || rowData.transcription.fileT ? rowData.audio.fileT.fileInfo.id + '\n' + rowData.transcription.fileT.fileInfo.id : 'finding fileid'
                                 )} />
                             <Column
                                 label='File created at'
-                                dataKey='audio'
+                                dataKey='audio && transcription'
                                 width={200}
                                 cellRenderer={({ rowData }) => (
-                                    rowData.audio.fileT ? <Time time={rowData.audio.fileT.fileInfo.createdAt} /> : 'finding date'
+                                    rowData.audio.fileT || rowData.transcription.fileT ? <>
+                                        <Time time={rowData.audio.fileT.fileInfo.createdAt} />
+                                        <Time time={rowData.transcription.fileT.fileInfo.createdAt} />
+                                        </> : 'finding date'
                                 )} />
                         </VTable>
                     )}
@@ -355,7 +358,7 @@ class DropUpload extends React.Component<any, IDropUploadState> {
                             noRowsRenderer={this.noRowsRenderer}
                             rowCount={this.state.uploadedFiles.length}
                             rowGetter={({ index }) => this.state.uploadedFiles[index]}
-                            rowHeight={40}
+                            rowHeight={50}
                             width={width} >
                             <Column
                                 label='Match'
@@ -395,7 +398,6 @@ class DropUpload extends React.Component<any, IDropUploadState> {
                         </VTable>
                     )}
                 </AutoSizer>
-
             </div>
         )
     }
