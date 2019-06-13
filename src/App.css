@@ -1,15 +1,12 @@
-/*.App {
-    margin: 20px;
-}*/
-.ReactVirtualized__Table__headerColumn{
-	display:inline-block;
-	width:14%;
-	border:1px solid black;
+.ReactVirtualized__Table__row {
+    align-items:stretch;
+    border-bottom:1px solid gray;
 }
-.ReactVirtualized__Table__rowColumn{
-	display:inline-block;
-    font-size:8px;
-	width:14%;
+.ReactVirtualized__Table__rowColumn {
+    align-items:center;
+    border-right:1px solid gray;
+    display: flex;
+    white-space: pre;
 }
 .ui.container.container-position{
 	margin-left:15rem !important;

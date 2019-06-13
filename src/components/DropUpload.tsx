@@ -5,6 +5,8 @@ import { Header, Icon, /*Placeholder, PlaceholderLine,*/ Progress, Segment, /*Ta
 
 import { AutoSizer, Column, Table as VTable } from 'react-virtualized';
 
+import 'react-virtualized/styles.css';
+
 import { withRouter } from 'react-router';
 
 import { api } from '../API';
@@ -215,7 +217,6 @@ class DropUpload extends React.Component<any, IDropUploadState> {
                         transcriptionFile: file
                     }
                     api.persephoneApiApiEndpointsTranscriptionFromFile(requestData).then(res => {
-                        // this.setState({ isLoading: true })
                         this.updateFile(id, { state: RequestState.COMPLETE, fileT: res })
                     }).catch(err => {
                         this.updateFile(id, { state: RequestState.FAILED })
@@ -331,9 +332,9 @@ class DropUpload extends React.Component<any, IDropUploadState> {
                                 width={200}
                                 cellRenderer={({ rowData }) => (
                                     rowData.audio.fileT || rowData.transcription.fileT ? <>
-                                        <Time time={rowData.audio.fileT.fileInfo.createdAt} />
+                                        <Time time={rowData.audio.fileT.fileInfo.createdAt} /><br />
                                         <Time time={rowData.transcription.fileT.fileInfo.createdAt} />
-                                        </> : 'finding date'
+                                    </> : 'finding date'
                                 )} />
                         </VTable>
                     )}
@@ -347,7 +348,7 @@ class DropUpload extends React.Component<any, IDropUploadState> {
                             noRowsRenderer={this.noRowsRenderer}
                             rowCount={this.state.uploadedFiles.length}
                             rowGetter={({ index }) => this.state.uploadedFiles[index]}
-                            rowHeight={50}
+                            rowHeight={30}
                             width={width} >
                             <Column
                                 label='Match'
