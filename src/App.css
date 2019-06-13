@@ -1,12 +1,14 @@
-.ReactVirtualized__Table__row {
-    align-items:stretch;
-    border-bottom:1px solid gray;
+.headerRow, .evenRow, .oddRow {
+    border-bottom: 1px solid gray;
+}
+.evenRow{
+    background-color:aliceblue;
+}
+.oddRow {
+    background-color: beige;
 }
 .ReactVirtualized__Table__rowColumn {
-    align-items:center;
-    border-right:1px solid gray;
-    display: flex;
-    white-space: pre;
+    white-space: pre !important;
 }
 .ui.container.container-position{
 	margin-left:15rem !important;

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import '../App.css';
 
-import { Header, Icon, /*Placeholder, PlaceholderLine,*/ Progress, Segment, /*Table*/ } from 'semantic-ui-react';
+import { Header, Icon, Progress, Segment, } from 'semantic-ui-react';
 
 import { AutoSizer, Column, Table as VTable } from 'react-virtualized';
 
@@ -70,6 +70,7 @@ export interface IDropUploadState {
 
 // tslint:disable-next-line:max-classes-per-file
 class DropUpload extends React.Component<any, IDropUploadState> {
+
     constructor(props: any) {
         super(props);
         this.state = {
@@ -279,6 +280,13 @@ class DropUpload extends React.Component<any, IDropUploadState> {
                             headerHeight={30}
                             height={200}
                             noRowsRenderer={this.noRowsRenderer}
+                            rowClassName={({ index }) => {
+                                if (index < 0) {
+                                    return 'headerRow';
+                                } else {
+                                    return index % 2 === 0 ? 'evenRow' : 'oddRow';
+                                }
+                            }}
                             rowCount={this.state.matches.length}
                             rowGetter={({ index }) => this.state.matches[index]}
                             rowHeight={50}
@@ -286,43 +294,43 @@ class DropUpload extends React.Component<any, IDropUploadState> {
                             <Column
                                 label='Match'
                                 dataKey='state'
-                                width={100}
-                                cellRenderer={({ rowData }) => (
-                                    rowData.audio.state && rowData.transcription.state === RequestState.FAILED ?
+                                width={150}
+                                cellRenderer={({ cellData }) => (
+                                    cellData === RequestState.FAILED ?
                                         <Icon name="times" />
-                                        : rowData.audio.state && rowData.transcription.state === RequestState.COMPLETE ?
+                                        : cellData === RequestState.COMPLETE ?
                                             <Icon name="check" />
                                             : <Icon name="circle notch" loading={true} />
                                 )} />
                             <Column
                                 label='Type'
                                 dataKey='audio && transcription'
-                                width={100}
+                                width={200}
                                 cellRenderer={({ rowData }) => (
-                                    rowData.audio || rowData.transcription ? rowData.audio.fileType + '\n' + rowData.transcription.fileType : 'finding filetype'
+                                    rowData.audio.fileType + '\n' + rowData.transcription.fileType
                                 )} />
                             <Column
                                 label='Upload state'
                                 dataKey='state'
-                                width={100} />
+                                width={150} />
                             <Column
                                 label='File name'
                                 dataKey='audio && transcription'
-                                width={300}
+                                width={500}
                                 cellRenderer={({ rowData }) => (
-                                    rowData.audio.fileT || rowData.transcription.fileT ? rowData.audio.name + '\n' + rowData.transcription.name : 'finding filename'
+                                    rowData.audio.name + '\n' + rowData.transcription.name
                                 )} />
                             <Column
                                 label='ID'
                                 dataKey='audio && transcription'
-                                width={100}
+                                width={150}
                                 cellRenderer={({ rowData }) => (
                                     rowData.audio.fileT || rowData.transcription.fileT ? rowData.audio.fileT.id + '\n' + rowData.transcription.fileT.id : 'finding id'
                                 )} />
                             <Column
                                 label='File ID'
                                 dataKey='audio && transcription'
-                                width={100}
+                                width={150}
                                 cellRenderer={({ rowData }) => (
                                     rowData.audio.fileT || rowData.transcription.fileT ? rowData.audio.fileT.fileInfo.id + '\n' + rowData.transcription.fileT.fileInfo.id : 'finding fileid'
                                 )} />
@@ -346,6 +354,13 @@ class DropUpload extends React.Component<any, IDropUploadState> {
                             headerHeight={30}
                             height={200}
                             noRowsRenderer={this.noRowsRenderer}
+                            rowClassName={({ index }) => {
+                                if (index < 0) {
+                                    return 'headerRow';
+                                } else {
+                                    return index % 2 === 0 ? 'evenRow' : 'oddRow';
+                                }
+                            }}
                             rowCount={this.state.uploadedFiles.length}
                             rowGetter={({ index }) => this.state.uploadedFiles[index]}
                             rowHeight={30}
@@ -353,31 +368,38 @@ class DropUpload extends React.Component<any, IDropUploadState> {
                             <Column
                                 label='Match'
                                 dataKey='matched'
-                                width={100}
-                                cellRenderer={({ rowData }) => (
-                                    rowData ? <Icon name="check" />
-                                        : <Icon name="question" />
+                                width={150}
+                                cellRenderer={({ cellData }) => (
+                                    cellData ? <><p>{cellData}</p>
+                                        <Icon name="check" /></>
+                                        : <><p>{cellData}</p>
+                                            <Icon name="question" /></>
                                 )} />
                             <Column
                                 label='Type'
                                 dataKey='fileType'
-                                width={100} />
+                                width={200} />
                             <Column
                                 label='Upload state'
                                 dataKey='state'
-                                width={100} />
+                                width={150}
+                                cellRenderer={({ cellData }) => {
+                                    const highlightRed = cellData.indexOf(RequestState.FAILED) === 0
+                                    return highlightRed ? <strong style={{ backgroundColor: 'red' }} >{cellData}</strong>
+                                        : cellData
+                                }} />
                             <Column
                                 label='File name'
                                 dataKey='name'
-                                width={300} />
+                                width={500} />
                             <Column
                                 label='ID'
                                 dataKey='id'
-                                width={100} />
+                                width={150} />
                             <Column
                                 label='File ID'
                                 dataKey='id'
-                                width={100} />
+                                width={150} />
                             <Column
                                 label='File created at'
                                 dataKey='file'
