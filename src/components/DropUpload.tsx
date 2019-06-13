@@ -383,7 +383,7 @@ class DropUpload extends React.Component<any, IDropUploadState> {
                                 width={150}
                                 cellRenderer={({ cellData }) => {
                                     const highlightRed = cellData.indexOf(RequestState.FAILED) === 0
-                                    return highlightRed ? <strong style={{ backgroundColor: 'red' }} >{cellData}</strong>
+                                    return highlightRed ? <strong style={{ color: 'red' }} >{cellData}</strong>
                                         : cellData
                                 }} />
                             <Column
