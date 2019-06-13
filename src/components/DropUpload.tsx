@@ -198,10 +198,14 @@ class DropUpload extends React.Component<any, IDropUploadState> {
                     const requestData: AudioPostRequest = {
                         audioFile: file
                     }
-                    api.audioPost(requestData).then(res => {
-                        this.updateFile(id, { state: RequestState.COMPLETE, fileT: res })
-                    }).catch(err => {
-                        this.updateFile(id, { state: RequestState.FAILED })
+                    this.setState({ isLoading: true }, () => {
+                        api.audioPost(requestData).then(res => {
+                            this.updateFile(id, { state: RequestState.COMPLETE, fileT: res })
+                            this.setState({ isLoading: false })
+                        }).catch(err => {
+                            this.updateFile(id, { state: RequestState.FAILED })
+                            this.setState({ isLoading: false })
+                        });
                     });
                 } else if (this.state.acceptedFileTypes.transcription.indexOf(extension) > -1) {
                     uploadedFiles.push({
@@ -217,10 +221,14 @@ class DropUpload extends React.Component<any, IDropUploadState> {
                     const requestData: PersephoneApiApiEndpointsTranscriptionFromFileRequest = {
                         transcriptionFile: file
                     }
-                    api.persephoneApiApiEndpointsTranscriptionFromFile(requestData).then(res => {
-                        this.updateFile(id, { state: RequestState.COMPLETE, fileT: res })
-                    }).catch(err => {
-                        this.updateFile(id, { state: RequestState.FAILED })
+                    this.setState({ isLoading: true }, () => {
+                        api.persephoneApiApiEndpointsTranscriptionFromFile(requestData).then(res => {
+                            this.updateFile(id, { state: RequestState.COMPLETE, fileT: res })
+                            this.setState({ isLoading: false })
+                        }).catch(err => {
+                            this.updateFile(id, { state: RequestState.FAILED })
+                            this.setState({ isLoading: false })
+                        });
                     });
                 } else {
                     console.log("unknown filetype, not uploaded")
