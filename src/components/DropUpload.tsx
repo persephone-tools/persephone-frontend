@@ -370,10 +370,8 @@ class DropUpload extends React.Component<any, IDropUploadState> {
                                 dataKey='matched'
                                 width={150}
                                 cellRenderer={({ cellData }) => (
-                                    cellData ? <><p>{cellData}</p>
-                                        <Icon name="check" /></>
-                                        : <><p>{cellData}</p>
-                                            <Icon name="question" /></>
+                                    cellData ? <Icon name="check" />
+                                        : <Icon name="question" />
                                 )} />
                             <Column
                                 label='Type'
