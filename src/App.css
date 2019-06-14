@@ -1,7 +1,15 @@
-/*.App {
-    margin: 20px;
-}*/
-
+.headerRow, .evenRow, .oddRow {
+    border-bottom: 1px solid gray;
+}
+.evenRow{
+    background-color:aliceblue;
+}
+.oddRow {
+    background-color: beige;
+}
+.ReactVirtualized__Table__rowColumn {
+    white-space: pre !important;
+}
 .ui.container.container-position{
 	margin-left:15rem !important;
 	margin-top:20px;

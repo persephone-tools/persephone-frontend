@@ -1,6 +1,11 @@
 import * as React from 'react';
+import '../App.css';
 
-import { Header, Icon, Placeholder, PlaceholderLine, Progress, Segment, Table } from 'semantic-ui-react';
+import { Header, Icon, Progress, Segment, } from 'semantic-ui-react';
+
+import { AutoSizer, Column, Table as VTable } from 'react-virtualized';
+
+import 'react-virtualized/styles.css';
 
 import { withRouter } from 'react-router';
 
@@ -14,7 +19,6 @@ import { v4 } from 'uuid';
 
 import Time from './Time';
 
-// QQQQ API doesn't specify this yet
 export interface IAcceptedFileTypes {
     audio: string[];
     transcription: string[];
@@ -64,74 +68,12 @@ export interface IDropUploadState {
     acceptedFileTypes: IAcceptedFileTypes;
 }
 
-interface IUnmatchedFileRowProps {
-    file: IUploadedFile<any>
-}
-
-class UnmatchedFileRow extends React.PureComponent<IUnmatchedFileRowProps> {
-    render() {
-      const { file } = this.props
-      return (
-        <Table.Row >
-            <Table.Cell><Icon name='question'/ ></Table.Cell>
-            <Table.Cell>{file.fileType}</Table.Cell>
-            <Table.Cell>{file.state}</Table.Cell>
-            <Table.Cell>{file.name}</Table.Cell>
-            <Table.Cell>{file.fileT ? file.fileT.id : (file.state === RequestState.STARTED && <Placeholder><PlaceholderLine /></Placeholder>)}</Table.Cell>
-            <Table.Cell>{file.fileT ? file.fileT.fileInfo!.id : (file.state === RequestState.STARTED && <Placeholder><PlaceholderLine /></Placeholder>)}</Table.Cell>
-            <Table.Cell>{file.fileT ? <Time time={file.fileT.fileInfo!.createdAt} /> : (file.state === RequestState.STARTED && <Placeholder><PlaceholderLine /></Placeholder>)}</Table.Cell>
-        </Table.Row>
-        )
-    }
-}
-
-interface IMatchedFileRowsProps {
-  match: Readonly<IUtteranceMatch>
-}
-
-// tslint:disable-next-line:max-classes-per-file
-class MatchedFileRows extends React.PureComponent<IMatchedFileRowsProps> {
-    render () {
-        const { match } = this.props
-        return (
-        <React.Fragment key={match.audio.id}>
-            <Table.Row key={match.audio.id}>
-                <Table.Cell rowSpan="2">
-                    {match.state === RequestState.FAILED ?
-                        <Icon name="times" />
-                    :
-                        match.state === RequestState.COMPLETE ?
-                            <Icon name="check" />
-                        :
-                            <Icon name="circle notch" loading={true} />
-                    }
-                </Table.Cell>
-                <Table.Cell>{match.audio.fileType}</Table.Cell>
-                <Table.Cell>{match.audio.state}</Table.Cell>
-                <Table.Cell>{match.audio.name}</Table.Cell>
-                <Table.Cell>{match.audio.fileT ? match.audio.fileT.id : (match.audio.state === RequestState.STARTED && <Placeholder><PlaceholderLine /></Placeholder>)}</Table.Cell>
-                <Table.Cell>{match.audio.fileT ? match.audio.fileT.fileInfo!.id : (match.audio.state === RequestState.STARTED && <Placeholder><PlaceholderLine /></Placeholder>)}</Table.Cell>
-                <Table.Cell>{match.audio.fileT ? <Time time={match.audio.fileT.fileInfo!.createdAt} /> : (match.audio.state === RequestState.STARTED && <Placeholder><PlaceholderLine /></Placeholder>)}</Table.Cell>
-            </Table.Row>
-            <Table.Row key={match.transcription.id}>
-                <Table.Cell>{match.transcription.fileType}</Table.Cell>
-                <Table.Cell>{match.transcription.state}</Table.Cell>
-                <Table.Cell>{match.transcription.name}</Table.Cell>
-                <Table.Cell>{match.transcription.fileT ? match.transcription.fileT.id : (match.transcription.state === RequestState.STARTED && <Placeholder><PlaceholderLine /></Placeholder>)}</Table.Cell>
-                <Table.Cell>{match.transcription.fileT ? match.transcription.fileT.fileInfo!.id : (match.transcription.state === RequestState.STARTED && <Placeholder><PlaceholderLine /></Placeholder>)}</Table.Cell>
-                <Table.Cell>{match.transcription.fileT ? <Time time={match.transcription.fileT.fileInfo!.createdAt} /> : (match.transcription.state === RequestState.STARTED && <Placeholder><PlaceholderLine /></Placeholder>)}</Table.Cell>
-            </Table.Row>
-        </React.Fragment>
-        )
-    }
-}
-
 // tslint:disable-next-line:max-classes-per-file
 class DropUpload extends React.Component<any, IDropUploadState> {
     constructor(props: any) {
         super(props);
         this.state = {
-            acceptedFileTypes: {audio: [], transcription: []} as IAcceptedFileTypes,
+            acceptedFileTypes: { audio: [], transcription: [] } as IAcceptedFileTypes,
             dragActive: false,
             formLoading: false,
             isLoading: true,
@@ -145,10 +87,11 @@ class DropUpload extends React.Component<any, IDropUploadState> {
         this.onDragLeave = this.onDragLeave.bind(this);
         this.match = this.match.bind(this);
         this.updateFile = this.updateFile.bind(this);
+        this.noRowsRenderer = this.noRowsRenderer.bind(this);
     }
 
     public getData() {
-        this.setState({isLoading: true});
+        this.setState({ isLoading: true });
         api.persephoneApiApiEndpointsBackendAcceptedFiletypes().then(res => res.json()).then(json => {
             this.setState({
                 acceptedFileTypes: json as IAcceptedFileTypes,
@@ -162,7 +105,7 @@ class DropUpload extends React.Component<any, IDropUploadState> {
     }
 
     public onDragEnter() {
-        this.setState({dragActive: true})
+        this.setState({ dragActive: true })
     }
 
     public match() {
@@ -194,15 +137,15 @@ class DropUpload extends React.Component<any, IDropUploadState> {
                     utteranceInfo
                 }
                 api.utterancePost(requestData).then(res => {
-                    this.setState({matches: this.state.matches.map(m => m.id === id ? {...m, state: RequestState.COMPLETE} : m)})
+                    this.setState({ matches: this.state.matches.map(m => m.id === id ? { ...m, state: RequestState.COMPLETE } : m) })
                 }).catch(err => {
-                    this.setState({matches: this.state.matches.map(m => m.id === id ? {...m, state: RequestState.FAILED} : m)})
+                    this.setState({ matches: this.state.matches.map(m => m.id === id ? { ...m, state: RequestState.FAILED } : m) })
                 });
             }
         }
         this.setState({
             matches: this.state.matches.concat(newMatches),
-            uploadedFiles: this.state.uploadedFiles.map(f => ({...f, matched: f.matched || matchedIds.indexOf(f.id) > -1}))
+            uploadedFiles: this.state.uploadedFiles.map(f => ({ ...f, matched: f.matched || matchedIds.indexOf(f.id) > -1 }))
         })
     }
 
@@ -230,7 +173,7 @@ class DropUpload extends React.Component<any, IDropUploadState> {
 
     public onDrop(accepted: File[], rejected: File[], event: React.DragEvent<HTMLDivElement>) {
         this.setState({
-            dragActive: false
+            dragActive: false,
         })
         const uploadedFiles: Array<IUploadedFile<AudioFileInformation | TranscriptionInformation | undefined>> = [];
         for (const file of accepted) {
@@ -254,11 +197,14 @@ class DropUpload extends React.Component<any, IDropUploadState> {
                     const requestData: AudioPostRequest = {
                         audioFile: file
                     }
-                    api.audioPost(requestData).then(res => {
-                        this.updateFile(id, {state: RequestState.COMPLETE, fileT: res})
-                        console.log("successfully uploaded", file)
-                    }).catch(err => {
-                        this.updateFile(id, {state: RequestState.FAILED})
+                    this.setState({ isLoading: true }, () => {
+                        api.audioPost(requestData).then(res => {
+                            this.updateFile(id, { state: RequestState.COMPLETE, fileT: res })
+                            this.setState({ isLoading: false })
+                        }).catch(err => {
+                            this.updateFile(id, { state: RequestState.FAILED })
+                            this.setState({ isLoading: false })
+                        });
                     });
                 } else if (this.state.acceptedFileTypes.transcription.indexOf(extension) > -1) {
                     uploadedFiles.push({
@@ -274,11 +220,14 @@ class DropUpload extends React.Component<any, IDropUploadState> {
                     const requestData: PersephoneApiApiEndpointsTranscriptionFromFileRequest = {
                         transcriptionFile: file
                     }
-                    api.persephoneApiApiEndpointsTranscriptionFromFile(requestData).then(res => {
-                        this.updateFile(id, {state: RequestState.COMPLETE, fileT: res})
-                        console.log("successfully uploaded", file)
-                    }).catch(err => {
-                        this.updateFile(id, {state: RequestState.FAILED})
+                    this.setState({ isLoading: true }, () => {
+                        api.persephoneApiApiEndpointsTranscriptionFromFile(requestData).then(res => {
+                            this.updateFile(id, { state: RequestState.COMPLETE, fileT: res })
+                            this.setState({ isLoading: false })
+                        }).catch(err => {
+                            this.updateFile(id, { state: RequestState.FAILED })
+                            this.setState({ isLoading: false })
+                        });
                     });
                 } else {
                     console.log("unknown filetype, not uploaded")
@@ -297,18 +246,28 @@ class DropUpload extends React.Component<any, IDropUploadState> {
                 })
             }
         }
-        this.setState({uploadedFiles: this.state.uploadedFiles.concat(uploadedFiles)})
+        this.setState({
+            uploadedFiles: this.state.uploadedFiles.concat(uploadedFiles)
+        })
     }
 
     public onDragLeave() {
-        this.setState({dragActive: false})
+        this.setState({ dragActive: false })
+    }
+
+    noRowsRenderer() {
+        return (
+            <div>
+                No uploaded files
+          </div>
+        )
     }
 
     public render() {
         return (
             <div>
                 <Header as='h1'>Drag 'n' drop upload</Header>
-                <Dropzone style={{position: "relative"}} onDrop={this.onDrop} onDragEnter={this.onDragEnter} onDragLeave={this.onDragLeave}>
+                <Dropzone style={{ position: "relative" }} onDrop={this.onDrop} onDragEnter={this.onDragEnter} onDragLeave={this.onDragLeave}>
                     <Segment placeholder={true} tertiary={this.state.dragActive} loading={this.state.isLoading}>
                         <Header icon={true}>
                             <Icon name='cloud upload' />
@@ -319,46 +278,153 @@ class DropUpload extends React.Component<any, IDropUploadState> {
                     </Segment>
                 </Dropzone>
                 <Header as='h2'>Uploaded files</Header>
-                <Table basic='very'>
-                    <Table.Header>
-                    <Table.Row>
-                        <Table.HeaderCell>Match</Table.HeaderCell>
-                        <Table.HeaderCell>Type</Table.HeaderCell>
-                        <Table.HeaderCell>Upload state</Table.HeaderCell>
-                        <Table.HeaderCell>File name</Table.HeaderCell>
-                        <Table.HeaderCell>ID</Table.HeaderCell>
-                        <Table.HeaderCell>File ID</Table.HeaderCell>
-                        <Table.HeaderCell>File created at</Table.HeaderCell>
-                    </Table.Row>
-                    </Table.Header>
-
-                    <Table.Body>
-                        {this.state.uploadedFiles.length > 0 ?
-                            <React.Fragment>
-                                {[...this.state.matches]
-                                    .sort((one, two) => (one.name === two.name) ? 0 : (one.name < two.name ? -1 : 1))
-                                    .map(m => (
-                                        <MatchedFileRows key={m.transcription.id} match={m} />
-                                ))}
-                                {this.state.uploadedFiles
-                                    .filter(f => !f.matched)
-                                    .sort((one, two) => {
-                                        const stateRank = [RequestState.COMPLETE, RequestState.STARTED, RequestState.NOT_STARTED, RequestState.FAILED];
-                                        return (one.state !== two.state) ? stateRank.indexOf(one.state) - stateRank.indexOf(two.state) : (one.name < two.name ? -1 : 1);})
-                                        .map(file => (
-                                            <UnmatchedFileRow key={file.id} file={file} />
-                                ))}
-                            </React.Fragment>
-                        :
-                            <Table.Row>
-                                <Table.Cell colSpan="5">This table is empty</Table.Cell>
-                            </Table.Row>
-                        }
-                    </Table.Body>
-                </Table>
+                {this.state.uploadedFiles.length > 0 &&
+                    <p>{this.state.uploadedFiles.filter(f => f.fileType === 'Audio').length} audios found, {this.state.uploadedFiles.filter(f => f.fileType === 'Transcription').length} transcriptions found, {this.state.uploadedFiles.filter(f => f.matched === true).length / 2} matches found, {this.state.uploadedFiles.filter(f => f.fileType === 'Unknown').length} unknown files have not been uploaded</p>}
+                <Header as='h3'>Matched files</Header>
+                <AutoSizer disableHeight={true}>
+                    {({ width }) => (
+                        <VTable
+                            headerHeight={30}
+                            height={200}
+                            noRowsRenderer={this.noRowsRenderer}
+                            rowClassName={({ index }) => {
+                                if (index < 0) {
+                                    return 'headerRow';
+                                } else {
+                                    return index % 2 === 0 ? 'evenRow' : 'oddRow';
+                                }
+                            }}
+                            rowCount={this.state.matches.length}
+                            rowGetter={({ index }) => this.state.matches[index]}
+                            rowHeight={50}
+                            width={width} >
+                            <Column
+                                label='Match'
+                                dataKey='state'
+                                width={150}
+                                cellRenderer={({ cellData }) => (
+                                    cellData === RequestState.FAILED ?
+                                        <Icon name="times" />
+                                        : cellData === RequestState.COMPLETE ?
+                                            <Icon name="check" />
+                                            : <Icon name="circle notch" loading={true} />
+                                )} />
+                            <Column
+                                label='Type'
+                                dataKey='audio && transcription'
+                                width={200}
+                                cellRenderer={({ rowData }) => (
+                                    rowData.audio.fileType + '\n' + rowData.transcription.fileType
+                                )} />
+                            <Column
+                                label='Upload state'
+                                dataKey='state'
+                                width={150} />
+                            <Column
+                                label='File name'
+                                dataKey='audio && transcription'
+                                width={500}
+                                cellRenderer={({ rowData }) => (
+                                    rowData.audio.name + '\n' + rowData.transcription.name
+                                )} />
+                            <Column
+                                label='ID'
+                                dataKey='audio && transcription'
+                                width={150}
+                                cellRenderer={({ rowData }) => (
+                                    rowData.audio.fileT || rowData.transcription.fileT ? rowData.audio.fileT.id + '\n' + rowData.transcription.fileT.id : 'finding id'
+                                )} />
+                            <Column
+                                label='File ID'
+                                dataKey='audio && transcription'
+                                width={150}
+                                cellRenderer={({ rowData }) => (
+                                    rowData.audio.fileT || rowData.transcription.fileT ? rowData.audio.fileT.fileInfo.id + '\n' + rowData.transcription.fileT.fileInfo.id : 'finding fileid'
+                                )} />
+                            <Column
+                                label='File created at'
+                                dataKey='audio && transcription'
+                                width={200}
+                                cellRenderer={({ rowData }) => (
+                                    rowData.audio.fileT || rowData.transcription.fileT ? <>
+                                        <Time time={rowData.audio.fileT.fileInfo.createdAt} /><br />
+                                        <Time time={rowData.transcription.fileT.fileInfo.createdAt} />
+                                    </> : 'finding date'
+                                )} />
+                        </VTable>
+                    )}
+                </AutoSizer>
+                <Header as='h3'>All files</Header>
+                <AutoSizer disableHeight={true}>
+                    {({ width }) => (
+                        <VTable
+                            headerHeight={30}
+                            height={200}
+                            noRowsRenderer={this.noRowsRenderer}
+                            rowClassName={({ index }) => {
+                                if (index < 0) {
+                                    return 'headerRow';
+                                } else {
+                                    return index % 2 === 0 ? 'evenRow' : 'oddRow';
+                                }
+                            }}
+                            rowCount={this.state.uploadedFiles.length}
+                            rowGetter={({ index }) => this.state.uploadedFiles[index]}
+                            rowHeight={30}
+                            width={width} >
+                            <Column
+                                label='Match'
+                                dataKey='matched'
+                                width={150}
+                                cellRenderer={({ cellData }) => (
+                                    cellData ? <Icon name="check" />
+                                        : <Icon name="question" />
+                                )} />
+                            <Column
+                                label='Type'
+                                dataKey='fileType'
+                                width={200} />
+                            <Column
+                                label='Upload state'
+                                dataKey='state'
+                                width={150}
+                                cellRenderer={({ cellData }) => {
+                                    const highlightRed = cellData.indexOf(RequestState.FAILED) === 0
+                                    return highlightRed ? <strong style={{ color: 'red' }} >{cellData}</strong>
+                                        : cellData
+                                }} />
+                            <Column
+                                label='File name'
+                                dataKey='name'
+                                width={500} />
+                            <Column
+                                label='ID'
+                                dataKey='fileT'
+                                width={150}
+                                cellRenderer={({ rowData }) => (
+                                    rowData.fileT ? rowData.fileT.id : 'finding id'
+                                )} />
+                            <Column
+                                label='File ID'
+                                dataKey='fileT'
+                                width={150}
+                                cellRenderer={({ rowData }) => (
+                                    rowData.fileT ? rowData.fileT.fileInfo.id : 'finding fileid'
+                                )} />
+                            <Column
+                                label='File created at'
+                                dataKey='fileT'
+                                width={200}
+                                cellRenderer={({ rowData }) => (
+                                    rowData.fileT ?
+                                        <Time time={rowData.fileT.fileInfo.createdAt} />
+                                        : 'finding date'
+                                )} />
+                        </VTable>
+                    )}
+                </AutoSizer>
             </div>
         )
     }
 }
-
 export default withRouter(DropUpload);
