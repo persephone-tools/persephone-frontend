@@ -70,7 +70,6 @@ export interface IDropUploadState {
 
 // tslint:disable-next-line:max-classes-per-file
 class DropUpload extends React.Component<any, IDropUploadState> {
-
     constructor(props: any) {
         super(props);
         this.state = {
@@ -400,18 +399,26 @@ class DropUpload extends React.Component<any, IDropUploadState> {
                                 width={500} />
                             <Column
                                 label='ID'
-                                dataKey='id'
-                                width={150} />
+                                dataKey='fileT'
+                                width={150}
+                                cellRenderer={({ rowData }) => (
+                                    rowData.fileT ? rowData.fileT.id : 'finding id'
+                                )} />
                             <Column
                                 label='File ID'
-                                dataKey='id'
-                                width={150} />
+                                dataKey='fileT'
+                                width={150}
+                                cellRenderer={({ rowData }) => (
+                                    rowData.fileT ? rowData.fileT.fileInfo.id : 'finding fileid'
+                                )} />
                             <Column
                                 label='File created at'
-                                dataKey='file'
+                                dataKey='fileT'
                                 width={200}
                                 cellRenderer={({ rowData }) => (
-                                    <Time time={rowData.createdAt} />
+                                    rowData.fileT ?
+                                        <Time time={rowData.fileT.fileInfo.createdAt} />
+                                        : 'finding date'
                                 )} />
                         </VTable>
                     )}
